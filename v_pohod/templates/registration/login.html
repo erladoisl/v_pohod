@@ -1,0 +1,46 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+    <div>
+        <div style="max-width: 330px;    margin: auto;">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 fw-normal">Авторизация</h1>
+                    <div class="form-floating">
+                        <input type="text" name="username" class="form-control" placeholder="name@example.com" value="user" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username" style ="border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
+                        <label for="floatingInput">Имя пользователя</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="password" class="form-control" name="password" autocomplete="current-password" required="" id="id_password" placeholder="Password"  style ="border-top-right-radius: 0; border-top-left-radius: 0;">
+                        <label for="floatingInput">Пароль</label>
+                    </div>
+
+               
+                <div class="checkbox mb-3" style="margin-top: 10px;">
+                    <label>
+                    <input type="checkbox" value="remember-me"> Запомнить меня
+                    </label>
+                </div>
+
+                <input type="submit"  class="w-100 btn btn-lg btn-primary" value="Войти" />
+
+                <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
