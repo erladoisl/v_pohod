@@ -1,7 +1,15 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<p>Logged out!</p>
 
-<a href="{% url 'login'%}">Click here to login again.</a>
+    {% if form.errors %}
+        <p>Ошибка</p>
+    {% endif %}
+
+    <div>
+        <div style="max-width: 330px;    margin: auto;">
+            <p>Вы успешно вышли из системы</p>
+        </div>
+    </div>
+
 {% endblock %}

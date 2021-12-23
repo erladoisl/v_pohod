@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <div>
+        <div style="max-width: 330px;    margin: auto;">
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  
+                  <input type="submit"  class="w-100 btn btn-lg btn-primary" value="Добавить поход" />
+              </form>
+
+              <h3>Данные о ДТП</h3>
+
+              <div>
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% for column_name in column_names %}
+                              <th scope="col">{{ column_name }}</th>
+                          {% endfor %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for hike in hikes %}
+                          <tr>
+                              <th>{{ hike.id }}</th>
+                              <th>{{ hike.hike_name }}</th>
+                              <th>{{ hike.participant_count }} </th>
+                              <th>{{ hike.hike_description }} </th>
+                          </tr> 
+                        {% endfor %}
+                      </tbody>
+                    </table>
+          
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        {% if page_obj.number > 1 %}
+                          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><<</a></li>
+                        {% endif %}
+                          <li class="page-item"><a class="page-link current" href="?page={{ page_obj.number }}">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+                        {% if page_obj.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">>></a></li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+              </div>
+            {% else %}
+              <p>Для доступа к данной странице нужно авторизоваться</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'menu'
+    'menu',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
 ROOT_URLCONF = 'v_pohod.urls'
 
 TEMPLATES = [
