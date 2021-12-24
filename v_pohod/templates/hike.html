@@ -1,54 +1,47 @@
 {% extends "base_generic.html" %}
 
+{% block title %}
+    {{ title }}
+{% endblock %}
+
 {% block content %}
-    <div>
-        <div style="max-width: 330px;    margin: auto;">
+    <div class="container-fluid">
+      <div class="row">
+        <main class="col-md-9 m-auto col-lg-10 px-md-4">
             {% if user.is_authenticated %}
-              <form method="post" action="{% url 'login' %}">
-                  {% csrf_token %}
-                  
-                  <input type="submit"  class="w-100 btn btn-lg btn-primary" value="Добавить поход" />
-              </form>
-
-              <h3>Данные о ДТП</h3>
-
-              <div>
-                  <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          {% for column_name in column_names %}
-                              <th scope="col">{{ column_name }}</th>
-                          {% endfor %}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for hike in hikes %}
-                          <tr>
-                              <th>{{ hike.id }}</th>
-                              <th>{{ hike.hike_name }}</th>
-                              <th>{{ hike.participant_count }} </th>
-                              <th>{{ hike.hike_description }} </th>
-                          </tr> 
-                        {% endfor %}
-                      </tbody>
-                    </table>
-          
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        {% if page_obj.number > 1 %}
-                          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><<</a></li>
-                        {% endif %}
-                          <li class="page-item"><a class="page-link current" href="?page={{ page_obj.number }}">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
-                        {% if page_obj.has_next %}
-                          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">>></a></li>
-                        {% endif %}
-                      </ul>
-                    </nav>
+              <h3>Обзор походов</h3>
+              
+              <div class="album py-5 bg-light">
+                <div class="container">
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for hike in hikes %} 
+                      {% if forloop.counter0|divisibleby:3 %}  {% endif %}
+                        
+                        <div class="col">
+                          <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{ hike.hike_name }}</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ hike.hike_name }}</text></svg>
+                
+                            <div class="card-body">
+                              <p class="card-text"> {{ hike.hike_description }} </p>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary" id='view_{{ hike.id }}'>View</button>
+                                  <button type="button" class="btn btn-sm btn-outline-secondary" id='edit_{{ hike.id }}'>Edit</button>
+                                </div>
+                                <small class="text-muted">{{ hike.participant_count }} участников</small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% endfor %}
+                  </div>
+                </div>
               </div>
             {% else %}
               <p>Для доступа к данной странице нужно авторизоваться</p>
             {% endif %}
-        </div>
+        </main>
     </div>
+  </div>
 
 {% endblock %}

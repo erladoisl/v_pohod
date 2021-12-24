@@ -25,6 +25,7 @@ class MainView(APIView):
         context = {
             'error': '',
             'info': '',
+            'title': 'Помошник',
         }
 
         return render(request, 'main.html', context)
@@ -37,9 +38,10 @@ class HikesView(APIView):
         context = {
             'error': '',
             'info': '',
+            'title': 'Помошник',
         }
 
-        return render(request, 'main.html', context)
+        return render(request, 'hike.html', context)
     
     
     def get(self, request):
@@ -48,9 +50,11 @@ class HikesView(APIView):
         page_number = request.GET.get('page', 1)
         
         context = {
+            'column_names': ['№', 'Название', 'Количество участников', 'О походе'],
             'error': '',
             'info': '',
+            'title': 'Все ПОХОДЫ',
             'hikes': paginator.get_page(page_number)
         }
 
-        return render(request, 'main.html', context)
+        return render(request, 'hike.html', context)
