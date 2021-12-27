@@ -7,7 +7,7 @@
 
 <body class="py-4">
     <main>
-        <div class="container">
+        <div class="container col-md-9 m-auto col-lg-10 px-md-4">
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
@@ -16,7 +16,6 @@
                 {% if user.is_authenticated %}
                     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <li><a href="{% url 'main' %}" class="nav-link px-2 {% if request.path != "/" %} link-dark {% endif %}">Главная</a></li>
-                        <li><a href="{% url 'hikes' %}" class="nav-link px-2 {% if request.path != "/hikes"  %}link-dark{% endif %}">Архив походов</a></li>
                         <li><a href="{% url 'raskladki' %}" class="nav-link px-2 {% if request.path != "/raskladki" %}link-dark{% endif %}">Архив раскладок</a></li>
                     </ul>
                 {% endif %}
@@ -31,7 +30,12 @@
                 </div>
             </header>
         </div>
-        {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
-        {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+        
+        {% if user.is_authenticated %}
+            {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
+            {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+        {% else %}
+            <p>Для доступа к данной странице нужно авторизоваться</p>
+        {% endif %}
     </main>
 </body>
