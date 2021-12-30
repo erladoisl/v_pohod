@@ -17,33 +17,31 @@
                     <h1 class="h3 mb-3 fw-normal">Новое событие</h1>
 
                     <hr class="my-4">
-                    <input type="text"  class="form-control" id="hike_id" name='hike_id' placeholder="ПВД" required="" value={% if is_new %} 0 {% else %} {{ hike.id }} {% endif %}>
+                    <input type="hidden"  class="form-control" id="hike_id" name='hike_id' placeholder="ПВД" required="" value={% if is_new %} 0 {% else %} {{ hike.id }} {% endif %}>
                     <div class="col-12">
                         <label for="hike_name" class="form-label">Название похода</label>
-                        
-                        <input type="text" class="form-control" id="hike_name" name="hike_name" placeholder="ПВД" required="" value="{{ hike.hike_name }}">
+                        {{ hike.hike_name }}
+                        <input type="text" class="form-control" id="hike_name" name="hike_name" placeholder="ПВД" required="" value={{ hike.hike_name }}>
                         
                         <div class="invalid-feedback">
                           Нужно ввести краткое название похода.
                         </div>
-                      </div>
-
+                    </div>
 
                     <div class="col-12">
                         <label for="participant_count" class="form-label">Количество участников</label>
                         
-                        <input type="number" class="form-control" id="participant_count" name='participant_count' placeholder="8" required="" value="{{ hike.participant_count }}">
+                        <input type="number" class="form-control" id="participant_count" name='participant_count' placeholder="8" required="" value={{ hike.participant_count }}>
                         
                         <div class="invalid-feedback">
                           Выбери количество участников.
                         </div>
                     </div>
 
-
                     <div class="col-12">
                         <label for="hike_description" class="form-label">Описание похода</label>
                         
-                        <textarea class="form-control" rows="5" id="hike_description" name="hike_description" placeholder="Поход выходного дня на ноябрьские праздники по Марий Эл" required="">{% if is_new %}{% else %} {{ hike.participant_count }} {% endif %}</textarea>
+                        <textarea class="form-control" rows="5" id="hike_description" name="hike_description" placeholder="Поход выходного дня на ноябрьские праздники по Марий Эл" required="" value={% if is_new %}{% else %} {{ hike.hike_description }} {% endif %}></textarea>
                         
                         <div class="invalid-feedback">
                           Добавь описание похода.

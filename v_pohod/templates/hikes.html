@@ -22,7 +22,6 @@
                   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {% for hike in hikes %} 
                       {% if forloop.counter0|divisibleby:3 %}  {% endif %}
-                        
                         <div class="col">
                           <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{ hike.hike_name }}</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ hike.hike_name }}</text></svg>
@@ -32,9 +31,12 @@
                               <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                   
-                                  <form class="needs-validation" method="post" action="{% url 'hike' %}">
+                                  <form class="needs-validation" method="get" action="{% url 'hike' %}">
                                     {% csrf_token %}
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" id='view_{{ hike.id }}'>View</button>
+                                    <input type="hidden"  class="form-control" id="hike_id" name='hike_id' placeholder="ПВД" required="" value="{{ hike.id }}">
+                                    
+                                    <button  type="submit" class="btn btn-sm btn-outline-secondary" id='view_{{ hike.id }}'>View</button>
+                                    
                                     <button type="button" class="btn btn-sm btn-outline-secondary" id='edit_{{ hike.id }}'>Edit</button>
                                   </form>
                                 </div>

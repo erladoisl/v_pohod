@@ -88,13 +88,14 @@ class HikeView(APIView):
     
     
     def get(self, request):
-        id = request.POST.get('hike_id', 0)
+        id = request.GET.get('hike_id', 0)
+        print(id)
         hike = Hike(id) if id != 0 else Hike()
         
         context = {
             'error': '',
             'info': '',
-            'is_new': True,
+            'is_new': True if id == 0 else False,
             'hike': hike,
         }
 
