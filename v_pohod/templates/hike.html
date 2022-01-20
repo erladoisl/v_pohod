@@ -5,63 +5,61 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-xxl my-md-4 bd-layout">
-        <div class="bd-content ps-lg-4">
-            {% if form.errors %}
-                <p>Неправильно запонены поля</p>
-            {% endif %}
-            <form class="needs-validation" method="post" action="{% url 'hike' %}">
-                <div row g-3>
-                    {% csrf_token %}
+    {% if form.errors %}
+        <p>Неправильно запонены поля</p>
+    {% endif %}
+    <form class="needs-validation" method="post" action="{% url 'hike' %}">
+        {% csrf_token %}
+        
+        <div row g-3>
+            <h1 class="h3 mb-3 fw-normal">Новое событие</h1>
 
-                    <h1 class="h3 mb-3 fw-normal">Новое событие</h1>
+            <hr class="my-4">
 
-                    <hr class="my-4">
-                    <input type="hidden"  class="form-control" id="hike_id" name='hike_id' placeholder="ПВД" required="" value={% if is_new %} 0 {% else %} {{ hike.id }} {% endif %}>
-                    <div class="col-12">
-                        <label for="hike_name" class="form-label">Название похода</label>
-                        {{ hike.hike_name }}
-                        <input type="text" class="form-control" id="hike_name" name="hike_name" placeholder="ПВД" required="" value={{ hike.hike_name }}>
-                        
-                        <div class="invalid-feedback">
-                          Нужно ввести краткое название похода.
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="participant_count" class="form-label">Количество участников</label>
-                        
-                        <input type="number" class="form-control" id="participant_count" name='participant_count' placeholder="8" required="" value={{ hike.participant_count }}>
-                        
-                        <div class="invalid-feedback">
-                          Выбери количество участников.
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="hike_description" class="form-label">Описание похода</label>
-                        
-                        <textarea class="form-control" rows="5" id="hike_description" name="hike_description" placeholder="Поход выходного дня на ноябрьские праздники по Марий Эл" required="" value={% if is_new %}{% else %} {{ hike.hike_description }} {% endif %}></textarea>
-                        
-                        <div class="invalid-feedback">
-                          Добавь описание похода.
-                        </div>
-                    </div>
-
-                    <hr class="my-4">
-
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Фоновое изображение для похода</label>
-                        <input class="form-control" type="file" id="formFile">
-                    </div>
-
-                    <hr class="my-4">
-
-                    <input type="submit"  class="w-100 btn btn-primary btn-lg" value="Сохранить" />
-
-                    <input type="hidden" name="next" value="{{ next }}" />
+            <input type="hidden"  class="form-control" id="hike_id" name='hike_id' placeholder="ПВД" required="" value={% if is_new %} 0 {% else %} {{ hike.id }} {% endif %}>
+            
+            <div class="col-12">
+                <label for="hike_name" class="form-label">Название похода</label>
+                {{ hike.hike_name }}
+                <input type="text" class="form-control" id="hike_name" name="hike_name" placeholder="ПВД" required="" value={{ hike.hike_name }}>
+                
+                <div class="invalid-feedback">
+                    Нужно ввести краткое название похода.
                 </div>
-            </form>
+            </div>
+
+            <div class="col-12">
+                <label for="participant_count" class="form-label">Количество участников</label>
+                
+                <input type="number" class="form-control" id="participant_count" name='participant_count' placeholder="8" required="" value={{ hike.participant_count }}>
+                
+                <div class="invalid-feedback">
+                    Выбери количество участников.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="hike_description" class="form-label">Описание похода</label>
+                
+                <textarea class="form-control" rows="5" id="hike_description" name="hike_description" placeholder="Поход выходного дня на ноябрьские праздники по Марий Эл" required="" value={% if is_new %}{% else %} {{ hike.hike_description }} {% endif %}></textarea>
+                
+                <div class="invalid-feedback">
+                    Добавь описание похода.
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Фоновое изображение для похода</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+
+            <hr class="my-4">
+
+            <input type="submit"  class="w-100 btn btn-primary btn-lg" value="Сохранить" />
+
+            <input type="hidden" name="next" value="{{ next }}" />
         </div>
-    </div>
+    </form>
 {% endblock %}
