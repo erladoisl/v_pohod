@@ -16,13 +16,13 @@ Including another URLconf
 from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path
-from v_pohod.views import GetAuthorizedUser
 from v_pohod.views import CustomAuthToken
+from v_pohod.views import CustomRegistrationToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('menu.urls')),
-    path('api-token-auth/', CustomAuthToken.as_view()), # views.obtain_auth_token)
-    path('api/authorized-user/', GetAuthorizedUser.as_view()) # views.obtain_auth_token)
+    path('api-token-auth/', CustomAuthToken.as_view()),
+    path('api/registration/', CustomRegistrationToken.as_view()),
 ]
