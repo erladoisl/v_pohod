@@ -1,22 +1,23 @@
 import React from 'react';
 import { UserContext } from "../contexts/index"
-import Footer from './Footer/Footer';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Header/Header';
-import Hikes from './Hikes/Hikes';
-import Login from './Login/Login';
+import Login from './User/Login/Login';
 import Raskladki from './Raskladki/Raskladki';
+import Registration from './User/Registration/Registration';
+import User from './User/User';
 
 export default function Context() {
   const [state, dispatch] = React.useContext(UserContext)
   console.log(state)
   const pages =
     [{
-      'link': '/',
-      node: <Hikes param1={'42'} param2={'43'} />
-    },{
-      'link': '/raskladki',
+      'link': 'raskladki',
       node: <Raskladki param1={'42'} param2={'43'} />,
+    },
+    {
+      'link': 'edit-user',
+      node: <User />,
     }]
 
   if (state.user) {
@@ -29,12 +30,17 @@ export default function Context() {
               return <Route path={item.link} element={item.node} key={`page_${index}`} />
             })}
           </Routes>
-
-          <Footer />
         </main>
       </BrowserRouter>
     )
   } else {
-    return <Login />
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path='/registration' element={<Registration />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    )
   }
 }

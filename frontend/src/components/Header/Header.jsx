@@ -20,7 +20,7 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav me-auto mb-2 mb-md-0">
               <li className="nav-item">
-                <NavLink to='/' className="nav-link ">
+                <NavLink to='/raskladki' className="nav-link ">
                   Главная
                 </NavLink>
               </li>
@@ -36,7 +36,10 @@ function Header() {
               </li>
             </ul>
             <div className="ms-auto link-light" >
-              <span className="d-lg-inline-block my-2 my-md-0 ms-md-3 text-white" >{state.user.name}</span>
+              <span className="d-lg-inline-block my-2 my-md-0 ms-md-3 text-white" >
+                <NavLink to='/edit-user' className="nav-link text-white">
+                  {state.user.name}
+                </NavLink></span>
               <button className="btn btn-dark d-lg-inline-block my-2 my-md-0 ms-md-3 text-white" onClick={logOut}>Выйти</button>
             </div>
           </div>
