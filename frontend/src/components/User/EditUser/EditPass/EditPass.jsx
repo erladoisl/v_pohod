@@ -1,40 +1,52 @@
 import React from 'react';
 import { UserContext } from "../../../../contexts/index"
+import UsersService from '../../../../service/UsersService';
+const usersService = new UsersService();
 
 export default function EditPass() {
     const [state, dispatch] = React.useContext(UserContext)
-    const [error, setError] = React.useState(false)
-    const [errorMessage, setErrorMessage] = React.useState()
-    const oldPassword = React.createRef()
-    const password1 = React.createRef()
-    const password2 = React.createRef()
+    const [successMessage, setSuccessMessage] = React.useState('')
+    const [error, setError] = React.useState({
+        error: false,
+        errorMessage: ''
+    })
+    const [formData, setFormData] = React.useState({
+        'name': state.user.name,
+        'oldPassword': '',
+        'password1': '',
+        'password2': '',
+    });
     let errorMessageHTML = ''
+    let successMessageHTML = ''
 
     const handleSubmit = ((e) => {
         e.preventDefault()
-        let formData = {
-            'token': state.user.token,
-            'user_name': state.user.user_id,
-            'oldPassword': oldPassword.current.value,
-            'password1': password1.current.value,
-            'password2': password2.current.value,
-        }
-        console.log(formData)
 
-        // let user = usersService.registration(formData).then(function (result) {
-        //     if (result.error == false) {
-        //         dispatch({ 'type': 'authorization', 'user': result.data })
-        //     } else {
-        //         setError(result.error)
-        //         setErrorMessage(result.message)
-        //     }
-        // });
+        let user = usersService.changePass(formData).then(function (result) {
+            if (result.error == false) {
+                setSuccessMessage(result.message)
+                setError({error: false})
+            } else {
+                setError({
+                    error: result.error,
+                    errorMessage: result.message
+                })
+                setSuccessMessage('')
+            }
+        });
     });
 
-    if (error) {
+    if (successMessage != '') {
+        successMessageHTML = (
+            <div className="alert alert-success" role="alert">
+                {successMessage}
+            </div>);
+    }
+
+    if (error.error) {
         errorMessageHTML = (
             <div className="alert alert-danger" role="alert">
-                {errorMessage}
+                {error.errorMessage}
             </div>);
     }
 
@@ -44,17 +56,18 @@ export default function EditPass() {
                 <h1 className="h3 mb-3 fw-normal">Изменение пароля</h1>
                 <form onSubmit={handleSubmit}>
                     {errorMessageHTML}
+                    {successMessageHTML}
 
                     <div className="form-floating p-1">
-                        <input ref={oldPassword} type="password" className="form-control" required/>
+                        <input value={formData.oldPassword} onChange={(e) => setFormData({ ...formData, oldPassword: e.target.value })} type="password" className="form-control" required />
                         <label htmlFor="floatingPassword">Старый пароль</label>
                     </div>
                     <div className="form-floating p-1">
-                        <input ref={password1} type="password" className="form-control" required/>
+                        <input value={formData.password1} onChange={(e) => setFormData({ ...formData, password1: e.target.value })} type="password" className="form-control" required />
                         <label htmlFor="floatingPassword">Новый пароль</label>
                     </div>
                     <div className="form-floating p-1">
-                        <input ref={password2} type="password" className="form-control" required/>
+                        <input value={formData.password2} onChange={(e) => setFormData({ ...formData, password2: e.target.value })} type="password" className="form-control" required />
                         <label htmlFor="floatingPassword">Повторите новый пароль</label>
                     </div>
 
