@@ -3,31 +3,43 @@ const raskladki = [
     {
         id: 1,
         name: 'Ультралегкая(горная 3ка) 12 дней',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: true,
     },
     {
         id: 2,
         name: 'Сплав Песчаная 2022',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: false,
     },
     {
         id: 3,
         name: 'Ноябрьская единичка(6 дней)',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: true,
     },
     {
         id: 4,
         name: 'На два дня',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: true,
     },
     {
         id: 5,
         name: 'Летний велосипед',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: false,
     },
     {
         id: 6,
         name: 'Ноябрьская единичка(6 дней)',
+        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
+        partisipant_count: 12,
         edit_enable: true,
     },
 ]
@@ -48,34 +60,27 @@ const Raskladki = (props) => {
                     </div>
                 </div>
             </section>
-            <div className="album py-5 bg-light">
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    {[1, 2, 3, 4, 5, 6].map((i) => {
-                        return (
-                            <div className="col" key={i}>
-                                <div className="card shadow-sm">
-                                    <svg className="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                        <title>Ультралегкая</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Ультралегкая{i}</text>
-                                    </svg>
-
-                                    <div className="card-body">
-                                        <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="btn-group">
-                                                <button type="button" className="btn btn-sm btn-outline-secondary">Посмотреть</button>
-                                                <button type="button" className="btn btn-sm btn-outline-secondary">Отредактировать</button>
-                                            </div>
-                                            <small className="text-muted">9 дней</small>
-                                        </div>
-                                    </div>
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                {raskladki.map((item) => {
+                    return (
+                        <div class="col" key={item.id}>
+                            <div class="card mb-4 rounded-3 shadow-sm">
+                                <div class="card-header py-3">
+                                    <h4 class="my-0 fw-normal">{item.name}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">{item.partisipant_count}<small class="text-muted fw-light">человек</small></h1>
+                                    <p class="text-center py-3">
+                                        {item.description}
+                                    </p>
+                                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Просмотреть</button>
                                 </div>
                             </div>
-                        )
-                    })}
-                </div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
-
     )
 }
 
