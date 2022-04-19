@@ -16,8 +16,12 @@ Including another URLconf
 from django.urls import path
 from user.views import CustomAuthToken
 from user.views import CustomRegistrationToken
+from user.views import EditUserPass
+from user.views import EditUser
 
 urlpatterns = [
     path('api-token-auth/', CustomAuthToken.as_view()),
     path('api/registration/', CustomRegistrationToken.as_view()),
+    path('api/change-password/', EditUserPass.as_view()),
+    path('api/edit-user/', EditUser.as_view()),
 ]

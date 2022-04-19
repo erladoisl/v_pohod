@@ -1,33 +1,44 @@
 import React from 'react';
 import { UserContext } from "../../../contexts/index"
+import UsersService from '../../../service/UsersService';
+const usersService = new UsersService();
 
 export default function EditUser() {
     const [state, dispatch] = React.useContext(UserContext)
+    const [successMessage, setSuccessMessage] = React.useState('')
+    let errorMessageHTML = ''
+    let successMessageHTML = ''
     const [error, setError] = React.useState({
         error: false,
         errorMessage: ''
       });
-    let errorMessageHTML = ''
-    console.log(state.user)
     const [formData, setFormData] = React.useState({
-        username: state.user.name,
+        name: state.user.name,
         email: state.user.email,
         first_name: state.user.first_name,
         last_name: state.user.last_name,
       });
     
     const handleSubmit = ((e) => {
-        setFormData({key: e.target.value})
+        console.log(formData)
         e.preventDefault()
-        // let user = usersService.registration(formData).then(function (result) {
-        //     if (result.error == false) {
-        //         dispatch({ 'type': 'authorization', 'user': result.data })
-        //     } else {
-        //         setError({errer: result.error
-        //                   errorMessage: result.message})
-        //     }
-        // });
+        let response = usersService.editUser(formData).then(function (result) {
+            if (result.error == false) {
+                dispatch({ 'type': 'edit_user', 'user': formData })
+                setSuccessMessage(result.message)
+            } else {
+                setError({errer: result.error,
+                          errorMessage: result.message})
+            }
+        });
     });
+
+    if (successMessage != '') {
+        successMessageHTML = (
+            <div className="alert alert-success" role="alert">
+                {successMessage}
+            </div>);
+    }
 
     if (error.error) {
         errorMessageHTML = (
@@ -43,21 +54,22 @@ export default function EditUser() {
                 <h1 className="h3 mb-3 fw-normal">Редактирование данных пользователя</h1>
                 <form onSubmit={handleSubmit}>
                     {errorMessageHTML}
+                    {successMessageHTML}
 
                     <div className="form-floating p-1">
-                        <input value={formData.username} onChange={handleSubmit} name="username" className="form-control" required />
+                        <input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} name="name" className="form-control" required disabled />
                         <label htmlFor="floatingInput">Login</label>
                     </div>
                     <div className="form-floating p-1">
-                        <input value={formData.first_name} onChange={handleSubmit} type="first_name" className="form-control" />
+                        <input value={formData.first_name} onChange={(e) => setFormData({...formData, first_name: e.target.value})} type="first_name" className="form-control" />
                         <label htmlFor="floatingInput">Имя</label>
                     </div>
                     <div className="form-floating p-1">
-                        <input value={formData.last_name} onChange={handleSubmit} type="last_name" className="form-control" />
+                        <input value={formData.last_name} onChange={(e) => setFormData({...formData, last_name: e.target.value})} type="last_name" className="form-control" />
                         <label htmlFor="floatingInput">Фамилия</label>
                     </div>
                     <div className="form-floating p-1">
-                        <input value={formData.email} onChange={handleSubmit} type="name" className="form-control" />
+                        <input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} type="name" className="form-control" />
                         <label htmlFor="floatingInput">email</label>
                     </div>
 

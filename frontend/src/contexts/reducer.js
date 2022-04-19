@@ -10,6 +10,11 @@ export const reducer = (state, action) => {
         ...state,
         user: action.user
       }
+    case 'edit_user':
+      return {
+        ...state,
+        user: action.user
+      }
     default:
       return state
   }

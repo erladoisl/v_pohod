@@ -32,4 +32,30 @@ export default class UsersService {
 			return data;
 		});
 	}
+
+	changePass(user) {
+		let data = [];
+		const url = `${API_URL}/api/change-password/`;
+
+		return axios.post(url, data = user).then(response => {
+			data = response.data;
+		}).catch(error => {
+			console.log(`ERROR while logIn: ${error}`);
+		}).then(() => {
+			return data;
+		});
+	}
+
+	editUser(user) {
+		let data = [];
+		const url = `${API_URL}/api/edit-user/`;
+
+		return axios.post(url, data = user).then(response => {
+			data = response.data;
+		}).catch(error => {
+			console.log(`ERROR while logIn: ${error}`);
+		}).then(() => {
+			return data;
+		});
+	}
 }
