@@ -2,3 +2,9 @@ v_pohod/menu/__pycache__/
 v_pohod/menu/migrations/
 v_pohod/v_pohod/__pycache__/
 v_pohod/db.sqlite3
+v_pohod/user/__pycache__/
+prnz-api-test.py
+v_pohod/back.log
+dtp_Казань_2021_.zip
+frontend/.gitignore
+.gitignore
