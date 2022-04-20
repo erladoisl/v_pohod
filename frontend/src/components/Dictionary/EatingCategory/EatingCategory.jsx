@@ -8,7 +8,6 @@ const menuService = new MenuService();
 export default function EatingCategory() {
     const [state, dispatch] = React.useContext(Context);
     const newCategory = useRef()
-    window.state = state
 
     const addCategorySubmit = ((e) => {
         e.preventDefault()

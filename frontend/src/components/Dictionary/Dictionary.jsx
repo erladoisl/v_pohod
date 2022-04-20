@@ -17,7 +17,7 @@ export default function Dictionary() {
                     </div>
                 </div>
             </section>
-            <div class="row">
+            <div className="row">
                 <EatingCategory />
                 <Food />
                 <Formula />

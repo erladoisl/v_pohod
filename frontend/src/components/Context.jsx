@@ -10,7 +10,7 @@ import Dictionary from './Dictionary/Dictionary';
 
 export default function Context() {
   const [state, dispatch] = React.useContext(MainContext)
-  console.log(state)
+  window.state = state
   const pages =
     [{
       'link': 'raskladki',
