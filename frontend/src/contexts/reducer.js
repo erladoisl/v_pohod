@@ -25,6 +25,11 @@ export const reducer = (state, action) => {
           ...state,
           food: action.food
         }
+        case 'update_formula':
+          return {
+            ...state,
+            formula: action.formula
+          }
     default:
       return state
   }
@@ -34,5 +39,6 @@ export const initialState = {
   active: false,
   user: undefined,
   eatingCategories: [],
-  food: []
+  food: [],
+  formula: []
 }

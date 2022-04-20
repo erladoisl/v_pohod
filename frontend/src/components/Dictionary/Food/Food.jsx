@@ -40,11 +40,10 @@ export default function Food() {
     }
 
     return (
-        <div className="col-12">
-            <h1 className="fw-light">Граммовка продуктов на человека(гр./чел или шт/</h1>
+        <div className="card col-12 py-5 my-3">
+            <h2 className="fw-light">Граммовка продуктов на человека(гр/чел или шт/чел)</h2>
 
             <ul className="list-group mb-3">
-
                 {state.food.map((food, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
@@ -58,8 +57,8 @@ export default function Food() {
             </ul>
             <form className="card p-2" onSubmit={addFoodSubmit}>
                 <div className="input-group">
-                    <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-control" placeholder="Новый тип" required />
-                    <input type="text" value={formData.amount_per_person} onChange={(e) => setFormData({ ...formData, amount_per_person: e.target.value })} className="form-control" placeholder="Новый тип" required />
+                    <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-control" placeholder="Продукт" required />
+                    <input type="text" value={formData.amount_per_person} onChange={(e) => setFormData({ ...formData, amount_per_person: e.target.value })} className="form-control" required />
                     <button type="submit" className="btn btn-secondary">Добавить</button>
                 </div>
             </form>

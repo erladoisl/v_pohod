@@ -7,6 +7,7 @@ from menu.models import Hike
 from rest_framework.permissions import IsAuthenticated
 from menu.models import EatingCategory, Food
 from django.core import serializers
+from menu.models import Formula
 
 
 class HikesView(APIView):
@@ -60,7 +61,7 @@ class EatingCategoryView(APIView):
             newEC = EatingCategory(name=name)
             newEC.save()
         except:
-            res = {'error': True, 'message': 'Ошибка при добавлении объекта'}
+            res = {'error': True, 'message': 'Ошибка при добавлении объекта категория приема пищи'}
             logging.error(
                 f'Error while adding EatingCategory\n{traceback.format_exc()}')
         finally:
@@ -97,8 +98,46 @@ class FoodView(APIView):
             newFood = Food(name=name, amount_per_person=amount_per_person)
             newFood.save()
         except:
-            res = {'error': True, 'message': 'Ошибка при добавлении объекта'}
+            res = {'error': True, 'message': 'Ошибка при добавлении объекта продукт'}
             logging.error(
                 f'Error while adding EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+
+class FormulaView(APIView):
+    # permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            food = Formula.objects.all()
+            print(serializers.serialize('json', food))
+
+            context = {
+                'error': False,
+                'data': serializers.serialize('json', food)
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении списка формул'
+            }
+            logging.error(
+                f'ERROR while getting Formula\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно'}
+        try:
+            name = request.data.get('name')
+            value = request.data.get('value')
+            newFormula = Formula(name=name, value=value)
+            newFormula.save()
+        except:
+            res = {'error': True, 'message': 'Ошибка при добавлении объекта формула'}
+            logging.error(
+                f'Error while adding Formula\n{traceback.format_exc()}')
         finally:
             return Response(res)

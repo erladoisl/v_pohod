@@ -36,8 +36,8 @@ export default function EatingCategory() {
     }
 
     return (
-        <div className="col-12">
-            <h1 className="fw-light">Типы приемов пищи</h1>
+        <div className="col-12 py-5 card mb-3">
+            <h2 className="fw-light">Типы приемов пищи</h2>
 
             <ul className="list-group mb-3">
 

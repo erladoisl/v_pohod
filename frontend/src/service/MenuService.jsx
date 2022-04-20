@@ -62,4 +62,34 @@ export default class MenuService {
             return data;
         });
     }
+
+    getFormula(token) {
+        let data = [];
+        const url = `${API_URL}/api/formula/`;
+
+        return axios.get(url).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getFood: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    addFormula(name, value, token) {
+        let data = [];
+        const url = `${API_URL}/api/formula/`;
+
+        return axios.post(url, data = {
+            "token": token,
+            "name": name,
+            "value": value
+        }).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in addFood: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
 }

@@ -78,6 +78,8 @@ class Formula(models.Model):
     name = models.CharField('name', max_length=250)
     value = models.TextField('value')
     
+    def __str__(self):
+        return self.name
     
     class Meta:
         verbose_name = 'Формула'
