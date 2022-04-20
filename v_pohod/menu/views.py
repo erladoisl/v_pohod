@@ -1,5 +1,4 @@
-from django.shortcuts import redirect, render
-from requests import Response
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.paginator import Paginator
 import logging
@@ -34,9 +33,9 @@ class HikesView(APIView):
 
 
 class EatingCategoryView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    # permission_classes = [IsAuthenticated, ]
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         try:
             eatingCategories = EatingCategory.objects.all()
 
@@ -53,6 +52,18 @@ class EatingCategoryView(APIView):
                 f'ERROR while getting EatingCategory\n{traceback.format_exc()}')
         finally:
             return Response(data=context)
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно'}
+        try:
+            name = request.data.get('name')
+            newEC = EatingCategory(name=name)
+            newEC.save()
+        except:
+            res = {'error': True, 'message': 'Ошибка при добавлении объекта'}
+            logging.error(f'Error while adding EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
 
 
 class FoodView(APIView):
@@ -73,5 +84,5 @@ class FoodView(APIView):
             }
             logging.error(
                 f'ERROR while getting Food\n{traceback.format_exc()}')
-        finally: 
+        finally:
             return Response(data=context)

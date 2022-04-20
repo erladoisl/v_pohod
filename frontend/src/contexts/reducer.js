@@ -22,5 +22,6 @@ export const reducer = (state, action) => {
 
 export const initialState = {
   active: false,
-  user: undefined
+  user: undefined,
+  menu: undefined
 }

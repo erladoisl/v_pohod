@@ -1,6 +1,8 @@
 from django.urls import path
-from . import views
+from menu.views import EatingCategoryView
+from menu.views import HikesView
 
 urlpatterns = [
-    path('get-hikes', views.HikesView.as_view(), name='get-hikes'),
+    path('api/get-hikes/', HikesView.as_view()),
+    path('api/eating-category/', EatingCategoryView.as_view()),
 ]
