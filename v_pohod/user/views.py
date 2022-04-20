@@ -6,9 +6,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
+# from rest_framework.permissions import IsAuthenticated
 
 
 class CustomAuthToken(ObtainAuthToken):
+    # permission_classes = [IsAuthenticated, ]
 
     def post(self, request, *args, **kwargs):
         res = {'error': True,
@@ -73,6 +75,8 @@ class CustomRegistrationToken(ObtainAuthToken):
 
 
 class EditUserPass(APIView):
+    # permission_classes = [IsAuthenticated, ]
+
     def post(self, request, *args, **kwargs):
         name = request.data['name']
         curPassword = request.data['oldPassword']
@@ -103,6 +107,8 @@ class EditUserPass(APIView):
 
 
 class EditUser(APIView):
+    # permission_classes = [IsAuthenticated, ]
+    
     def post(self, request, *args, **kwargs):
         name = request.data['name']
         email = request.data['email']
