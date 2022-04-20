@@ -32,4 +32,34 @@ export default class MenuService {
             return data;
         });
     }
+
+    getFood(token) {
+        let data = [];
+        const url = `${API_URL}/api/food/`;
+
+        return axios.get(url).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getFood: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    addFood(name, amount_per_person, token) {
+        let data = [];
+        const url = `${API_URL}/api/food/`;
+
+        return axios.post(url, data = {
+            "token": token,
+            "name": name,
+            "amount_per_person": amount_per_person
+        }).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in addFood: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
 }

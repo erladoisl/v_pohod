@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from menu.models import EatingCategory, Food
 from django.core import serializers
 
+
 class HikesView(APIView):
     permission_classes = [IsAuthenticated, ]
 
@@ -38,8 +39,6 @@ class EatingCategoryView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             eatingCategories = EatingCategory.objects.all()
-            print(serializers.serialize('json', eatingCategories))
-
             context = {
                 'error': False,
                 'data': serializers.serialize('json', eatingCategories)
@@ -62,21 +61,23 @@ class EatingCategoryView(APIView):
             newEC.save()
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении объекта'}
-            logging.error(f'Error while adding EatingCategory\n{traceback.format_exc()}')
+            logging.error(
+                f'Error while adding EatingCategory\n{traceback.format_exc()}')
         finally:
             return Response(res)
 
 
 class FoodView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
-            eatingCategories = Food.objects.all()
+            food = Food.objects.all()
+            print(serializers.serialize('json', food))
 
             context = {
                 'error': False,
-                'food': eatingCategories
+                'data': serializers.serialize('json', food)
             }
         except:
             context = {
@@ -87,3 +88,17 @@ class FoodView(APIView):
                 f'ERROR while getting Food\n{traceback.format_exc()}')
         finally:
             return Response(data=context)
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно'}
+        try:
+            name = request.data.get('name')
+            amount_per_person = request.data.get('amount_per_person')
+            newFood = Food(name=name, amount_per_person=amount_per_person)
+            newFood.save()
+        except:
+            res = {'error': True, 'message': 'Ошибка при добавлении объекта'}
+            logging.error(
+                f'Error while adding EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
