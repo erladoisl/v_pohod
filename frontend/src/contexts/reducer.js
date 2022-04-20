@@ -15,6 +15,11 @@ export const reducer = (state, action) => {
         ...state,
         user: action.user
       }
+    case 'update_eating_category':
+      return {
+        ...state,
+        eatingCategories: action.eatingCategories
+      }
     default:
       return state
   }
@@ -23,5 +28,5 @@ export const reducer = (state, action) => {
 export const initialState = {
   active: false,
   user: undefined,
-  menu: undefined
+  eatingCategories: []
 }

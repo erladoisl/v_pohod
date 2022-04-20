@@ -23,24 +23,35 @@ let categories = [
     },
 ]
 
-
 export default function EatingCategory() {
     const [state, dispatch] = React.useContext(Context);
-    window.state = state
-    const [eatingCategories, setEatingCategories] = useState(categories)
     const newCategory = useRef()
+    window.state = state
 
     const addCategorySubmit = ((e) => {
-        console.log(`new category: ${newCategory}`)
         e.preventDefault()
         menuService.addEatingCategory(newCategory.current.value, state.user.token).then(function (result) {
             if (result.error == false) {
-                dispatch({ 'type': 'addEatingCategory', 'newCategory': result.data })
+                udateCategories()
             } else {
                 console.log(result)
             }
         });
     });
+
+    const udateCategories = (() => {
+        menuService.getEatingCategories(state.user.token).then(function (result) {
+            if (result.error == false) {
+                dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) })
+            } else {
+                console.log(result)
+            }
+        });
+    });
+
+    if (state.eatingCategories.length == 0) {
+        udateCategories();
+    }
 
     return (
         <div className="col-12">
@@ -48,20 +59,20 @@ export default function EatingCategory() {
 
             <ul className="list-group mb-3">
 
-                {eatingCategories.map((category, i) => {
+                {state.eatingCategories.map((category, i) => {
                     return (
-                        <div class="input-group p-1" key={i}>
-                            <input type="text" class="form-control" value={category.name} placeholder="Promo code" disabled />
-                            {/* <button type="submit" class="btn btn-secondary">Сохранить</button> */}
-                            <button type="submit" class="btn btn-danger" onClick={() => {console.log(`delete ${category.id}`)}}>X</button>
+                        <div className="input-group p-1" key={i}>
+                            <input type="text" className="form-control" value={category.fields.name} placeholder="Promo code" disabled />
+                            {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
+                            <button type="submit" className="btn btn-danger" onClick={() => { console.log(`delete ${category.pk}`) }}>X</button>
                         </div>
                     )
                 })}
             </ul>
-            <form className="card p-2">
+            <form className="card p-2" onSubmit={addCategorySubmit}>
                 <div className="input-group">
-                    <input type="text" ref = {newCategory} className="form-control" placeholder="Новый тип" />
-                    <button type="submit" className="btn btn-secondary" onClick={addCategorySubmit}>Добавить</button>
+                    <input type="text" ref={newCategory} className="form-control" placeholder="Новый тип" required />
+                    <button type="submit" className="btn btn-secondary">Добавить</button>
                 </div>
             </form>
         </div>

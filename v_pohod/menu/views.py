@@ -6,7 +6,7 @@ import traceback
 from menu.models import Hike
 from rest_framework.permissions import IsAuthenticated
 from menu.models import EatingCategory, Food
-
+from django.core import serializers
 
 class HikesView(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -38,10 +38,11 @@ class EatingCategoryView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             eatingCategories = EatingCategory.objects.all()
+            print(serializers.serialize('json', eatingCategories))
 
             context = {
                 'error': False,
-                'eatingCategories': eatingCategories
+                'data': serializers.serialize('json', eatingCategories)
             }
         except:
             context = {

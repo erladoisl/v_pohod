@@ -8,9 +8,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
-        return axios.get(url, data = {
-            "token": token,
-        }).then(response => {
+        return axios.get(url).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in getEatingCategories: ${error}`);
