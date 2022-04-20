@@ -2,16 +2,17 @@ import { useState, createRef, useContext } from 'react'
 import { NavLink } from "react-router-dom";
 import UsersService from '../../../service/UsersService';
 import c from './Login.module.css'
-import { UserContext } from "../../../contexts/index"
+import { Context } from "../../../contexts/index"
 const usersService = new UsersService();
 
 const Login = () => {
-    const [state, dispatch] = useContext(UserContext)
+    const [state, dispatch] = useContext(Context)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const login = createRef()
     const password = createRef()
     let errorMessageHTML = ''
+    
 
     const handleSubmit = ((e) => {
         console.log(login.current.value, password.current.value)

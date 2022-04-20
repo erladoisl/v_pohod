@@ -1,12 +1,12 @@
 import './App.css';
-import { UserProvider } from "./contexts/index"
+import { Provider } from "./contexts/index"
 import Context from './components/Context';
 
 function App() {
   return (
-    <UserProvider>
+    <Provider>
       <Context />
-    </UserProvider>
+    </Provider>
 
   );
 };

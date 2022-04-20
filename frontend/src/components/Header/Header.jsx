@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useContext } from 'react'
-import { UserContext } from "../../contexts/index"
+import { Context } from "../../contexts/index"
 
 function Header() {
-  const [state, dispatch] = useContext(UserContext)
+  const [state, dispatch] = useContext(Context)
   console.log(state)
 
   const logOut = (() => {

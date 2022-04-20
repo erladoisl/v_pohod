@@ -1,12 +1,12 @@
 import { useState, createRef, useContext } from 'react'
 import { NavLink } from "react-router-dom";
 import c from './Registration.module.css'
-import { UserContext } from "../../../contexts/index"
+import { Context } from "../../../contexts/index"
 import UsersService from '../../../service/UsersService';
 const usersService = new UsersService();
 
 const Registration = (props) => {
-    const [state, dispatch] = useContext(UserContext)
+    const [state, dispatch] = useContext(Context)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const username = createRef()

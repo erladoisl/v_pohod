@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { UserContext } from "../../contexts/index"
+import { Context } from "../../contexts/index"
 import EditUser from './EditUser/EditUser';
 import EditPass from './EditUser/EditPass/EditPass';
 
 export default function User() {
-    const [state, dispatch] = React.useContext(UserContext)
+    const [state, dispatch] = React.useContext(Context)
     const [error, setError] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState()
     const username = React.createRef()

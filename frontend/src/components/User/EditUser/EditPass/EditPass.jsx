@@ -1,62 +1,43 @@
 import React from 'react';
-import { UserContext } from "../../../../contexts/index"
+import { Context } from "../../../../contexts/index"
 import UsersService from '../../../../service/UsersService';
 const usersService = new UsersService();
 
 export default function EditPass() {
-    const [state, dispatch] = React.useContext(UserContext)
-    const [successMessage, setSuccessMessage] = React.useState('')
-    const [error, setError] = React.useState({
-        error: false,
-        errorMessage: ''
-    })
+    const [state, dispatch] = React.useContext(Context)
+    const [messageHTML, setMessageHTML] = React.useState('');
     const [formData, setFormData] = React.useState({
         'name': state.user.name,
         'oldPassword': '',
         'password1': '',
         'password2': '',
     });
-    let errorMessageHTML = ''
-    let successMessageHTML = ''
 
     const handleSubmit = ((e) => {
         e.preventDefault()
-
-        let user = usersService.changePass(formData).then(function (result) {
-            if (result.error == false) {
-                setSuccessMessage(result.message)
-                setError({error: false})
-            } else {
-                setError({
-                    error: result.error,
-                    errorMessage: result.message
-                })
-                setSuccessMessage('')
-            }
+        usersService.changePass(formData).then(function (result) {
+            setMessageHTML(getMessageHTML(result))
         });
     });
 
-    if (successMessage != '') {
-        successMessageHTML = (
-            <div className="alert alert-success" role="alert">
-                {successMessage}
-            </div>);
-    }
-
-    if (error.error) {
-        errorMessageHTML = (
-            <div className="alert alert-danger" role="alert">
-                {error.errorMessage}
-            </div>);
-    }
+    const getMessageHTML = ((response) => {
+        if (response.error || response.message != '') {
+            return (
+                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
+                    {response.message}
+                </div>
+            )
+        } else {
+            return ''
+        }
+    });
 
     return (
         <div className='row m-5'>
             <div className='col-10 m-auto'>
                 <h1 className="h3 mb-3 fw-normal">Изменение пароля</h1>
                 <form onSubmit={handleSubmit}>
-                    {errorMessageHTML}
-                    {successMessageHTML}
+                    {messageHTML}
 
                     <div className="form-floating p-1">
                         <input value={formData.oldPassword} onChange={(e) => setFormData({ ...formData, oldPassword: e.target.value })} type="password" className="form-control" required />

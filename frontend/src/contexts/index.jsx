@@ -1,17 +1,17 @@
 import React from "react"
 import { reducer, initialState } from "./reducer"
 
-export const UserContext = React.createContext({
+export const Context = React.createContext({
   state: initialState,
   dispatch: () => null
 })
 
-export const UserProvider = ({ children }) => {
+export const Provider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
   return (
-    <UserContext.Provider value={[ state, dispatch ]}>
+    <Context.Provider value={[ state, dispatch ]}>
     	{ children }
-    </UserContext.Provider>
+    </Context.Provider>
   )
 }

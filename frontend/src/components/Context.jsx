@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserContext } from "../contexts/index"
+import { Context as MainContext} from "../contexts/index"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Header/Header';
 import Login from './User/Login/Login';
@@ -9,7 +9,7 @@ import User from './User/User';
 import Dictionary from './Dictionary/Dictionary';
 
 export default function Context() {
-  const [state, dispatch] = React.useContext(UserContext)
+  const [state, dispatch] = React.useContext(MainContext)
   console.log(state)
   const pages =
     [{
