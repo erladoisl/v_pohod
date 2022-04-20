@@ -1,27 +1,9 @@
 import React from 'react';
 import { Context } from "../../../contexts/index"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import MenuService from '../../../service/MenuService';
 const menuService = new MenuService();
 
-let categories = [
-    {
-        id: 1,
-        name: 'Завтрак'
-    },
-    {
-        id: 2,
-        name: 'Перекус'
-    },
-    {
-        id: 3,
-        name: 'Обед'
-    },
-    {
-        id: 4,
-        name: 'Ужин'
-    },
-]
 
 export default function EatingCategory() {
     const [state, dispatch] = React.useContext(Context);
@@ -31,8 +13,9 @@ export default function EatingCategory() {
     const addCategorySubmit = ((e) => {
         e.preventDefault()
         menuService.addEatingCategory(newCategory.current.value, state.user.token).then(function (result) {
-            if (result.error == false) {
+            if (result.error === false) {
                 udateCategories()
+                newCategory.current.value = ''
             } else {
                 console.log(result)
             }
@@ -41,7 +24,7 @@ export default function EatingCategory() {
 
     const udateCategories = (() => {
         menuService.getEatingCategories(state.user.token).then(function (result) {
-            if (result.error == false) {
+            if (result.error === false) {
                 dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) })
             } else {
                 console.log(result)
@@ -49,7 +32,7 @@ export default function EatingCategory() {
         });
     });
 
-    if (state.eatingCategories.length == 0) {
+    if (state.eatingCategories.length === 0) {
         udateCategories();
     }
 
