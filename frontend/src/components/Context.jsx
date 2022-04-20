@@ -6,6 +6,7 @@ import Login from './User/Login/Login';
 import Raskladki from './Raskladki/Raskladki';
 import Registration from './User/Registration/Registration';
 import User from './User/User';
+import Dictionary from './Dictionary/Dictionary';
 
 export default function Context() {
   const [state, dispatch] = React.useContext(UserContext)
@@ -18,6 +19,10 @@ export default function Context() {
     {
       'link': 'edit-user',
       node: <User />,
+    },
+    {
+      'link': 'dictionary',
+      node: <Dictionary />,
     }]
 
   if (state.user) {

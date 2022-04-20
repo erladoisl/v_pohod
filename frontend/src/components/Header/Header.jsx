@@ -30,8 +30,8 @@ function Header() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to='/ingredients' className="nav-link ">
-                  Словарик ингредиентов
+                <NavLink to='/dictionary' className="nav-link ">
+                  Словарики
                 </NavLink>
               </li>
             </ul>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 # для создания таблиц в БД
 # Create your models here.
 #  & python manage.py makemigrations
@@ -7,9 +8,10 @@ from django.db import models
 
 
 class Hike(models.Model):
-    hike_name = models.CharField('hike_name', max_length=250)
+    name = models.CharField('name', max_length=250)
     participant_count = models.IntegerField('participant_count')
-    hike_description = models.TextField('hike_description')
+    description = models.TextField('description')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.hike_name
@@ -21,10 +23,10 @@ class Hike(models.Model):
 
 
 class HikeDay(models.Model):
-    hike_id = models.ForeignKey(Hike, on_delete=models.CASCADE)
+    hike = models.ForeignKey(Hike, on_delete=models.CASCADE)
     date = models.DateField('date')
-    day_name = models.CharField('day_name', max_length=250)
-    day_description = models.TextField('day_description')
+    name = models.CharField('name', max_length=250)
+    description = models.TextField('description')
     
     def __str__(self):
         return self.day_name
@@ -35,8 +37,7 @@ class HikeDay(models.Model):
         
 
 class EatingCategory(models.Model):
-    eating_category_name = models.CharField('eating_category_name', max_length=50)
-    serial_number = models.IntegerField('serial_number')
+    name = models.CharField('name', max_length=250)
     
     def __str__(self):
         return self.eating_category_name
@@ -47,10 +48,11 @@ class EatingCategory(models.Model):
 
 
 class Eating(models.Model):
-    day_id = models.ForeignKey(HikeDay, on_delete=models.CASCADE)
+    hikeDay = models.ForeignKey(HikeDay, on_delete=models.CASCADE)
     eating_category = models.ForeignKey(EatingCategory, on_delete=models.CASCADE)
-    eating_name = models.CharField('eating_name', max_length=250)
-    eating_description = models.TextField('eating_description')
+    number = models.IntegerField('number')
+    name = models.CharField('name', max_length=250)
+    description = models.TextField('description')
     
     def __str__(self):
         return self.eating_name
@@ -59,23 +61,9 @@ class Eating(models.Model):
         verbose_name = 'Прием пищи'
         verbose_name_plural = 'Приемы пищи'
 
-
-class FoodCategory(models.Model):
-    food_category_name = models.CharField('food_category_name', max_length=250)
-    unit = models.CharField('unit', max_length=50)
-    weight = models.IntegerField('weight')
-    
-    def __str__(self):
-        return self.food_category_name
-
-    class Meta:
-        verbose_name = 'Категория продукта'
-        verbose_name_plural = 'Категории продуктов'
-
-
 class Food(models.Model):
-    food_name = models.CharField('food_name', max_length=250)
-    food_category_id = models.ForeignKey(FoodCategory, on_delete=models.CASCADE)
+    name = models.CharField('food_name', max_length=250)
+    amount_per_person = models.FloatField('participant_count')
     
     def __str__(self):
         return self.food_name
@@ -85,11 +73,22 @@ class Food(models.Model):
         verbose_name_plural = 'Продукты'
 
 
+class Formula(models.Model):
+    name = models.CharField('name', max_length=250)
+    value = models.TextField('value')
+    
+    
+    class Meta:
+        verbose_name = 'Формула'
+        verbose_name_plural = 'Формулы'
+
+
 class Ingredient(models.Model):
-    food_id = models.ForeignKey(Food, on_delete=models.CASCADE)
-    eating_id = models.ForeignKey(Eating, on_delete=models.CASCADE)
-    amount_per_perticipant = models.IntegerField("amount_per_perticipant")
-    ingrediant_comment = models.TextField('ingrediant_comment')
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    eating = models.ForeignKey(Eating, on_delete=models.CASCADE)
+    formula = models.ForeignKey(Formula, on_delete=models.CASCADE)
+    comment = models.TextField('ingrediant_comment')
+    
     
     class Meta:
         verbose_name = 'Ингредиент'

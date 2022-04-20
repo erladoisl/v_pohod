@@ -1,102 +1,77 @@
-from django.http import request
 from django.shortcuts import redirect, render
+from requests import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-import logging, traceback
+import logging
+import traceback
 from menu.models import Hike
-
-
-class MainView(APIView):
-    #permission_classes = [IsAuthenticated, ]
-
-
-    def post(self, request):
-        context = {
-            'error': '',
-            'info': '',
-        }
-
-        return render(request, 'main.html', context)
-    
-    
-    def get(self, request):
-        context = {
-            'error': '',
-            'info': '',
-            'title': 'Помошник',
-        }
-
-        return render(request, 'main.html', context)
+from rest_framework.permissions import IsAuthenticated
+from menu.models import EatingCategory, Food
 
 
 class HikesView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
-    def post(self, request):
-        context = {
-            'error': '',
-            'info': '',
-            'title': 'Помошник',
-        }
-
-        return render(request, 'hikes.html', context)
-    
-    
     def get(self, request):
-        hikes = Hike.objects.all()
-        paginator = Paginator(hikes, 10)
-        page_number = request.GET.get('page', 1)
-        
-        context = {
-            'column_names': ['№', 'Название', 'Количество участников', 'О походе'],
-            'error': '',
-            'info': '',
-            'title': 'Все ПОХОДЫ',
-            'hikes': paginator.get_page(page_number)
-        }
-
-        return render(request, 'hikes.html', context)
-
-
-class HikeView(APIView):
-    # permission_classes = [IsAuthenticated, ]
-
-    def post(self, request):
         try:
-            id = request.POST.get('hike_id', 0)
-            print(id)
-            hike = Hike(id) if id != 0 else Hike()
-            hike.participant_count = request.POST.get('participant_count', 0)
-            hike.hike_name = request.POST.get('hike_name', '')
-            hike.hike_description = request.POST.get('hike_description', '')
-            hike.save()
-            print(request.POST.get('participant_count', 0))
-            print(request.POST.get('hike_name', ''))
-            print(request.POST.get('hike_description', ''))
+            hikes = Hike.objects.all()
+            paginator = Paginator(hikes, 12)
+            page_number = request.GET.get('page', 1)
 
-            return redirect('main')
+            context = {
+                'error': False,
+                'hikes': paginator.get_page(page_number)
+            }
         except:
             context = {
-                'error': 'Ошибка при сохранении информации',
-                'hike': hike,
-                'is_new': False,
-                'info': '',
+                'error': True,
+                'message': 'Ошибка при получении списка походов'
             }
-            return render(request, 'hike.html', context)
-    
-    
-    def get(self, request):
-        id = request.GET.get('hike_id', 0)
-        print(id)
-        hike = Hike(id) if id != 0 else Hike()
-        
-        context = {
-            'error': '',
-            'info': '',
-            'is_new': True if id == 0 else False,
-            'hike': hike,
-        }
+            logging.error(
+                f'ERROR while getting Hike\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
 
-        return render(request, 'hike.html', context)
+
+class EatingCategoryView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            eatingCategories = EatingCategory.objects.all()
+
+            context = {
+                'error': False,
+                'eatingCategories': eatingCategories
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении списка категорий приемов пищи'
+            }
+            logging.error(
+                f'ERROR while getting EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+
+
+class FoodView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            eatingCategories = Food.objects.all()
+
+            context = {
+                'error': False,
+                'food': eatingCategories
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении списка продуктов'
+            }
+            logging.error(
+                f'ERROR while getting Food\n{traceback.format_exc()}')
+        finally: 
+            return Response(data=context)

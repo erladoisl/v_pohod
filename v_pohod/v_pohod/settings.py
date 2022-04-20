@@ -38,10 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'menu',
+    'user',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
 ]
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
@@ -137,8 +144,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-]
+    "http://localhost:3000"
+    ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
