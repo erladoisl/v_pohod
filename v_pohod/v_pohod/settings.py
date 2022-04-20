@@ -150,3 +150,5 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
