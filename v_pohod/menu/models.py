@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 #  & python manage.py makemigrations
 #  & python manage.py migrate
 #  & python manage.py createsuperuser
+#  python manage.py migrate --run-syncdb
 
 
 class Hike(models.Model):
@@ -14,7 +15,7 @@ class Hike(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.hike_name
+        return self.name
 
     
     class Meta:
@@ -29,7 +30,7 @@ class HikeDay(models.Model):
     description = models.TextField('description')
     
     def __str__(self):
-        return self.day_name
+        return self.name
 
     class Meta:
         verbose_name = 'День похода'
@@ -40,7 +41,7 @@ class EatingCategory(models.Model):
     name = models.CharField('name', max_length=250)
     
     def __str__(self):
-        return self.eating_category_name
+        return self.name
 
     class Meta:
         verbose_name = 'Тип приема пищи'
@@ -55,7 +56,7 @@ class Eating(models.Model):
     description = models.TextField('description')
     
     def __str__(self):
-        return self.eating_name
+        return self.name
 
     class Meta:
         verbose_name = 'Прием пищи'
@@ -66,7 +67,7 @@ class Food(models.Model):
     amount_per_person = models.FloatField('participant_count')
     
     def __str__(self):
-        return self.food_name
+        return self.name
 
     class Meta:
         verbose_name = 'Продукт'
