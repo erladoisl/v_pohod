@@ -1,0 +1,222 @@
+[
+    {
+        "model": "menu.eatingcategory",
+        "pk": 1,
+        "fields": {
+            "name": "Завтрак"
+        }
+    },
+    {
+        "model": "menu.eatingcategory",
+        "pk": 2,
+        "fields": {
+            "name": "Обед"
+        }
+    },
+    {
+        "model": "menu.eatingcategory",
+        "pk": 3,
+        "fields": {
+            "name": "Ужин"
+        }
+    },
+    {
+        "model": "menu.eatingcategory",
+        "pk": 4,
+        "fields": {
+            "name": "Перекус"
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 1,
+        "fields": {
+            "name": "гречка(гр/чел)",
+            "amount_per_person": 70.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 2,
+        "fields": {
+            "name": "рис(гр/чел)",
+            "amount_per_person": 70.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 3,
+        "fields": {
+            "name": "макароны(гр/чел)",
+            "amount_per_person": 90.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 4,
+        "fields": {
+            "name": "сгущеное молоко(гр/чел)",
+            "amount_per_person": 30.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 5,
+        "fields": {
+            "name": "заправка для борща(гр/чел)",
+            "amount_per_person": 30.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 6,
+        "fields": {
+            "name": "пряный перец",
+            "amount_per_person": 0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 7,
+        "fields": {
+            "name": "соль(гр. в день/чел)",
+            "amount_per_person": 0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 8,
+        "fields": {
+            "name": "сахар(гр. в день/чел)",
+            "amount_per_person": 0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 9,
+        "fields": {
+            "name": "капуста(гр)",
+            "amount_per_person": 30
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 10,
+        "fields": {
+            "name": "картофель(гр)",
+            "amount_per_person": 30
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 11,
+        "fields": {
+            "name": "морковь(гр)",
+            "amount_per_person": 30
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 12,
+        "fields": {
+            "name": "лук(гр)",
+            "amount_per_person": 5.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 13,
+        "fields": {
+            "name": "чеснок",
+            "amount_per_person": 5.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 14,
+        "fields": {
+            "name": "чай(гр. в день/чел)",
+            "amount_per_person": 5.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 15,
+        "fields": {
+            "name": "лавровый лист",
+            "amount_per_person": 0.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 16,
+        "fields": {
+            "name": "кетчуп",
+            "amount_per_person": 10.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 17,
+        "fields": {
+            "name": "майонез",
+            "amount_per_person": 10.0
+        }
+    },
+    {
+        "model": "menu.food",
+        "pk": 17,
+        "fields": {
+            "name": "лимон",
+            "amount_per_person": 1.0
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 1,
+        "fields": {
+            "name": "1 на 4х чел.",
+            "value": "ceil(1 / 4 * PARTICIPANT_COUNT)"
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 2,
+        "fields": {
+            "name": "1шт на поход",
+            "value": "1 / TOTAL_COUNT"
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 3,
+        "fields": {
+            "name": "1 на прием мищи",
+            "value": "1"
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 4,
+        "fields": {
+            "name": "по количеству за прием на человека",
+            "value": "AMOUNT_PER_PERSON * PARTICIPANT_COUNT"
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 5,
+        "fields": {
+            "name": "по количеству в день на человека",
+            "value": "AMOUNT_PER_PERSON * DAYS_COUNT * PARTICIPANT_COUNT"
+        }
+    },
+    {
+        "model": "menu.formula",
+        "pk": 5,
+        "fields": {
+            "name": "1 in",
+            "value": "AMOUNT_PER_PERSON * DAYS_COUNT * PARTICIPANT_COUNT"
+        }
+    }
+]
