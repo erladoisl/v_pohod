@@ -3,35 +3,15 @@ from rest_framework.views import APIView
 from django.core.paginator import Paginator
 import logging
 import traceback
-from menu.models import Hike
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 from menu.models import EatingCategory, Food
 from django.core import serializers
 from menu.models import Formula
 
 
-class HikesView(APIView):
-    permission_classes = [IsAuthenticated, ]
-
-    def get(self, request):
-        try:
-            hikes = Hike.objects.all()
-            paginator = Paginator(hikes, 12)
-            page_number = request.GET.get('page', 1)
-
-            context = {
-                'error': False,
-                'hikes': paginator.get_page(page_number)
-            }
-        except:
-            context = {
-                'error': True,
-                'message': 'Ошибка при получении списка походов'
-            }
-            logging.error(
-                f'ERROR while getting Hike\n{traceback.format_exc()}')
-        finally:
-            return Response(data=context)
+def getToken(headers: str) -> str:
+    return headers["HTTP_AUTHORIZATION"].split()[-1]
 
 
 class EatingCategoryView(APIView):
@@ -68,7 +48,6 @@ class EatingCategoryView(APIView):
         finally:
             return Response(res)
 
-
     def delete(self, request, *args, **kwargs):
         res = {
             'error': False,
@@ -85,7 +64,8 @@ class EatingCategoryView(APIView):
                 'message': f'Не найден элемент {name}'
             }
         except:
-            logging.error(f'Error while deleting eating category\n{traceback.format_exc()}')
+            logging.error(
+                f'Error while deleting eating category\n{traceback.format_exc()}')
             res = {
                 'error': True,
                 'message': 'Ошибка'
@@ -128,7 +108,6 @@ class FoodView(APIView):
         finally:
             return Response(res)
 
-
     def delete(self, request, *args, **kwargs):
         res = {
             'error': False,
@@ -145,7 +124,8 @@ class FoodView(APIView):
                 'message': f'Не найден элемент {name}'
             }
         except:
-            logging.error(f'Error while deleting food\n{traceback.format_exc()}')
+            logging.error(
+                f'Error while deleting food\n{traceback.format_exc()}')
             res = {
                 'error': True,
                 'message': 'Ошибка'
@@ -174,7 +154,6 @@ class FormulaView(APIView):
         finally:
             return Response(data=context)
 
-
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
@@ -188,7 +167,6 @@ class FormulaView(APIView):
                 f'Error while adding Formula\n{traceback.format_exc()}')
         finally:
             return Response(res)
-
 
     def delete(self, request, *args, **kwargs):
         res = {
@@ -207,7 +185,8 @@ class FormulaView(APIView):
                 'message': f'Не найден элемент {name}'
             }
         except:
-            logging.error(f'Error while deleting formula\n{traceback.format_exc()}')
+            logging.error(
+                f'Error while deleting formula\n{traceback.format_exc()}')
             res = {
                 'error': True,
                 'message': 'Ошибка'

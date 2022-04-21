@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'menu',
     'user',
+    'hike',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.permissions.IsAuthenticated',
     ]
 }
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 LOGIN_REDIRECT_URL = '/'
+# FIXTURE_DIRS = ('v_pohod/fixtures')
 LOGIN_URL = '/accounts/login/'
 ROOT_URLCONF = 'v_pohod.urls'
 
