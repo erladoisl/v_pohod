@@ -69,11 +69,11 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
-        return axios.post(url, getConfig(token), data = {
+        return axios.post(url, data = {
             "token": token,
             "name": name,
             "amount_per_person": amount_per_person
-        }).then(response => {
+        }, getConfig(token)).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addFood: ${error}`);
@@ -128,7 +128,7 @@ export default class MenuService {
     deleteFormula(name, token) {
         let data = [];
         const url = `${API_URL}/api/formula/`;
-        
+
         return axios.delete(url, {"data": {"name": name}}).then(response => {
             data = response.data;
         }).catch(error => {
