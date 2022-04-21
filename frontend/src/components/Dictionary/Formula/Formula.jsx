@@ -25,6 +25,16 @@ export default function Formula() {
         });
     });
 
+    const deleteFormula = ((name) => {
+        menuService.deleteFormula(name, state.user.token).then(function (result) {
+            if (result.error === false) {
+                updateFormula()
+            } else {
+                console.log(result)
+            }
+        });
+    });
+
     const updateFormula = (() => {
         menuService.getFormula(state.user.token).then(function (result) {
             if (result.error === false) {
@@ -70,7 +80,7 @@ export default function Formula() {
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />
                             <input type="text" className="form-control" value={food.fields.value} placeholder="Promo code" disabled />
                             {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
-                            <button type="submit" className="btn btn-danger" onClick={() => { console.log(`delete ${food.pk}`) }}>X</button>
+                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFormula(food.fields.name) }}>X</button>
                         </div>
                     )
                 })}

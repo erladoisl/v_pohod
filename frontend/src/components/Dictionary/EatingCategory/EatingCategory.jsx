@@ -21,6 +21,16 @@ export default function EatingCategory() {
         });
     });
 
+    const deleteCategory = ((name) => {
+        menuService.deleteEatingCategory(name, state.user.token).then(function (result) {
+            if (result.error === false) {
+                udateCategories()
+            } else {
+                console.log(result)
+            }
+        });
+    });
+
     const udateCategories = (() => {
         menuService.getEatingCategories(state.user.token).then(function (result) {
             if (result.error === false) {
@@ -46,7 +56,7 @@ export default function EatingCategory() {
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={category.fields.name} placeholder="Promo code" disabled />
                             {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
-                            <button type="submit" className="btn btn-danger" onClick={() => { console.log(`delete ${category.pk}`) }}>X</button>
+                            <button type="submit" className="btn btn-danger" onClick={() => { deleteCategory(category.fields.name) }}>X</button>
                         </div>
                     )
                 })}

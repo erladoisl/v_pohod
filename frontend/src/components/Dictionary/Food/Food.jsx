@@ -25,6 +25,16 @@ export default function Food() {
         });
     });
 
+    const deleteFood = ((name) => {
+        menuService.deleteFood(name, state.user.token).then(function (result) {
+            if (result.error === false) {
+                updateFood()
+            } else {
+                console.log(result)
+            }
+        });
+    });
+
     const updateFood = (() => {
         menuService.getFood(state.user.token).then(function (result) {
             if (result.error === false) {
@@ -50,7 +60,7 @@ export default function Food() {
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />
                             <input type="text" className="form-control" value={food.fields.amount_per_person} placeholder="Promo code" disabled />
                             {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
-                            <button type="submit" className="btn btn-danger" onClick={() => { console.log(`delete ${food.pk}`) }}>X</button>
+                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFood(food.fields.name) }}>X</button>
                         </div>
                     )
                 })}

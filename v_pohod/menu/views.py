@@ -61,9 +61,35 @@ class EatingCategoryView(APIView):
             newEC = EatingCategory(name=name)
             newEC.save()
         except:
-            res = {'error': True, 'message': 'Ошибка при добавлении объекта категория приема пищи'}
+            res = {
+                'error': True, 'message': 'Ошибка при добавлении объекта категория приема пищи'}
             logging.error(
                 f'Error while adding EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+
+    def delete(self, request, *args, **kwargs):
+        res = {
+            'error': False,
+            'message': 'Успешно удалено'
+        }
+
+        try:
+            name = request.data.get('name', '')
+            eatingCategory = EatingCategory.objects.get(name=name)
+            eatingCategory.delete()
+        except EatingCategory.DoesNotExist:
+            res = {
+                'error': True,
+                'message': f'Не найден элемент {name}'
+            }
+        except:
+            logging.error(f'Error while deleting eating category\n{traceback.format_exc()}')
+            res = {
+                'error': True,
+                'message': 'Ошибка'
+            }
         finally:
             return Response(res)
 
@@ -74,8 +100,6 @@ class FoodView(APIView):
     def get(self, request):
         try:
             food = Food.objects.all()
-            print(serializers.serialize('json', food))
-
             context = {
                 'error': False,
                 'data': serializers.serialize('json', food)
@@ -105,14 +129,37 @@ class FoodView(APIView):
             return Response(res)
 
 
+    def delete(self, request, *args, **kwargs):
+        res = {
+            'error': False,
+            'message': 'Успешно удалено'
+        }
+
+        try:
+            name = request.data.get('name', '')
+            food = Food.objects.get(name=name)
+            food.delete()
+        except Food.DoesNotExist:
+            res = {
+                'error': True,
+                'message': f'Не найден элемент {name}'
+            }
+        except:
+            logging.error(f'Error while deleting food\n{traceback.format_exc()}')
+            res = {
+                'error': True,
+                'message': 'Ошибка'
+            }
+        finally:
+            return Response(res)
+
+
 class FormulaView(APIView):
     # permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
             food = Formula.objects.all()
-            print(serializers.serialize('json', food))
-
             context = {
                 'error': False,
                 'data': serializers.serialize('json', food)
@@ -139,5 +186,31 @@ class FormulaView(APIView):
             res = {'error': True, 'message': 'Ошибка при добавлении объекта формула'}
             logging.error(
                 f'Error while adding Formula\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+
+    def delete(self, request, *args, **kwargs):
+        res = {
+            'error': False,
+            'message': 'Успешно удалено'
+        }
+
+        try:
+            name = request.data.get('name', '')
+            print(name)
+            formula = Formula.objects.get(name=name)
+            formula.delete()
+        except Formula.DoesNotExist:
+            res = {
+                'error': True,
+                'message': f'Не найден элемент {name}'
+            }
+        except:
+            logging.error(f'Error while deleting formula\n{traceback.format_exc()}')
+            res = {
+                'error': True,
+                'message': 'Ошибка'
+            }
         finally:
             return Response(res)
