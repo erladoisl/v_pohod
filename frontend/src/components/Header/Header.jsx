@@ -2,13 +2,14 @@ import { NavLink } from "react-router-dom";
 import { useContext } from 'react'
 import { Context } from "../../contexts/index"
 
+
 function Header() {
   const [state, dispatch] = useContext(Context)
-  console.log(state)
-
   const logOut = (() => {
     dispatch({ 'type': 'authorization', 'user': undefined })
   });
+
+
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">

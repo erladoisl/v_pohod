@@ -1,7 +1,10 @@
 import React from 'react';
 import { Context } from "../../../contexts/index"
 import MenuService from '../../../service/MenuService';
+
+
 const menuService = new MenuService();
+
 
 export default function Food() {
     const [state, dispatch] = React.useContext(Context);
@@ -25,6 +28,7 @@ export default function Food() {
         });
     });
 
+
     const deleteFood = ((name) => {
         menuService.deleteFood(name, state.user.token).then(function (result) {
             if (result.error === false) {
@@ -34,6 +38,7 @@ export default function Food() {
             }
         });
     });
+
 
     const updateFood = (() => {
         menuService.getFood(state.user.token).then(function (result) {
@@ -45,9 +50,11 @@ export default function Food() {
         });
     });
 
+
     if (state.food.length === 0) {
         updateFood();
     }
+
 
     return (
         <div className="card col-12 py-5 my-3">
@@ -58,17 +65,21 @@ export default function Food() {
                     return (
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />
+
                             <input type="text" className="form-control" value={food.fields.amount_per_person} placeholder="Promo code" disabled />
-                            {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
+
                             <button type="submit" className="btn btn-danger" onClick={() => { deleteFood(food.fields.name) }}>X</button>
                         </div>
                     )
                 })}
             </ul>
+
             <form className="card p-2" onSubmit={addFoodSubmit}>
                 <div className="input-group">
                     <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-control" placeholder="Продукт" required />
+                    
                     <input type="text" value={formData.amount_per_person} onChange={(e) => setFormData({ ...formData, amount_per_person: e.target.value })} className="form-control" required />
+                    
                     <button type="submit" className="btn btn-secondary">Добавить</button>
                 </div>
             </form>

@@ -3,7 +3,10 @@ import { NavLink } from "react-router-dom";
 import UsersService from '../../../service/UsersService';
 import c from './Login.module.css'
 import { Context } from "../../../contexts/index"
+
+
 const usersService = new UsersService();
+
 
 const Login = () => {
     const [state, dispatch] = useContext(Context)
@@ -15,11 +18,8 @@ const Login = () => {
     
 
     const handleSubmit = ((e) => {
-        console.log(login.current.value, password.current.value)
         e.preventDefault()
-        let user = usersService.logIn(login.current.value, password.current.value).then(function (result) {
-            console.log(42, result.data)
-
+        usersService.logIn(login.current.value, password.current.value).then(function (result) {
             if (result.error == false) {
                 dispatch({ 'type': 'authorization', 'user': result.data })
             } else {
@@ -29,12 +29,14 @@ const Login = () => {
         });
     });
 
+
     if (error) {
         errorMessageHTML = (
             <div className="alert alert-danger" role="alert">
                 {errorMessage}
             </div>);
     }
+
 
     return (
         <div className={c.text_center}>

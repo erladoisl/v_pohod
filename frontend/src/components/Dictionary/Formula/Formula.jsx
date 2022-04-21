@@ -10,6 +10,7 @@ export default function Formula() {
         value: ''
     });
 
+
     const addFormulaSubmit = ((e) => {
         e.preventDefault()
         menuService.addFormula(formData.name, formData.value, state.user.token).then(function (result) {
@@ -25,6 +26,7 @@ export default function Formula() {
         });
     });
 
+
     const deleteFormula = ((name) => {
         menuService.deleteFormula(name, state.user.token).then(function (result) {
             if (result.error === false) {
@@ -34,6 +36,7 @@ export default function Formula() {
             }
         });
     });
+
 
     const updateFormula = (() => {
         menuService.getFormula(state.user.token).then(function (result) {
@@ -45,9 +48,11 @@ export default function Formula() {
         });
     });
 
+
     if (state.food.length === 0) {
         updateFormula();
     }
+
 
     return (
         <div className="card col-12 py-5 my-3">
@@ -57,13 +62,14 @@ export default function Formula() {
                 <div className="row py-lg-5">
                     <div className="">
                         <h3 className="fw-light">Правила оформления формул:</h3>
+
                         <p className="lead text-muted">Можно применять математические операторы <b>[+, -, *, /, // - целая часть от деления, % - остаток от деления]</b>
                             <div>Доступны скобочки для обозначения приоритетов операций</div>
-                            <hr/>
+                            <hr />
                             <div>Доступные методы:</div>
                             <div><b>ceil(number: float) -> int</b> - округление в большую сторону</div>
                             <div><b>floor(number: float) -> int</b> - округление в меньшую сторону</div>
-                            <hr/>
+                            <hr />
                             <div>Доступные переменные:</div>
                             <div><b>PARTICIPANT_COUNT</b> - используй переменную для получения общего количества участников похода</div>
                             <div><b>AMOUNT_PER_PERSON</b> - для получения количества ингредиента на одного человека(гр/чел или шт/чел)</div>
@@ -78,8 +84,9 @@ export default function Formula() {
                     return (
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />
+
                             <input type="text" className="form-control" value={food.fields.value} placeholder="Promo code" disabled />
-                            {/* <button type="submit" className="btn btn-secondary">Сохранить</button> */}
+
                             <button type="submit" className="btn btn-danger" onClick={() => { deleteFormula(food.fields.name) }}>X</button>
                         </div>
                     )
@@ -88,7 +95,9 @@ export default function Formula() {
             <form className="card p-2" onSubmit={addFormulaSubmit}>
                 <div className="input-group">
                     <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-control" placeholder="Название формулы" required />
+
                     <input type="text" value={formData.value} onChange={(e) => setFormData({ ...formData, value: e.target.value })} className="form-control" placeholder="Формула" required />
+
                     <button type="submit" className="btn btn-secondary">Добавить</button>
                 </div>
             </form>
