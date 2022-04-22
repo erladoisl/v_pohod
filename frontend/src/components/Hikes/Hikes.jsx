@@ -1,51 +1,26 @@
+import React from 'react';
+import { useState, useEffect } from "react"
+import { Context } from "../../contexts/index"
+import HikeService from '../../service/HikeService';
+const hikeService = new HikeService();
 
-const hikes = [
-    {
-        id: 1,
-        name: 'Ультралегкая(горная 3ка) 12 дней',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: true,
-    },
-    {
-        id: 2,
-        name: 'Сплав Песчаная 2022',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: false,
-    },
-    {
-        id: 3,
-        name: 'Ноябрьская единичка(6 дней)',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: true,
-    },
-    {
-        id: 4,
-        name: 'На два дня',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: true,
-    },
-    {
-        id: 5,
-        name: 'Летний велосипед',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: false,
-    },
-    {
-        id: 6,
-        name: 'Ноябрьская единичка(6 дней)',
-        description: 'Приэльбрусье 13-23 августа 2022. Руководитель Гайфутдинов Руслан. Участников 12',
-        partisipant_count: 12,
-        edit_enable: true,
-    },
-]
 
-const Hikes = (props) => {
-    
+const Hikes = () => {
+    const [state, dispatch] = React.useContext(Context);
+    const [only_my_hikes, set_only_my_hikes] = useState(false);
+    const [hikes, set_hikes] = useState([]);
+
+
+    useEffect(() => {
+        hikeService.getHikes(state.user.token, only_my_hikes).then(function (result) {
+            if (result.error === false) {
+                set_hikes(result.hikes);
+            } else {
+                console.log(result);
+            }
+        });
+    }, [only_my_hikes]);
+
 
     return (
         <div className="container">
@@ -61,6 +36,14 @@ const Hikes = (props) => {
                     </div>
                 </div>
             </section>
+
+            <div className="form-check">
+                <input type="checkbox" checked={only_my_hikes} onChange={(() => {set_only_my_hikes(!only_my_hikes)})} className="form-check-input" id="same-address" />
+                <label className="form-check-label" htmlFor="same-address">Показывать только мои походы</label>
+            </div>
+
+            <hr className="my-4"></hr>
+            
             <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
                 {hikes.map((item) => {
                     return (
@@ -70,7 +53,7 @@ const Hikes = (props) => {
                                     <h4 className="my-0 fw-normal">{item.name}</h4>
                                 </div>
                                 <div className="card-body">
-                                    <h1 className="card-title pricing-card-title">{item.partisipant_count}<small className="text-muted fw-light">человек</small></h1>
+                                    <h1 className="card-title pricing-card-title">{item.participant_count}<small className="text-muted fw-light">человек</small></h1>
                                     <p className="text-center py-3">
                                         {item.description}
                                     </p>
@@ -83,6 +66,6 @@ const Hikes = (props) => {
             </div>
         </div>
     )
-}
+};
 
-export default Hikes
+export default Hikes;
