@@ -8,7 +8,10 @@ export const reducer = (state, action) => {
     case 'edit_user':
       return {
         ...state,
-        user: action.user
+        user: {
+          ...state.user,
+          ...action.user
+        }
       }
     case 'update_eating_category':
       return {
