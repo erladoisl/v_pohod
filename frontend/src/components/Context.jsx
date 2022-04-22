@@ -7,6 +7,7 @@ import Registration from './User/Registration/Registration';
 import User from './User/User';
 import Dictionary from './Dictionary/Dictionary';
 import Hikes from './Hikes/Hikes';
+import Hike from './Hikes/Hike/Hike';
 
 export default function Context() {
   const [state, dispatch] = React.useContext(MainContext)
@@ -15,6 +16,10 @@ export default function Context() {
     [{
       'link': 'hikes',
       node: <Hikes param1={'42'} param2={'43'} />,
+    },
+    {
+      'link': 'new-hike',
+      node: <Hike />
     },
     {
       'link': 'edit-user',
@@ -34,6 +39,7 @@ export default function Context() {
             {pages.map((item, index) => {
               return <Route path={item.link} element={item.node} key={`page_${index}`} />
             })}
+            <Route path="*" element={<Hikes />} />
           </Routes>
         </main>
       </BrowserRouter>

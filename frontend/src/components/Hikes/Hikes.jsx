@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react"
+import { NavLink } from 'react-router-dom';
 import { Context } from "../../contexts/index"
 import HikeService from '../../service/HikeService';
 const hikeService = new HikeService();
@@ -30,8 +31,10 @@ const Hikes = () => {
                         <h1 className="fw-light">Архив</h1>
                         <p className="lead text-muted">Помошник по созданию раскладок для походов и не только. Автоматический рассчет количества ингредиентов для участников, помощь при совместной закупке. Делает работу легче :)</p>
                         <p>
-                            <a href="#" className="btn btn-primary m-2">Создать новый поход</a>
-                            <a href="#" className="btn btn-secondary m-2">Создать на основе существующего</a>
+                            <NavLink to='/new-hike' className="btn btn-primary m-2">
+                                Создать новый поход
+                            </NavLink>
+                            {/* <a href="#" className="btn btn-secondary m-2">Создать на основе существующего</a> */}
                         </p>
                     </div>
                 </div>
