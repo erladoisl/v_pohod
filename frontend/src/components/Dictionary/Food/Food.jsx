@@ -51,7 +51,7 @@ export default function Food() {
     });
 
 
-    if (state.food.length === 0) {
+    if (!state.menu.hasOwnProperty("food")) {
         updateFood();
     }
 
@@ -61,7 +61,7 @@ export default function Food() {
             <h2 className="fw-light">Граммовка продуктов на человека(гр/чел или шт/чел)</h2>
 
             <ul className="list-group mb-3">
-                {state.food.map((food, i) => {
+                {state.menu.hasOwnProperty("food") && state.menu.food.map((food, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />

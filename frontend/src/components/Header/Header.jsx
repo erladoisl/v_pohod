@@ -26,7 +26,7 @@ function Header() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to='/raskladki' className="nav-link ">
+                <NavLink to='/hikes' className="nav-link ">
                   Архив Раскладок
                 </NavLink>
               </li>

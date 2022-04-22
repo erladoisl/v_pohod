@@ -46,7 +46,7 @@ export default function EatingCategory() {
     });
 
     
-    if (state.eatingCategories.length === 0) {
+    if (!state.menu.hasOwnProperty("eatingCategories")) {
         udateCategories();
     }
 
@@ -56,7 +56,7 @@ export default function EatingCategory() {
             <h2 className="fw-light">Типы приемов пищи</h2>
 
             <ul className="list-group mb-3">
-                {state.eatingCategories.map((category, i) => {
+                {state.menu.hasOwnProperty("eatingCategories") && state.menu.eatingCategories.map((category, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={category.fields.name} placeholder="Promo code" disabled />

@@ -49,7 +49,7 @@ export default function Formula() {
     });
 
 
-    if (state.food.length === 0) {
+    if (!state.menu.hasOwnProperty("formula")) {
         updateFormula();
     }
 
@@ -63,7 +63,7 @@ export default function Formula() {
                     <div className="">
                         <h3 className="fw-light">Правила оформления формул:</h3>
 
-                        <p className="lead text-muted">Можно применять математические операторы <b>[+, -, *, /, // - целая часть от деления, % - остаток от деления]</b>
+                        <div className="lead text-muted">Можно применять математические операторы <b>[+, -, *, /, // - целая часть от деления, % - остаток от деления]</b>
                             <div>Доступны скобочки для обозначения приоритетов операций</div>
                             <hr />
                             <div>Доступные методы:</div>
@@ -75,13 +75,13 @@ export default function Formula() {
                             <div><b>AMOUNT_PER_PERSON</b> - для получения количества ингредиента на одного человека(гр/чел или шт/чел)</div>
                             <div><b>TOTAL_COUNT</b> - для получения количества приемов пищи с данным продуктом</div>
                             <div><b>DAYS_COUNT</b> - для получения количества дней в походе</div>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </section>
             <ul className="list-group mb-3">
 
-                {state.formula.map((food, i) => {
+                {state.menu.hasOwnProperty("formula") && state.menu.formula.map((food, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
                             <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />

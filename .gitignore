@@ -8,3 +8,5 @@ v_pohod/back.log
 dtp_Казань_2021_.zip
 frontend/.gitignore
 .gitignore
+v_pohod/user/migrations/__pycache__/
+v_pohod/hike/__pycache__/

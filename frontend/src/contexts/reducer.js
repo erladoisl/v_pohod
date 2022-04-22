@@ -1,10 +1,5 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "toggle_button":
-      return {
-        ...state,
-        active: !state.active
-      }
     case 'authorization':
       return {
         ...state,
@@ -18,27 +13,35 @@ export const reducer = (state, action) => {
     case 'update_eating_category':
       return {
         ...state,
-        eatingCategories: action.eatingCategories
+        menu: {
+          ...state.menu,
+          eatingCategories: action.eatingCategories
+        }
       }
-      case 'update_food':
-        return {
-          ...state,
+    case 'update_food':
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
           food: action.food
         }
-        case 'update_formula':
-          return {
-            ...state,
-            formula: action.formula
-          }
+      }
+    case 'update_formula':
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          formula: action.formula
+        }
+      }
     default:
       return state
   }
 }
 
+
 export const initialState = {
-  active: false,
   user: undefined,
-  eatingCategories: [],
-  food: [],
-  formula: []
+  menu: {
+  }
 }

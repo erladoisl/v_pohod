@@ -1,5 +1,5 @@
 
-const raskladki = [
+const hikes = [
     {
         id: 1,
         name: 'Ультралегкая(горная 3ка) 12 дней',
@@ -44,36 +44,37 @@ const raskladki = [
     },
 ]
 
-const Raskladki = (props) => {
+const Hikes = (props) => {
+    
 
     return (
         <div className="container">
             <section className="py-5 text-center container">
                 <div className="row py-lg-5">
                     <div className="col-lg-6 col-md-8 mx-auto">
-                        <h1 className="fw-light">Архив раскладок</h1>
+                        <h1 className="fw-light">Архив</h1>
                         <p className="lead text-muted">Помошник по созданию раскладок для походов и не только. Автоматический рассчет количества ингредиентов для участников, помощь при совместной закупке. Делает работу легче :)</p>
                         <p>
-                            <a href="#" className="btn btn-primary m-2">Создать новую раскладку</a>
-                            <a href="#" className="btn btn-secondary m-2">Создать на основе существующей</a>
+                            <a href="#" className="btn btn-primary m-2">Создать новый поход</a>
+                            <a href="#" className="btn btn-secondary m-2">Создать на основе существующего</a>
                         </p>
                     </div>
                 </div>
             </section>
-            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {raskladki.map((item) => {
+            <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                {hikes.map((item) => {
                     return (
-                        <div class="col" key={item.id}>
-                            <div class="card mb-4 rounded-3 shadow-sm">
-                                <div class="card-header py-3">
-                                    <h4 class="my-0 fw-normal">{item.name}</h4>
+                        <div className="col" key={item.id}>
+                            <div className="card mb-4 rounded-3 shadow-sm">
+                                <div className="card-header py-3">
+                                    <h4 className="my-0 fw-normal">{item.name}</h4>
                                 </div>
-                                <div class="card-body">
-                                    <h1 class="card-title pricing-card-title">{item.partisipant_count}<small class="text-muted fw-light">человек</small></h1>
-                                    <p class="text-center py-3">
+                                <div className="card-body">
+                                    <h1 className="card-title pricing-card-title">{item.partisipant_count}<small className="text-muted fw-light">человек</small></h1>
+                                    <p className="text-center py-3">
                                         {item.description}
                                     </p>
-                                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Просмотреть</button>
+                                    <button type="button" className="w-100 btn btn-lg btn-outline-primary">Просмотреть</button>
                                 </div>
                             </div>
                         </div>
@@ -84,4 +85,4 @@ const Raskladki = (props) => {
     )
 }
 
-export default Raskladki
+export default Hikes
