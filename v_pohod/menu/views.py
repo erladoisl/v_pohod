@@ -38,8 +38,11 @@ class EatingCategoryView(APIView):
         res = {'error': False, 'message': 'Успешно'}
         try:
             name = request.data.get('name')
-            newEC = EatingCategory(name=name)
-            newEC.save()
+            if len(EatingCategory.objects.filter(name=name)) > 0:
+                res = {'error': True, "message": "Название не уникальное"}
+            else:
+                newEC = EatingCategory(name=name)
+                newEC.save()
         except:
             res = {
                 'error': True, 'message': 'Ошибка при добавлении объекта категория приема пищи'}
@@ -98,9 +101,12 @@ class FoodView(APIView):
         res = {'error': False, 'message': 'Успешно'}
         try:
             name = request.data.get('name')
-            amount_per_person = request.data.get('amount_per_person')
-            newFood = Food(name=name, amount_per_person=amount_per_person)
-            newFood.save()
+            if len(Food.objects.filter(name=name)) > 0:
+                res = {'error': True, "message": "Название не уникальное"}
+            else:
+                amount_per_person = request.data.get('amount_per_person')
+                newFood = Food(name=name, amount_per_person=amount_per_person)
+                newFood.save()
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении объекта продукт'}
             logging.error(
@@ -158,9 +164,13 @@ class FormulaView(APIView):
         res = {'error': False, 'message': 'Успешно'}
         try:
             name = request.data.get('name')
-            value = request.data.get('value')
-            newFormula = Formula(name=name, value=value)
-            newFormula.save()
+            
+            if len(Formula.objects.filter(name=name)) > 0:
+                res = {'error': True, "message": "Название не уникальное"}
+            else:
+                value = request.data.get('value')
+                newFormula = Formula(name=name, value=value)
+                newFormula.save()
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении объекта формула'}
             logging.error(
