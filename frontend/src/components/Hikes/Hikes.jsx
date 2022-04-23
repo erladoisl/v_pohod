@@ -22,6 +22,12 @@ const Hikes = () => {
         });
     }, [only_my_hikes]);
 
+    const empty_result_html = hikes.length === 0 ? (
+        <div class="alert alert-info" role="alert">
+            Не найдено походов
+        </div>
+    ) : '';
+
 
     return (
         <div className="container">
@@ -41,13 +47,14 @@ const Hikes = () => {
             </section>
 
             <div className="form-check">
-                <input type="checkbox" checked={only_my_hikes} onChange={(() => {set_only_my_hikes(!only_my_hikes)})} className="form-check-input" id="same-address" />
+                <input type="checkbox" checked={only_my_hikes} onChange={(() => { set_only_my_hikes(!only_my_hikes) })} className="form-check-input" id="same-address" />
                 <label className="form-check-label" htmlFor="same-address">Показывать только мои походы</label>
             </div>
 
             <hr className="my-4"></hr>
-            
+
             <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                {empty_result_html}
                 {hikes.map((item) => {
                     return (
                         <div className="col" key={item.id}>
