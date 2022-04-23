@@ -1,12 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { NavLink } from 'react-router-dom';
-import { Context } from "../../contexts/index"
+import { Context } from "../../contexts/index";
 import HikeService from '../../service/HikeService';
+
+
 const hikeService = new HikeService();
 
 
-const Hikes = () => {
+const Hikes = (() => {
     const [state, dispatch] = React.useContext(Context);
     const [only_my_hikes, set_only_my_hikes] = useState(false);
     const [hikes, set_hikes] = useState([]);
@@ -22,8 +24,9 @@ const Hikes = () => {
         });
     }, [only_my_hikes]);
 
+
     const empty_result_html = hikes.length === 0 ? (
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info w-100" role="alert">
             Не найдено походов
         </div>
     ) : '';
@@ -76,6 +79,7 @@ const Hikes = () => {
             </div>
         </div>
     )
-};
+});
+
 
 export default Hikes;

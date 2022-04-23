@@ -1,9 +1,12 @@
 import React from 'react';
-import { Context } from "../../../contexts/index"
+import { Context } from "../../../contexts/index";
 import MenuService from '../../../service/MenuService';
+
+
 const menuService = new MenuService();
 
-export default function Formula() {
+
+const Formula = (() => {
     const [state, dispatch] = React.useContext(Context);
     const [formData, setFormData] = React.useState({
         name: '',
@@ -12,16 +15,16 @@ export default function Formula() {
 
 
     const addFormulaSubmit = ((e) => {
-        e.preventDefault()
+        e.preventDefault();
         menuService.addFormula(formData.name, formData.value, state.user.token).then(function (result) {
             if (result.error === false) {
-                updateFormula()
+                updateFormula();
                 setFormData({
                     name: '',
                     value: 0
-                })
+                });
             } else {
-                console.log(result)
+                console.log(result);
             }
         });
     });
@@ -30,10 +33,10 @@ export default function Formula() {
     const deleteFormula = ((name) => {
         menuService.deleteFormula(name, state.user.token).then(function (result) {
             if (result.error === false) {
-                updateFormula()
+                updateFormula();
             } else {
-                console.log(result)
-            }
+                console.log(result);
+            };
         });
     });
 
@@ -41,17 +44,17 @@ export default function Formula() {
     const updateFormula = (() => {
         menuService.getFormula(state.user.token).then(function (result) {
             if (result.error === false) {
-                dispatch({ 'type': 'update_formula', 'formula': JSON.parse(result.data) })
+                dispatch({ 'type': 'update_formula', 'formula': JSON.parse(result.data) });
             } else {
-                console.log(result)
-            }
+                console.log(result);
+            };
         });
     });
 
 
     if (!state.menu.hasOwnProperty("formula")) {
         updateFormula();
-    }
+    };
 
 
     return (
@@ -103,5 +106,8 @@ export default function Formula() {
                 </div>
             </form>
         </div>
-    )
-}
+    );
+});
+
+
+export default Formula;

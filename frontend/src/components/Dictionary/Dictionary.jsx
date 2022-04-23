@@ -2,7 +2,8 @@ import EatingCategory from "./EatingCategory/EatingCategory";
 import Food from "./Food/Food";
 import Formula from "./Formula/Formula";
 
-export default function Dictionary() {
+
+const Dictionary = (() => {
     return (
         <div className="container">
             <section className="pt-5 text-center container">
@@ -23,5 +24,8 @@ export default function Dictionary() {
                 <Formula />
             </div>
         </div>
-    )
-}
+    );
+});
+
+
+export default Dictionary;

@@ -1,24 +1,24 @@
 import React from 'react';
-import { Context } from "../../../contexts/index"
-import { useRef } from "react"
+import { Context } from "../../../contexts/index";
+import { useRef } from "react";
 import MenuService from '../../../service/MenuService';
 
 
 const menuService = new MenuService();
 
 
-export default function EatingCategory() {
+const EatingCategory = (() => {
     const [state, dispatch] = React.useContext(Context);
-    const newCategory = useRef()
+    const newCategory = useRef();
 
     const addCategorySubmit = ((e) => {
-        e.preventDefault()
+        e.preventDefault();
         menuService.addEatingCategory(newCategory.current.value, state.user.token).then(function (result) {
             if (result.error === false) {
-                udateCategories()
-                newCategory.current.value = ''
+                udateCategories();
+                newCategory.current.value = '';
             } else {
-                console.log(result)
+                console.log(result);
             }
         });
     });
@@ -27,9 +27,9 @@ export default function EatingCategory() {
     const deleteCategory = ((name) => {
         menuService.deleteEatingCategory(name, state.user.token).then(function (result) {
             if (result.error === false) {
-                udateCategories()
+                udateCategories();
             } else {
-                console.log(result)
+                console.log(result);
             }
         });
     });
@@ -38,19 +38,19 @@ export default function EatingCategory() {
     const udateCategories = (() => {
         menuService.getEatingCategories(state.user.token).then(function (result) {
             if (result.error === false) {
-                dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) })
+                dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) });
             } else {
-                console.log(result)
+                console.log(result);
             }
         });
     });
 
-    
+
     if (!state.menu.hasOwnProperty("eatingCategories")) {
         udateCategories();
     }
 
-    
+
     return (
         <div className="col-12 py-5 card mb-3">
             <h2 className="fw-light">Типы приемов пищи</h2>
@@ -75,5 +75,8 @@ export default function EatingCategory() {
                 </div>
             </form>
         </div>
-    )
-}
+    );
+});
+
+
+export default EatingCategory;

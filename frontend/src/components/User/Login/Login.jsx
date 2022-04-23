@@ -1,20 +1,20 @@
-import { useState, createRef, useContext } from 'react'
+import { useState, createRef, useContext } from 'react';
 import { NavLink } from "react-router-dom";
 import UsersService from '../../../service/UsersService';
-import c from './Login.module.css'
-import { Context } from "../../../contexts/index"
+import c from './Login.module.css';
+import { Context } from "../../../contexts/index";
 
 
 const usersService = new UsersService();
 
 
-const Login = () => {
-    const [state, dispatch] = useContext(Context)
-    const [error, setError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
-    const login = createRef()
-    const password = createRef()
-    let errorMessageHTML = ''
+const Login = (() => {
+    const [state, dispatch] = useContext(Context);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const login = createRef();
+    const password = createRef();
+    let errorMessageHTML = '';
     
 
     const handleSubmit = ((e) => {
@@ -44,17 +44,20 @@ const Login = () => {
             <div className={c.form_signin}>
                 <form onSubmit={handleSubmit}>
                     <h1 className="h3 mb-3 fw-normal">Вход</h1>
+
                     {errorMessageHTML}
 
                     <div className="form-floating py-1">
                         <input ref={login} type="name" className="form-control" required />
+                        
                         <label htmlFor="floatingInput">Имя</label>
                     </div>
+
                     <div className="form-floating py-1">
                         <input ref={password} type="password" className="form-control" required />
+                        
                         <label htmlFor="floatingPassword">Пароль</label>
                     </div>
-
 
                     <button className="w-100 btn btn-lg btn-dark my-1" type="submit" >Войти</button>
 
@@ -66,7 +69,8 @@ const Login = () => {
                 </form>
             </div>
         </div>
-    )
-}
+    );
+});
+
 
 export default Login;
