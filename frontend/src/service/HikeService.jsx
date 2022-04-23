@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API_URL = 'http://127.0.0.1:8000';
+import { url as API_URL } from './config';
+// const API_URL = 'http://127.0.0.1:8000';
 
 const getConfig = ((token) => {
     return {headers: {"Authorization": `Token ${token}`,
@@ -7,7 +8,7 @@ const getConfig = ((token) => {
 });
 
 export default class HikeService {
-    constructor() { };
+    // constructor() { };
 
 
     getHikes(token, only_user_hikes) {

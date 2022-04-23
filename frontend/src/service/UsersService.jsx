@@ -1,8 +1,9 @@
 import axios from 'axios';
-const API_URL = 'http://127.0.0.1:8000';
+import { url as API_URL } from './config';
+// const API_URL = 'http://127.0.0.1:8000';
 
 export default class UsersService {
-	constructor() { }
+	// constructor() { }
 
 	logIn(username, password) {
 		let data = [];
@@ -15,6 +16,7 @@ export default class UsersService {
 			data = response.data;
 		}).catch(error => {
 			console.log(`ERROR while logIn: ${error}`);
+            data = {'error': true, 'message': error.toString()}
 		}).then(() => {
 			return data;
 		});
@@ -28,6 +30,7 @@ export default class UsersService {
 			data = response.data;
 		}).catch(error => {
 			console.log(`ERROR while logIn: ${error}`);
+            data = {'error': true, 'message': error.toString()}
 		}).then(() => {
 			return data;
 		});
