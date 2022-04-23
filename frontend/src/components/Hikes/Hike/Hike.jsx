@@ -53,7 +53,7 @@ const Hike = () => {
                     <b> Количество участников </b>- очень важное поле, оно позволит правильно рассчитать ингредиенты.
                 </p>
             </div>
-            <form className="needs-validation" onSubmit={onSubmitForm} >
+            <form className="needs-validation text-start" onSubmit={onSubmitForm} >
                 <div className="row g-3">
                     <div className="col-sm-12">
                         <label htmlFor="name" className="form-label">Название похода</label>
