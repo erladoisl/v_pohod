@@ -1,6 +1,6 @@
 import React from 'react';
 import { Context as MainContext} from "../contexts/index"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './Header/Header';
 import Login from './User/Login/Login';
 import Registration from './User/Registration/Registration';
@@ -34,7 +34,7 @@ export default function Context() {
     return (
       <BrowserRouter>
         <Header />
-        <main>
+        <main className='position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light'>
           <Routes>
             {pages.map((item, index) => {
               return <Route path={item.link} element={item.node} key={`page_${index}`} />

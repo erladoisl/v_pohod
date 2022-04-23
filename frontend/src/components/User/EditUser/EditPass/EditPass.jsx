@@ -1,6 +1,7 @@
 import React from 'react';
 import { Context } from "../../../../contexts/index"
 import UsersService from '../../../../service/UsersService';
+import c from '../EditUser.module.css'
 const usersService = new UsersService();
 
 export default function EditPass() {
@@ -21,7 +22,7 @@ export default function EditPass() {
     });
 
     const getMessageHTML = ((response) => {
-        if (response.error || response.message != '') {
+        if (response.error || response.message !== '') {
             return (
                 <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
                     {response.message}
@@ -33,8 +34,9 @@ export default function EditPass() {
     });
 
     return (
-        <div className='row m-5'>
-            <div className='col-10 m-auto'>
+
+        <div className={c.text_center}>
+            <div className={c.form_signin}>
                 <h1 className="h3 mb-3 fw-normal">Изменение пароля</h1>
                 <form onSubmit={handleSubmit}>
                     {messageHTML}

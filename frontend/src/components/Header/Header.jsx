@@ -32,7 +32,7 @@ function Header() {
               </li>
             </ul>
             <div className="ms-auto link-light" >
-              <span className="d-lg-inline-block my-2 my-md-0 ms-md-3 text-white" >
+              <span className="d-sm-inline-block my-2 my-md-0 ms-md-3 text-white" >
                 <NavLink to='/edit-user' className="nav-link text-white">
                   {state.user.name}
                 </NavLink></span>

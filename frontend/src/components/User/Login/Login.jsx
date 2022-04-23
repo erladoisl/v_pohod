@@ -20,9 +20,10 @@ const Login = () => {
     const handleSubmit = ((e) => {
         e.preventDefault()
         usersService.logIn(login.current.value, password.current.value).then(function (result) {
-            if (result.error == false) {
+            if (result.error === false) {
                 dispatch({ 'type': 'authorization', 'user': result.data })
             } else {
+                console.log(42, result)
                 setError(result.error)
                 setErrorMessage(result.message)
             }

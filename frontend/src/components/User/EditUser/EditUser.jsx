@@ -1,6 +1,7 @@
 import React from 'react';
 import { Context } from "../../../contexts/index"
 import UsersService from '../../../service/UsersService';
+import c from './EditUser.module.css'
 const usersService = new UsersService();
 
 export default function EditUser() {
@@ -16,17 +17,17 @@ export default function EditUser() {
     const handleSubmit = ((e) => {
         e.preventDefault()
         usersService.editUser(formData).then(function (result) {
-            if (result.error == false) {
+            if (result.error === false) {
                 dispatch({ 'type': 'edit_user', 'user': formData })
             }
             setMessageHTML(getMessageHTML(result))
         });
     });
-    
+
     const getMessageHTML = ((response) => {
-        if (response.error || response.message != '') {
+        if (response.error || response.message !== '') {
             return (
-                <div className={`alert alert-${response.error ? 'danger' :'success' }`} role="alert">
+                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
                     {response.message}
                 </div>
             )
@@ -36,8 +37,9 @@ export default function EditUser() {
     });
 
     return (
-        <div className='row m-5'>
-            <div className='col-10 m-auto'>
+
+        <div className={c.text_center}>
+            <div className={c.form_signin}>
                 <h1 className="h3 mb-3 fw-normal">Редактирование данных пользователя</h1>
                 <form onSubmit={handleSubmit}>
                     {messageHTML}
