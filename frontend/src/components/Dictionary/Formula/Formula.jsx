@@ -16,7 +16,7 @@ const Formula = (() => {
 
     const addFormulaSubmit = ((e) => {
         e.preventDefault();
-        menuService.addFormula(formData.name, formData.value, state.user.token).then(function (result) {
+        menuService.addFormula(formData.name, formData.value).then(function (result) {
             if (result.error === false) {
                 updateFormula();
                 setFormData({
@@ -31,7 +31,7 @@ const Formula = (() => {
 
 
     const deleteFormula = ((name) => {
-        menuService.deleteFormula(name, state.user.token).then(function (result) {
+        menuService.deleteFormula(name).then(function (result) {
             if (result.error === false) {
                 updateFormula();
             } else {
@@ -42,7 +42,7 @@ const Formula = (() => {
 
 
     const updateFormula = (() => {
-        menuService.getFormula(state.user.token).then(function (result) {
+        menuService.getFormula().then(function (result) {
             if (result.error === false) {
                 dispatch({ 'type': 'update_formula', 'formula': JSON.parse(result.data) });
             } else {

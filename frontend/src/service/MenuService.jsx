@@ -1,21 +1,20 @@
 import axios from 'axios';
 import { url as API_URL } from './config';
-// const API_URL = 'http://127.0.0.1:8000';
+import getCookie from './util';
 
-const getConfig = ((token) => {
-    return {headers: {"Authorization": `Token ${token}`,
+
+const getConfig = (() => {
+    return {headers: {"Authorization": `Token ${getCookie('token')}`,
         "Content-Type": "application/json"}};
 });
 
+
 export default class MenuService {
-    // constructor() { };
-
-
-    getHikes(token, only_user_hikes) {
+    getHikes(only_user_hikes) {
         let data = [];
         const url = only_user_hikes ? `${API_URL}/api/user-hikes/` : `${API_URL}/api/hikes/`;
 
-        return axios.get(url, getConfig(token)).then(response => {
+        return axios.get(url, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in getEatingCategories: ${error}`);
@@ -25,11 +24,11 @@ export default class MenuService {
     }
 
 
-    getEatingCategories(token) {
+    getEatingCategories() {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
-        return axios.get(url, getConfig(token)).then(response => {
+        return axios.get(url, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in getEatingCategories: ${error}`);
@@ -38,12 +37,11 @@ export default class MenuService {
         });
     }
 
-    addEatingCategory(name, token) {
+    addEatingCategory(name) {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
         return axios.post(url, data = {
-            "token": token,
             "name": name
         }).then(response => {
             data = response.data;
@@ -54,7 +52,7 @@ export default class MenuService {
         });
     }
 
-    deleteEatingCategory(name, token) {
+    deleteEatingCategory(name) {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
@@ -67,11 +65,11 @@ export default class MenuService {
         });
     }
 
-    getFood(token) {
+    getFood() {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
-        return axios.get(url, getConfig(token)).then(response => {
+        return axios.get(url, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in getFood: ${error}`);
@@ -80,15 +78,14 @@ export default class MenuService {
         });
     }
 
-    addFood(name, amount_per_person, token) {
+    addFood(name, amount_per_person) {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
         return axios.post(url, data = {
-            "token": token,
             "name": name,
             "amount_per_person": amount_per_person
-        }, getConfig(token)).then(response => {
+        }, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addFood: ${error}`);
@@ -97,7 +94,7 @@ export default class MenuService {
         });
     }
 
-    deleteFood(name, token) {
+    deleteFood(name) {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
@@ -110,11 +107,11 @@ export default class MenuService {
         });
     }
 
-    getFormula(token) {
+    getFormula() {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 
-        return axios.get(url, getConfig(token)).then(response => {
+        return axios.get(url, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in getFood: ${error}`);
@@ -123,15 +120,14 @@ export default class MenuService {
         });
     }
 
-    addFormula(name, value, token) {
+    addFormula(name, value) {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 
         return axios.post(url, data = {
-            "token": token,
             "name": name,
             "value": value
-        }, getConfig(token)).then(response => {
+        }, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addFood: ${error}`);
@@ -140,7 +136,7 @@ export default class MenuService {
         });
     }
 
-    deleteFormula(name, token) {
+    deleteFormula(name) {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 

@@ -6,7 +6,8 @@ import { Context } from "../../contexts/index";
 const Header = (() => {
   const [state, dispatch] = useContext(Context);
   const logOut = (() => {
-    dispatch({ 'type': 'authorization', 'user': undefined });
+    dispatch({ 'type': 'update_user', 'user': undefined });
+    document.cookie = "token=unset; max-age=0";
   });
 
 

@@ -8,11 +8,32 @@ import User from './User/User';
 import Dictionary from './Dictionary/Dictionary';
 import Hikes from './Hikes/Hikes';
 import Hike from './Hikes/Hike/Hike';
+import UsersService from '../service/UsersService';
+import getCookie from '../service/util';
+
+
+const usersService = new UsersService();
 
 
 const Context = (() => {
   const [state, dispatch] = React.useContext(MainContext);
   window.state = state;
+
+
+  const updateUserInfo = (() => {
+    usersService.getAuthUser().then(function (result) {
+      if (result.error === false) {
+        dispatch({ 'type': 'update_user', 'user': result.data });
+      } else {
+        console.log(result);
+      };
+    });
+  });
+
+  if (!state.hasOwnProperty("user") && getCookie('token')) {
+    updateUserInfo();
+  }
+
   const pages =
     [{
       'link': 'hikes',

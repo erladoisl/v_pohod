@@ -13,7 +13,7 @@ const EatingCategory = (() => {
 
     const addCategorySubmit = ((e) => {
         e.preventDefault();
-        menuService.addEatingCategory(newCategory.current.value, state.user.token).then(function (result) {
+        menuService.addEatingCategory(newCategory.current.value).then(function (result) {
             if (result.error === false) {
                 udateCategories();
                 newCategory.current.value = '';

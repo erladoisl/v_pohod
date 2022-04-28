@@ -21,7 +21,7 @@ const Login = (() => {
         e.preventDefault()
         usersService.logIn(login.current.value, password.current.value).then(function (result) {
             if (result.error === false) {
-                dispatch({ 'type': 'authorization', 'user': result.data })
+                dispatch({ 'type': 'update_user', 'user': result.data })
             } else {
                 console.log(42, result)
                 setError(result.error)

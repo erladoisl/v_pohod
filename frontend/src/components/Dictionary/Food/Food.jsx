@@ -15,7 +15,7 @@ const Food = (() => {
 
     const addFoodSubmit = ((e) => {
         e.preventDefault();
-        menuService.addFood(formData.name, formData.amount_per_person, state.user.token).then(function (result) {
+        menuService.addFood(formData.name, formData.amount_per_person).then(function (result) {
             if (result.error === false) {
                 updateFood();
                 setFormData({
@@ -30,7 +30,7 @@ const Food = (() => {
 
 
     const deleteFood = ((name) => {
-        menuService.deleteFood(name, state.user.token).then(function (result) {
+        menuService.deleteFood(name).then(function (result) {
             if (result.error === false) {
                 updateFood();
             } else {
@@ -41,7 +41,7 @@ const Food = (() => {
 
 
     const updateFood = (() => {
-        menuService.getFood(state.user.token).then(function (result) {
+        menuService.getFood().then(function (result) {
             if (result.error === false) {
                 dispatch({ 'type': 'update_food', 'food': JSON.parse(result.data) });
             } else {

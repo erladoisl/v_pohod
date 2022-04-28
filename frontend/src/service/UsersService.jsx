@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { url as API_URL } from './config';
-// const API_URL = 'http://127.0.0.1:8000';
+import getCookie from './util';
+
+
+const getConfig = (() => {
+    return {headers: {"Authorization": `Token ${getCookie('token')}`,
+        "Content-Type": "application/json"}};
+});
+
 
 export default class UsersService {
 	// constructor() { }
@@ -14,6 +21,8 @@ export default class UsersService {
 			"password": password
 		}).then(response => {
 			data = response.data;
+			console.log(42, data)
+			document.cookie = `token=${data.data['token']}; path=/;`
 		}).catch(error => {
 			console.log(`ERROR while logIn: ${error}`);
             data = {'error': true, 'message': error.toString()}
@@ -54,6 +63,20 @@ export default class UsersService {
 		const url = `${API_URL}/api/edit-user/`;
 
 		return axios.post(url, data = user).then(response => {
+			data = response.data;
+		}).catch(error => {
+			console.log(`ERROR while logIn: ${error}`);
+		}).then(() => {
+			return data;
+		});
+	}
+	
+
+	getAuthUser() {
+		let data = [];
+		const url = `${API_URL}/api/get-auth-user/`;
+
+		return axios.get(url, getConfig()).then(response => {
 			data = response.data;
 		}).catch(error => {
 			console.log(`ERROR while logIn: ${error}`);

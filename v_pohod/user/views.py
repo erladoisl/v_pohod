@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -130,3 +130,26 @@ class EditUser(APIView):
         except:
             logging.error(f'Error while editing user\n{traceback.format_exc}')
             return Response(data={'error': True, 'message': 'Ошибка ввода данных'})
+        
+
+class getAuthUser(APIView):
+    permission_classes = [IsAuthenticated, ]
+    
+    def get(self, request):
+        res = {'error': True, 'message': 'Ошибка при получении данных авторизованного пользователя'}
+        
+        try:
+            
+            res = {'error': False,
+                   'data': {
+                       'user_id': request.user.pk,
+                       'email': request.user.email,
+                       'name': request.user.username,
+                       'first_name': request.user.first_name,
+                       'last_name': request.user.last_name,
+                       'is_superuser': request.user.is_superuser
+                   }}
+        except:
+            logging.info(f'Ошибка при получении данных авторизованного пользователя "{request.data}"')
+        finally:
+            return Response(res)
