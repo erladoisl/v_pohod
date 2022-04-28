@@ -69,8 +69,8 @@ const Hike = (() => {
     return (
         <div className="container pt-5">
             <div className="py-5 text-center">
-                <h2>Новый поход</h2>
-                <p className="lead">
+                <h2>{form_data.id > 0 ? form_data.name : 'Новый поход'}</h2>
+                {form_data.id === -1 && <p className="lead">
                     Опиши основные моменты похода.
                     <br />
                     Так же есть возможность создавать поход на основе существующего или абсолютно новый.
@@ -78,7 +78,7 @@ const Hike = (() => {
                     Раскладка и другие вещи будут скопированны из выбранного похода.
                     <br />
                     <b> Количество участников </b>- очень важное поле, оно позволит правильно рассчитать ингредиенты.
-                </p>
+                </p>}
             </div>
             {messageHTML}
             <form className="needs-validation text-start" onSubmit={addHikeSubmit} >
@@ -98,26 +98,24 @@ const Hike = (() => {
 
                         </div>
                     </div>
+                    {form_data.id === -1 &&
+                        <div className="form-check">
+                            <input type="checkbox" checked={use_example} onChange={(() => { setUseExample(!use_example) })} className="form-check-input" id="same-address" />
+                            <label className="form-check-label" htmlFor="same-address">Использовать существующий поход как основу</label>
+                        </div>
+                    }
 
-                    <div className="form-check">
-                        <input type="checkbox" checked={use_example} onChange={(() => { setUseExample(!use_example) })} className="form-check-input" id="same-address" />
-                        <label className="form-check-label" htmlFor="same-address">Использовать существующий поход как основу</label>
-                    </div>
-
-                    {example_HTML}
+                    {form_data.id === -1 && example_HTML}
 
                     <div className="col-sm-12">
                         <label htmlFor="name" className="form-label">Количество участников</label>
                         <input type="number" className="form-control" id="name" placeholder="" value={form_data.participant_count} onChange={((e) => { setFormData({ ...form_data, participant_count: e.target.value }) })} required />
-                        <div className="invalid-feedback">
-                            Обязательное поле, должно быть уникальным
-                        </div>
                     </div>
                 </div>
 
                 <br />
 
-                <button className="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                <button className="w-100 btn btn-primary btn-lg" type="submit">Сохранить</button>
             </form>
 
             <br className="my-4" />
