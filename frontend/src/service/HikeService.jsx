@@ -51,7 +51,7 @@ export default class HikeService {
 
     deleteHike(id) {
         let data = [];
-        const url = `${API_URL}/api/hike/delete`;
+        const url = `${API_URL}/api/hike/delete/`;
 
         return axios.post(url, data={id}, getConfig()).then(response => {
             data = response.data;
