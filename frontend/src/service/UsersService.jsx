@@ -4,8 +4,12 @@ import getCookie from './util';
 
 
 const getConfig = (() => {
-    return {headers: {"Authorization": `Token ${getCookie('token')}`,
-        "Content-Type": "application/json"}};
+	return {
+		headers: {
+			"Authorization": `Token ${getCookie('token')}`,
+			"Content-Type": "application/json"
+		}
+	};
 });
 
 
@@ -22,10 +26,12 @@ export default class UsersService {
 		}).then(response => {
 			data = response.data;
 			console.log(42, data)
-			document.cookie = `token=${data.data['token']}; path=/;`
+			if (data.hasOwnProperty('data')) {
+				document.cookie = `token=${data.data['token']}; path=/;`
+			}
 		}).catch(error => {
 			console.log(`ERROR while logIn: ${error}`);
-            data = {'error': true, 'message': error.toString()}
+			data = { 'error': true, 'message': error.toString() }
 		}).then(() => {
 			return data;
 		});
@@ -37,9 +43,12 @@ export default class UsersService {
 
 		return axios.post(url, data = user).then(response => {
 			data = response.data;
+			if (data.hasOwnProperty('data')) {
+				document.cookie = `token=${data.data['token']}; path=/;`
+			}
 		}).catch(error => {
-			console.log(`ERROR while logIn: ${error}`);
-            data = {'error': true, 'message': error.toString()}
+			console.log(`ERROR while registration: ${error}`);
+			data = { 'error': true, 'message': error.toString() }
 		}).then(() => {
 			return data;
 		});
@@ -52,7 +61,7 @@ export default class UsersService {
 		return axios.post(url, data = user).then(response => {
 			data = response.data;
 		}).catch(error => {
-			console.log(`ERROR while logIn: ${error}`);
+			console.log(`ERROR while changePass: ${error}`);
 		}).then(() => {
 			return data;
 		});
@@ -65,12 +74,12 @@ export default class UsersService {
 		return axios.post(url, data = user).then(response => {
 			data = response.data;
 		}).catch(error => {
-			console.log(`ERROR while logIn: ${error}`);
+			console.log(`ERROR while editUser: ${error}`);
 		}).then(() => {
 			return data;
 		});
 	}
-	
+
 
 	getAuthUser() {
 		let data = [];
@@ -79,7 +88,7 @@ export default class UsersService {
 		return axios.get(url, getConfig()).then(response => {
 			data = response.data;
 		}).catch(error => {
-			console.log(`ERROR while logIn: ${error}`);
+			console.log(`ERROR while getAuthUser: ${error}`);
 		}).then(() => {
 			return data;
 		});

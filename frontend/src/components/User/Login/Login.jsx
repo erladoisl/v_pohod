@@ -23,7 +23,6 @@ const Login = (() => {
             if (result.error === false) {
                 dispatch({ 'type': 'update_user', 'user': result.data })
             } else {
-                console.log(42, result)
                 setError(result.error)
                 setErrorMessage(result.message)
             }
