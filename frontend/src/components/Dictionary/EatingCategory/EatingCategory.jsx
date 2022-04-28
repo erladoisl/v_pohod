@@ -25,7 +25,7 @@ const EatingCategory = (() => {
 
 
     const deleteCategory = ((name) => {
-        menuService.deleteEatingCategory(name, state.user.token).then(function (result) {
+        menuService.deleteEatingCategory(name).then(function (result) {
             if (result.error === false) {
                 udateCategories();
             } else {
@@ -36,7 +36,7 @@ const EatingCategory = (() => {
 
 
     const udateCategories = (() => {
-        menuService.getEatingCategories(state.user.token).then(function (result) {
+        menuService.getEatingCategories().then(function (result) {
             if (result.error === false) {
                 dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) });
             } else {

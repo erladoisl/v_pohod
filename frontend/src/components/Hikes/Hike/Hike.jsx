@@ -1,20 +1,42 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { Context } from "../../../contexts/index";
 import HikeService from '../../../service/HikeService';
 
 
 const hikeService = new HikeService();
 
 
-const Hike = (() => {
+const Hike = ((props) => {
     const [use_example, setUseExample] = useState(false);
     const [example_HTML, setExampleHTML] = useState('');
+    const [messageHTML, setMessageHTML] = React.useState('');
     const [form_data, setFormData] = React.useState({
+        id: props.id,
         name: "",
         description: "",
         participant_count: 0,
         example_hike_id: -1
+    });
+
+
+    const addHikeSubmit = ((e) => {
+        e.preventDefault();
+        hikeService.addHike(form_data).then(function (result) {
+            setMessageHTML(getMessageHTML(result));
+        });
+    });
+
+
+    const getMessageHTML = ((response) => {
+        if (response.error || response.message !== '') {
+            return (
+                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
+                    {response.message}
+                </div>
+            );
+        } else {
+            return '';
+        };
     });
 
 
@@ -35,11 +57,6 @@ const Hike = (() => {
         ) : '');
     }, [use_example]);
 
-    const onSubmitForm = ((e) => {
-        console.log('add hike')
-        e.preventDefault()
-    });
-
 
     return (
         <div className="container pt-5">
@@ -55,7 +72,8 @@ const Hike = (() => {
                     <b> Количество участников </b>- очень важное поле, оно позволит правильно рассчитать ингредиенты.
                 </p>
             </div>
-            <form className="needs-validation text-start" onSubmit={onSubmitForm} >
+            {messageHTML}
+            <form className="needs-validation text-start" onSubmit={addHikeSubmit} >
                 <div className="row g-3">
                     <div className="col-sm-12">
                         <label htmlFor="name" className="form-label">Название похода</label>

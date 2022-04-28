@@ -10,20 +10,6 @@ const getConfig = (() => {
 
 
 export default class MenuService {
-    getHikes(only_user_hikes) {
-        let data = [];
-        const url = only_user_hikes ? `${API_URL}/api/user-hikes/` : `${API_URL}/api/hikes/`;
-
-        return axios.get(url, getConfig()).then(response => {
-            data = response.data;
-        }).catch(error => {
-            console.log(`ERROR in getEatingCategories: ${error}`);
-        }).then(() => {
-            return data;
-        });
-    }
-
-
     getEatingCategories() {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;

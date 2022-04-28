@@ -17,7 +17,46 @@ export default class HikeService {
         return axios.get(url, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
-            console.log(`ERROR in getEatingCategories: ${error}`);
+            console.log(`ERROR in getHikes: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    updateHike(hike) {
+        let data = [];
+        const url = `${API_URL}/api/hike/update`;
+
+        return axios.post(url, data=hike, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in updateHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    addHike(hike) {
+        let data = [];
+        const url = `${API_URL}/api/hike/new/`;
+
+        return axios.post(url, data=hike, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in newHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    deleteHike(id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/delete`;
+
+        return axios.post(url, data={id}, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in newHike: ${error}`);
         }).then(() => {
             return data;
         });
