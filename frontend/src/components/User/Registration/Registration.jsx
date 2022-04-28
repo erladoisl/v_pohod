@@ -30,7 +30,7 @@ const Registration = (() => {
 
         usersService.registration(formData).then(function (result) {
             if (result.error === false) {
-                dispatch({ 'type': 'authorization', 'user': result.data });
+                dispatch({ 'type': 'update_user', 'user': result.data })
             } else {
                 setError(result.error);
                 setErrorMessage(result.message);
