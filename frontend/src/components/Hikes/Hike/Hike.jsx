@@ -1,22 +1,30 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import HikeService from '../../../service/HikeService';
+import { useLocation } from 'react-router-dom'
 
 
 const hikeService = new HikeService();
 
 
-const Hike = ((props) => {
+const Hike = (() => {
+    const { state } = useLocation()
     const [use_example, setUseExample] = useState(false);
     const [example_HTML, setExampleHTML] = useState('');
     const [messageHTML, setMessageHTML] = React.useState('');
     const [form_data, setFormData] = React.useState({
-        id: props.id,
+        id: -1,
         name: "",
         description: "",
         participant_count: 0,
         example_hike_id: -1
     });
+
+    if (state && state.hasOwnProperty('id') && state.id > 0 && form_data.id === -1) {
+        hikeService.getHike(state.id).then(((result) => {
+            setFormData(result.data);
+        }));
+    };
 
 
     const addHikeSubmit = ((e) => {

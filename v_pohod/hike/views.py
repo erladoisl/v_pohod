@@ -1,14 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.paginator import Paginator
 import logging
 import traceback
 from .models import Hike
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from menu.models import EatingCategory, Food
-from django.core import serializers
-from menu.models import Formula
 
 
 def getToken(headers: str) -> str:
@@ -19,19 +15,20 @@ class DeleteHikeView(APIView):
 
     def post(self, request):
         try:
-            user = Token.objects.get(key=getToken(request.META)).user
             hike_id = request.data.get('id')
-
-            if not (user.is_superuser or user == hike_id.user):
-                return Response(data={'error': True, 'message': 'Удалять поход может только создатель'})
-
             hike = Hike.objects.get(pk=hike_id)
-            hike.delete()
 
-            context = {
-                'error': False,
-                'message': "Успешно"
-            }
+            if not (request.user.is_superuser) and request.user.pk != hike.user.pk:
+                context = {
+                    'error': True,
+                    'message': "Удалять поход может только создатель"
+                }
+            else:
+                hike.delete()
+                context = {
+                    'error': False,
+                    'message': "Успешно"
+                }
         except Hike.DoesNotExist:
             context = {
                 'error': True,
@@ -54,7 +51,6 @@ class UpdateHikeView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно сохранено'}
         try:
-            user = Token.objects.get(key=getToken(request.META)).user
             hike_id = request.data.get('id', -1)
             name = request.data.get('name')
             description = request.data.get('description')
@@ -62,7 +58,7 @@ class UpdateHikeView(APIView):
 
             if hike_id > 0:
                 hike = Hike.objects.get(pk=hike_id)
-                if hike.user == user or user.is_superuser:
+                if hike.user.pk == request.user.pk or request.user.is_superuser:
                     hike.name = name
                     hike.description = description
                     hike.participant_count = participant_count
@@ -72,7 +68,7 @@ class UpdateHikeView(APIView):
                         'error': True, 'message': 'Нельзя редактировать чужие походы'}
             else:
                 hike = Hike(name=name, description=description,
-                            participant_count=participant_count, user=user)
+                            participant_count=participant_count, user=request.user)
                 hike.save()
         except:
             res = {
@@ -88,8 +84,7 @@ class UserHikesView(APIView):
 
     def get(self, request):
         try:
-            user = Token.objects.get(key=getToken(request.META)).user
-            hikes = Hike.objects.filter(user_id=user.pk).values()
+            hikes = Hike.objects.filter(user_id=request.user.pk).values()
             context = {
                 'error': False,
                 'hikes': hikes
@@ -104,6 +99,34 @@ class UserHikesView(APIView):
         finally:
             return Response(data=context)
 
+
+class GetHikeView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            print(request.GET['id'])
+            hike = Hike.objects.get(pk=request.GET['id'])
+
+            context = {
+                'error': False,
+                'data': {
+                    'id': hike.pk,
+                    'name': hike.name,
+                    'description': hike.description,
+                    'participant_count': hike.participant_count,
+                    }
+            }
+        except:
+            context = {
+                'error': True,
+                'message': f'Ошибка при получении похода c id={request.GET.get("id")}'
+            }
+            logging.error(
+                f'ERROR while getting Hike\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+        
 
 class HikesView(APIView):
     permission_classes = [IsAuthenticated, ]

@@ -61,4 +61,18 @@ export default class HikeService {
             return data;
         });
     };
+
+
+    getHike(id) {
+        let data = [];
+        const url = `${API_URL}/api/get-hike/?id=${id}`;
+
+        return axios.get(url, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in newHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
 };
