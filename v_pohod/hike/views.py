@@ -6,9 +6,6 @@ from .models import Hike, HikeDay
 from rest_framework.permissions import IsAuthenticated
 
 
-def getToken(headers: str) -> str:
-    return headers["HTTP_AUTHORIZATION"].split()[-1]
-
 class DeleteHikeView(APIView):
     permission_classes = [IsAuthenticated, ]
 

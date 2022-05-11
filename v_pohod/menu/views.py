@@ -10,10 +10,6 @@ from django.core import serializers
 from menu.models import Formula
 
 
-def getToken(headers: str) -> str:
-    return headers["HTTP_AUTHORIZATION"].split()[-1]
-
-
 class EatingCategoryView(APIView):
     # permission_classes = [IsAuthenticated, ]
 
