@@ -2,9 +2,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
 import traceback
-from .models import Hike
+from .models import Hike, HikeDay
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
 
 
 def getToken(headers: str) -> str:
@@ -148,3 +147,102 @@ class HikesView(APIView):
                 f'ERROR while getting Hike\n{traceback.format_exc()}')
         finally:
             return Response(data=context)
+
+
+class HikeDayView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            print(request.data.get('hike_id'))
+            hike = Hike.objects.get(pk=request.data.get('hike_id'))
+            days = HikeDay.objects.filter(hike=hike).order_by('date').values()
+
+            context = {
+                'error': False,
+                'days': days
+            }
+        
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении дней похода'
+            }
+            logging.error(
+                f'ERROR while getting Hike Days\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+
+    
+class UpdateHikeDayView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно сохранено'}
+
+        try:
+            hike_day_id = request.data.get('id', -1)
+            hike = Hike.objects.get(pk=request.data.get('hike_id'))
+            name = request.data.get('name')
+            date = request.data.get('date')
+            description = request.data.get('description')
+
+            if hike_day_id > 0:
+                hike_day = HikeDay.objects.get(pk=hike_day_id)
+
+                if hike.user.pk == request.user.pk or request.user.is_superuser:
+                    hike_day.name = name
+                    hike_day.description = description
+                    hike_day.date = date
+                    hike_day.hike = hike
+                    hike_day.save()
+                else:
+                    res = {
+                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+            else:
+                hike_day = HikeDay(name=name, description=description,
+                            date=date, hike=hike)
+                hike_day.save()
+        except:
+            res = {
+                'error': True, 'message': 'Ошибка при добавлении похода'}
+            logging.error(
+                f'Error while adding Hike\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+
+class DeleteHikeDayView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request):
+        try:
+            hike_day_id = request.data.get('id')
+            hike_day = HikeDay.objects.get(pk=hike_day_id)
+
+            if not (request.user.is_superuser) and request.user.pk != hike_day.hike.user.pk:
+                context = {
+                    'error': True,
+                    'message': "Удалять дни похода может только создатель похода"
+                }
+            else:
+                hike_day.delete()
+                context = {
+                    'error': False,
+                    'message': "Успешно"
+                }
+        except Hike.DoesNotExist:
+            context = {
+                'error': True,
+                'message': 'Не найден день похода'
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка'
+            }
+            logging.error(
+                f'ERROR while getting DeleteHikeDayView\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+    
