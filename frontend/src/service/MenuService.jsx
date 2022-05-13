@@ -134,4 +134,82 @@ export default class MenuService {
             return data;
         });
     }
+    
+    getDayEatings(day_id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eatings/?day_id=${day_id}`;
+
+        return axios.get(url, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getDayEatings: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    updateDayEating(eating) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eatings/`;
+
+        return axios.post(url, data=eating, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in updateDayEating: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    deleteEating(eating_id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eatings/`;
+
+        return axios.delete(url, {"data": {"id": eating_id}}, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in deleteEating: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+    
+    getEatingIngredients(eating_id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eating/ingredient/?eating_id=${eating_id}`;
+
+        return axios.get(url, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getEatingIngredients: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    updateIngredient(ingredient) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eating/ingredient/`;
+
+        return axios.post(url, data=ingredient, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in updateIngredient: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
+    deleteIngredient(id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/eating/ingredient/`;
+
+        return axios.delete(url, {"data": {"id": id}}, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in deleteIngredient: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
 };

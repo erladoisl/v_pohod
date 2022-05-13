@@ -10,6 +10,7 @@ import Hikes from './Hikes/Hikes';
 import Hike from './Hikes/Hike/Hike';
 import UsersService from '../service/UsersService';
 import getCookie from '../service/util';
+import UpdateHike from './Hikes/UpdateHike/UpdateHike';
 
 
 const usersService = new UsersService();
@@ -41,6 +42,10 @@ const Context = (() => {
     },
     {
       'link': 'new-hike',
+      node: <UpdateHike />
+    },
+    {
+      'link': 'hike-view',
       node: <Hike />
     },
     {

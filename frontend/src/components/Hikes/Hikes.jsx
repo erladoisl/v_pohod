@@ -90,9 +90,9 @@ const Hikes = (() => {
                                     <p className="text-center py-3">
                                         {item.description}
                                     </p>
-                                    <NavLink to='/new-hike'
+                                    <NavLink to='/hike-view'
                                         state={{ id: item.id }}
-                                        className="w-100 btn btn-lg btn-outline-primary" >
+                                        className="w-100 m-1 btn btn-lg btn-outline-primary" >
                                         Просмотреть
                                     </NavLink>
                                 </div>

@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
 import traceback
+from hike.util import get_default_date
 from .models import Hike, HikeDay
 from rest_framework.permissions import IsAuthenticated
 
@@ -101,7 +102,6 @@ class GetHikeView(APIView):
 
     def get(self, request):
         try:
-            print(request.GET['id'])
             hike = Hike.objects.get(pk=request.GET['id'])
 
             context = {
@@ -151,8 +151,9 @@ class HikeDayView(APIView):
 
     def get(self, request):
         try:
-            print(request.data.get('hike_id'))
-            hike = Hike.objects.get(pk=request.data.get('hike_id'))
+            hike_id = request.GET['hike_id']
+            print(request.data)
+            hike = Hike.objects.get(pk=hike_id)
             days = HikeDay.objects.filter(hike=hike).order_by('date').values()
 
             context = {
@@ -180,9 +181,9 @@ class UpdateHikeDayView(APIView):
         try:
             hike_day_id = request.data.get('id', -1)
             hike = Hike.objects.get(pk=request.data.get('hike_id'))
-            name = request.data.get('name')
-            date = request.data.get('date')
-            description = request.data.get('description')
+            date = request.data.get('date', get_default_date(hike))
+            name = request.data.get('name', date.strftime("%Y-%m-%d"))
+            description = request.data.get('description', '')
 
             if hike_day_id > 0:
                 hike_day = HikeDay.objects.get(pk=hike_day_id)
@@ -214,7 +215,7 @@ class DeleteHikeDayView(APIView):
 
     def post(self, request):
         try:
-            hike_day_id = request.data.get('id')
+            hike_day_id = request.data.get('hike_id')
             hike_day = HikeDay.objects.get(pk=hike_day_id)
 
             if not (request.user.is_superuser) and request.user.pk != hike_day.hike.user.pk:

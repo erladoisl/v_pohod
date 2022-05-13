@@ -8,6 +8,9 @@ from rest_framework.authtoken.models import Token
 from menu.models import EatingCategory, Food
 from django.core import serializers
 from menu.models import Formula
+from hike.models import HikeDay
+from menu.models import Eating
+from menu.models import Ingredient
 
 
 class EatingCategoryView(APIView):
@@ -160,7 +163,7 @@ class FormulaView(APIView):
         res = {'error': False, 'message': 'Успешно'}
         try:
             name = request.data.get('name')
-            
+
             if len(Formula.objects.filter(name=name)) > 0:
                 res = {'error': True, "message": "Название не уникальное"}
             else:
@@ -193,6 +196,180 @@ class FormulaView(APIView):
         except:
             logging.error(
                 f'Error while deleting formula\n{traceback.format_exc()}')
+            res = {
+                'error': True,
+                'message': 'Ошибка'
+            }
+        finally:
+            return Response(res)
+
+
+class EatingView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            day_id = request.GET['day_id']
+            print(day_id)
+            hike_day = HikeDay.objects.get(pk=day_id)
+            eatings = Eating.objects.filter(
+                hikeDay=hike_day).order_by('number').values()
+            context = {
+                'error': False,
+                'data': eatings
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении списка приемов пищи'
+            }
+            logging.error(
+                f'ERROR while getting Eating\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно'}
+        try:
+            eating_id = request.data.get('eating_id', 0)
+            name = request.data.get('name')
+            description = request.data.get('description')
+            eating_category_id = request.data.get('eating_category_id')
+            hike_day_id = request.data.get('hike_day_id')
+            number = request.data.get('number', 1)
+            eating_category = EatingCategory.objects.get(pk=eating_category_id)
+            hike_day = HikeDay.objects.get(pk=hike_day_id)
+
+            if eating_id > 0:
+                eating = Eating.objects.get(pk=eating_id)
+
+                if eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                    eating.name = name
+                    eating.description = description
+                    eating.number = number
+                    eating.eating_category = eating_category
+                    eating.save()
+                else:
+                    res = {
+                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+            else:
+                eating = Eating(name=name, description=description, hikeDay=hike_day,
+                                number=number, eating_category=eating_category)
+                eating.save()
+        except:
+            res = {'error': True, 'message': 'Ошибка при добавлении приема пищи'}
+            logging.error(
+                f'Error while adding EatingCategory\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+    def delete(self, request, *args, **kwargs):
+        res = {
+            'error': False,
+            'message': 'Успешно удалено'
+        }
+
+        try:
+            id = request.data.get('id', '')
+            eating = Eating.objects.get(pk=id)
+            eating.delete()
+        except Food.DoesNotExist:
+            res = {
+                'error': True,
+                'message': f'Не найден элемент [{id}]'
+            }
+        except:
+            logging.error(
+                f'Error while deleting eating\n{traceback.format_exc()}')
+            res = {
+                'error': True,
+                'message': 'Ошибка'
+            }
+        finally:
+            return Response(res)
+
+
+class IngredientView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            eating_id = request.GET['eating_id']
+            print(eating_id)
+            eating = Eating.objects.get(pk=eating_id)
+            ingredients = Ingredient.objects.filter(eating=eating).values()
+            context = {
+                'error': False,
+                'data': ingredients
+            }
+        except:
+            context = {
+                'error': True,
+                'message': 'Ошибка при получении списка ингредиентов'
+            }
+            logging.error(
+                f'ERROR while getting Eating\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)
+
+
+    def post(self, request, *args, **kwargs):
+        res = {'error': False, 'message': 'Успешно'}
+
+
+        try:
+            ingredient_id = request.data.get('ingredient_id', 0)
+            eating_id = request.data.get('eating_id', 0)
+            food_id = request.data.get('food_id', 0)
+            formula_id = request.data.get('formula_id', 0)
+            comment = request.data.get('comment')
+
+            eating = Eating.objects.get(pk=eating_id)
+            food = Food.objects.get(pk=food_id)
+            formula = Formula.objects.get(pk=formula_id)
+
+            if ingredient_id > 0:
+                ingredient = Ingredient.objects.get(pk=ingredient_id)
+
+                if ingredient.eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                    ingredient.food = food
+                    ingredient.formula = formula
+                    ingredient.eating = eating
+                    ingredient.comment = comment
+                    ingredient.save()
+                else:
+                    res = {
+                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+            else:
+                ingredient = Ingredient(comment=comment, eating=eating, food=food,
+                                formula=formula)
+                ingredient.save()
+        except:
+            res = {'error': True, 'message': 'Ошибка при добавлении ингредиента'}
+            logging.error(
+                f'Error while adding Ingredient\n{traceback.format_exc()}')
+        finally:
+            return Response(res)
+
+
+    def delete(self, request, *args, **kwargs):
+        res = {
+            'error': False,
+            'message': 'Успешно удалено'
+        }
+
+        try:
+            id = request.data.get('id', '')
+            ingredient = Ingredient.objects.get(pk=id)
+            ingredient.delete()
+        except Ingredient.DoesNotExist:
+            res = {
+                'error': True,
+                'message': f'Не найден ингредиент [{id}]'
+            }
+        except:
+            logging.error(
+                f'Error while deleting ingredient\n{traceback.format_exc()}')
             res = {
                 'error': True,
                 'message': 'Ошибка'

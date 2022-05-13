@@ -75,4 +75,57 @@ export default class HikeService {
             return data;
         });
     };
+
+
+    getHikeDays(hike_id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/days/?hike_id=${hike_id}`;
+
+        return axios.get(url, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getHikes: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    updateHikeDay(hike_day) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/update/`;
+
+        return axios.post(url, data=hike_day, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in updateHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    addHikeDay(hike_day) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/new/`;
+
+        return axios.post(url, data=hike_day, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in newHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
+
+    deleteHikeDay(id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/day/delete/`;
+
+        return axios.post(url, data={id}, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in newHike: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
 };
