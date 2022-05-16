@@ -154,7 +154,6 @@ class HikeDayView(APIView):
     def get(self, request):
         try:
             hike_id = request.GET['hike_id']
-            print(request.data)
             hike = Hike.objects.get(pk=hike_id)
             days = HikeDay.objects.filter(hike=hike).order_by('date').values()
 
@@ -190,8 +189,6 @@ class UpdateHikeDayView(APIView):
             if type(day_date) == str:
                 day_date = datetime.strptime(day_date, '%Y-%m-%dT%H:%M:%S.%fZ') + relativedelta(days=1)
 
-            print(type(day_date))
-            print(day_date)
             if hike_day_id > 0:
                 hike_day = HikeDay.objects.get(pk=hike_day_id)
 

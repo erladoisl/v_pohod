@@ -17,7 +17,6 @@ const Days = ((props) => {
         };
     }, []);
 
-    console.log(days)
     const updateDaysList = (() => {
         hikeService.getHikeDays(props.hike_id).then(function (result) {
             if (result.error === false) {
@@ -56,10 +55,6 @@ const Days = ((props) => {
         </div>
     ) : '';
 
-    const startDateChange = (() => {
-        console.log("date change")
-    })
-
 
     return (
         <div className="container">
@@ -81,14 +76,14 @@ const Days = ((props) => {
                                     <div className='col-10'>
                                         <DatePicker
                                             selected={parseISO(item.date)}
-                                            onChange={((date) => updateDay({...item, date: date}))}
+                                            onChange={((date) => updateDay({ ...item, date: date }))}
                                             name="startDate"
                                             className='col-3 form-control'
-                                            style={{"background-color": "rgba(0,0,0,.03)"}}
+                                            style={{ "background-color": "rgba(0,0,0,.03)" }}
                                             dateFormat="Y-M-d"
                                         />
                                     </div>
-                                    <div className='col-1' dataTitle="Софийский собор" onClick={(() => { deleteDay(item.id) })}>
+                                    <div className='col-1' onClick={(() => { deleteDay(item.id) })}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                             <title> Добавить день </title>
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
