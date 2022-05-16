@@ -215,7 +215,7 @@ class DeleteHikeDayView(APIView):
 
     def post(self, request):
         try:
-            hike_day_id = request.data.get('hike_id')
+            hike_day_id = request.data.get('id')
             hike_day = HikeDay.objects.get(pk=hike_day_id)
 
             if not (request.user.is_superuser) and request.user.pk != hike_day.hike.user.pk:
