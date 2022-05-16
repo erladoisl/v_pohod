@@ -161,11 +161,11 @@ export default class MenuService {
         });
     }
 
-    deleteEating(eating_id) {
+    deleteEating(id) {
         let data = [];
         const url = `${API_URL}/api/hike/day/eatings/`;
 
-        return axios.delete(url, {"data": {"id": eating_id}}, getConfig()).then(response => {
+        return axios.delete(url, {"data": {"id": id}}, getConfig).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteEating: ${error}`);

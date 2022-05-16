@@ -11,6 +11,7 @@ from menu.models import Formula
 from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
+from menu.util import get_eating_category
 
 
 class EatingCategoryView(APIView):
@@ -185,7 +186,6 @@ class FormulaView(APIView):
 
         try:
             name = request.data.get('name', '')
-            print(name)
             formula = Formula.objects.get(name=name)
             formula.delete()
         except Formula.DoesNotExist:
@@ -205,12 +205,11 @@ class FormulaView(APIView):
 
 
 class EatingView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
             day_id = request.GET['day_id']
-            print(day_id)
             hike_day = HikeDay.objects.get(pk=day_id)
             eatings = Eating.objects.filter(
                 hikeDay=hike_day).order_by('number').values()
@@ -231,13 +230,13 @@ class EatingView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            eating_id = request.data.get('eating_id', 0)
-            name = request.data.get('name')
-            description = request.data.get('description')
-            eating_category_id = request.data.get('eating_category_id')
-            hike_day_id = request.data.get('hike_day_id')
+            eating_id = request.data.get('id', 0)
+            name = request.data.get('name', '')
+            description = request.data.get('description', '')
+            eating_category_id = int(request.data.get('eating_category_id', -1))
+            hike_day_id = request.data.get('hikeDay_id')
             number = request.data.get('number', 1)
-            eating_category = EatingCategory.objects.get(pk=eating_category_id)
+            eating_category = get_eating_category(eating_category_id)
             hike_day = HikeDay.objects.get(pk=hike_day_id)
 
             if eating_id > 0:
@@ -273,10 +272,10 @@ class EatingView(APIView):
             id = request.data.get('id', '')
             eating = Eating.objects.get(pk=id)
             eating.delete()
-        except Food.DoesNotExist:
+        except Eating.DoesNotExist:
             res = {
                 'error': True,
-                'message': f'Не найден элемент [{id}]'
+                'message': f'Не найден элемент Eating [{id}]'
             }
         except:
             logging.error(
@@ -295,7 +294,6 @@ class IngredientView(APIView):
     def get(self, request):
         try:
             eating_id = request.GET['eating_id']
-            print(eating_id)
             eating = Eating.objects.get(pk=eating_id)
             ingredients = Ingredient.objects.filter(eating=eating).values()
             context = {
