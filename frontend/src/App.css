@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.react-datepicker-wrapper input {
+  background-color: rgba(0,0,0,.005)!important;
+  border: none!important;
+}
+
 .card {
   background-color: rgba(1, 1, 1, 0.1)
 }

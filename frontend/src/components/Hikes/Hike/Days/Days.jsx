@@ -79,7 +79,6 @@ const Days = ((props) => {
                                             onChange={((date) => updateDay({ ...item, date: date }))}
                                             name="startDate"
                                             className='col-3 form-control'
-                                            style={{ "background-color": "rgba(0,0,0,.03)" }}
                                             dateFormat="Y-M-d"
                                         />
                                     </div>
