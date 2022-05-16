@@ -18,6 +18,10 @@ const Eatings = ((props) => {
         };
     }, []);
 
+    useEffect(() => {
+        updateEatingList();
+    }, [props.day_id]);
+
 
     const udateCategories = (() => {
         menuService.getEatingCategories().then(function (result) {
