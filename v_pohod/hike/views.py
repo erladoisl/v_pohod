@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
@@ -5,6 +6,7 @@ import traceback
 from hike.util import get_default_date
 from .models import Hike, HikeDay
 from rest_framework.permissions import IsAuthenticated
+from dateutil.relativedelta import relativedelta
 
 
 class DeleteHikeView(APIView):
@@ -181,17 +183,22 @@ class UpdateHikeDayView(APIView):
         try:
             hike_day_id = request.data.get('id', -1)
             hike = Hike.objects.get(pk=request.data.get('hike_id'))
-            date = request.data.get('date', get_default_date(hike))
-            name = request.data.get('name', date.strftime("%Y-%m-%d"))
+            day_date = request.data.get('date', get_default_date(hike))
+            name = request.data.get('name', 'без имени')
             description = request.data.get('description', '')
 
+            if type(day_date) == str:
+                day_date = datetime.strptime(day_date, '%Y-%m-%dT%H:%M:%S.%fZ') + relativedelta(days=1)
+
+            print(type(day_date))
+            print(day_date)
             if hike_day_id > 0:
                 hike_day = HikeDay.objects.get(pk=hike_day_id)
 
                 if hike.user.pk == request.user.pk or request.user.is_superuser:
                     hike_day.name = name
                     hike_day.description = description
-                    hike_day.date = date
+                    hike_day.date = day_date
                     hike_day.hike = hike
                     hike_day.save()
                 else:
@@ -199,7 +206,7 @@ class UpdateHikeDayView(APIView):
                         'error': True, 'message': 'Нельзя редактировать чужие походы'}
             else:
                 hike_day = HikeDay(name=name, description=description,
-                            date=date, hike=hike)
+                            date=day_date, hike=hike)
                 hike_day.save()
         except:
             res = {
