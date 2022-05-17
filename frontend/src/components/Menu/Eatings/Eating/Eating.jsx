@@ -27,7 +27,8 @@ const Eating = ((props) => {
         <>
             <input type="text" className="form-control bg-light border-0" value={eating.name}
                 onChange={((e) => { set_eating({ ...eating, name: e.target.value }) })}
-                onBlur={(() => { updateEating() })} />
+                onBlur={(() => { updateEating() })} 
+                placeholder='Название...'/>
             <span className="input-group-text bg-light border-0" id="basic-addon2">
                 <div className="btn-group">
                     <select className="form-select bg-light btn-sm px-4 border-0"

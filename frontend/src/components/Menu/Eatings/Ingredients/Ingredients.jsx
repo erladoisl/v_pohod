@@ -85,7 +85,7 @@ const Ingredients = ((props) => {
 
     const empty_result_html = ingredients.length === 0 ? (
         <div className="alert alert-info w-100" role="alert">
-            Не найдено
+            Нет ингредиентов
         </div>
     ) : '';
 
@@ -93,6 +93,7 @@ const Ingredients = ((props) => {
     return (
         <div>
             <ul className="list-group list-group-flush">
+                {empty_result_html}
                 {ingredients.map((ingredient) => {
                     return (
                         <li className="list-group-item d-flex justify-content-between m-0 p-0" key={ingredient.id}>
@@ -110,12 +111,14 @@ const Ingredients = ((props) => {
                 })}
             </ul>
 
-            <div className='col-1 m-2' onClick={(() => { updateIngredient({ eating_id: props.eating_id }) })}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 16 16">
+            <div className='text-start m-2'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-circle mx-1" viewBox="0 0 16 16" style={{ cursor: 'pointer' }}
+                    onClick={(() => { updateIngredient({ eating_id: props.eating_id }) })}>
                     <title> Добавить ингредиент </title>
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                 </svg>
+                ингредиент
             </div>
         </div>
     );

@@ -62,7 +62,7 @@ const Hikes = (() => {
                 </div>
             </section>
 
-            <div className="form-check">
+            <div className="form-check text-start">
                 <input type="checkbox" checked={only_my_hikes} onChange={(() => { set_only_my_hikes(!only_my_hikes) })} className="form-check-input" id="same-address" />
                 <label className="form-check-label" htmlFor="same-address">Показывать только мои походы</label>
             </div>
