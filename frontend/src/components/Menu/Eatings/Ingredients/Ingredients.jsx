@@ -13,9 +13,7 @@ const Ingredients = ((props) => {
     const [ingredients, set_ingredients] = useState([]);
 
     useEffect(() => {
-        if (ingredients.length === 0) {
-            updateIngredients();
-        };
+        updateIngredients();
     }, []);
 
 
@@ -93,7 +91,7 @@ const Ingredients = ((props) => {
                                     )
                                 })}
                             </select>
-                            
+
                             <select class="form-select  btn-sm text-wrap px-3 border-start-0 rounded-0" aria-label="Default select example">
                                 {state.menu.hasOwnProperty("formula") && state.menu.formula.map((formula) => {
                                     return (

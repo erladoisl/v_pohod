@@ -3,6 +3,7 @@ import MenuService from '../../../service/MenuService';
 import React from 'react';
 import { useEffect, useState } from "react";
 import Ingredients from "./Ingredients/Ingredients";
+import Eating from "./Eating/Eating";
 
 
 const menuService = new MenuService();
@@ -11,12 +12,6 @@ const menuService = new MenuService();
 const Eatings = ((props) => {
     const [state, dispatch] = React.useContext(Context);
     const [eatings, set_eatings] = useState([]);
-
-    useEffect(() => {
-        if (eatings.length === 0) {
-            updateEatingList();
-        };
-    }, []);
 
     useEffect(() => {
         updateEatingList();
@@ -83,40 +78,27 @@ const Eatings = ((props) => {
         <div className="row">
             {empty_result_html}
 
-            {eatings.map((eating, i) => {
-                return (
-                    <div className='card p-0 m-1' key={i}>
+            {eatings.map((eating) => {
+                return (<div className='card p-0 m-1' key={eating.id}>
 
-                        <div className="eating card-header d-flex justify-content-between  bg-light p-0">
-                            <div className="input-group m-0">
-                                <input type="text" className="form-control bg-light border-0" value={eating.name} onChange={((e) => { updateEating({ ...eating, name: e.target.value }) })} />
-                                <span className="input-group-text bg-light border-0" id="basic-addon2">
-                                    <div className="btn-group">
+                    <div className="eating card-header d-flex justify-content-between  bg-light p-0">
+                        <div className="input-group m-0">
+                            < Eating eating={eating} day_id={props.day_id} key={eating.id} />
 
-                                        <select className="form-select bg-light btn-sm px-4 border-0" defaultValue={eating.eating_category_id} onChange={((event) => { updateEating({ ...eating, eating_category_id: event.target.value }) })}>
-                                            {state.menu.hasOwnProperty("eatingCategories") && state.menu.eatingCategories.map((category, i) => {
-                                                return (
-                                                    <option key={i} value={category.pk}>{category.fields.name}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                </span>
-
-                                <div className='col-1' onClick={(() => { deleteEating(eating.id) })}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash my-3" viewBox="0 0 16 16">
-                                        <title> Удалить прием пищи </title>
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                        <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                    </svg>
-                                </div>
+                            <div className='col-1' onClick={(() => { deleteEating(eating.id) })}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash my-3" viewBox="0 0 16 16">
+                                    <title> Удалить прием пищи </title>
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
                             </div>
                         </div>
-
-                        <ul className="list-group list-group-flush">
-                            <Ingredients eating_id={eating.id} />
-                        </ul>
                     </div>
+
+                    <ul className="list-group list-group-flush">
+                        <Ingredients eating_id={eating.id} />
+                    </ul>
+                </div>
                 )
             })}
 
