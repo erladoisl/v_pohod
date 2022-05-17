@@ -75,7 +75,7 @@ const Eatings = ((props) => {
 
 
     return (
-        <div className="row">
+        <div className="row h-100">
             {empty_result_html}
 
             {eatings.map((eating) => {
@@ -100,7 +100,7 @@ const Eatings = ((props) => {
                 )
             })}
 
-            <div className='text-start'>
+            <div className='text-start align-self-end'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-circle mx-1" viewBox="0 0 16 16" style={{ cursor: 'pointer' }}
                     onClick={(() => { updateEating({ hikeDay_id: props.day_id }) })}>
                     <title> Добавить прием пищи </title>

@@ -58,7 +58,7 @@ const Ingredient = ((props) => {
 
     return (
         <>
-            <select className="form-select btn-sm text-wrap px-3 rounded-0" aria-label="Default select example"
+            <select className="form-select btn-sm text-wrap px-3 border-0 rounded-0" aria-label="Default select example"
                 defaultValue={parseInt(ingredient.food_id)}
                 onChange={((event) => { set_ingredient({ ...ingredient, food_id: event.target.value }) })}
                 onBlur={(() => { updateIngredient() })} >
@@ -70,7 +70,7 @@ const Ingredient = ((props) => {
                 })}
             </select>
 
-            <select className="form-select  btn-sm text-wrap px-3 border-start-0 rounded-0" aria-label="Default select example"
+            <select className="form-select  btn-sm text-wrap px-3 border-0 rounded-0" aria-label="Default select example"
                 defaultValue={parseInt(ingredient.formula_id)}
                 onChange={((event) => { set_ingredient({ ...ingredient, formula_id: event.target.value }) })}
                 onBlur={(() => { updateIngredient() })}>
