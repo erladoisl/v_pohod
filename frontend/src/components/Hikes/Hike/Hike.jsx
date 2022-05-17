@@ -27,6 +27,10 @@ const Hike = (() => {
         }));
     };
 
+    const download_menu = (() => {
+        alert('Еще не рализовано');
+    });
+
 
     return (
         <div className="container pt-5">
@@ -43,6 +47,14 @@ const Hike = (() => {
                     Количество участников:
                     {form_data.participant_count}
                 </div>
+            </div>
+
+            <br />
+
+            <div className='text-start'>
+                <button onClick={(() => { download_menu() })} className="btn btn-primary">
+                    Загрузить раскладку
+                </button>
             </div>
 
             <br />
