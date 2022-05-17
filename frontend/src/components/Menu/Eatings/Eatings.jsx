@@ -69,7 +69,7 @@ const Eatings = ((props) => {
 
     const empty_result_html = eatings.length === 0 ? (
         <div className="alert alert-info w-100" role="alert">
-            Не найдено
+            Нет приемов пищи
         </div>
     ) : '';
 
