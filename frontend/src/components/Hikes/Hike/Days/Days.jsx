@@ -78,7 +78,7 @@ const Days = ((props) => {
 
                 {days.map((item, i) => {
                     return (
-                        <div className='p-1'>
+                        <div className='p-1' key={item.id}>
                             <div className='card p-0 h-100' key={i}>
                                 <div className="card-header">
                                     <div className='row'>
