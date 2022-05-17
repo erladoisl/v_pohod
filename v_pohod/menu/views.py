@@ -11,7 +11,7 @@ from menu.models import Formula
 from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
-from menu.util import get_eating_category
+from .util import get_eating_category, get_formula, get_food
 
 
 class EatingCategoryView(APIView):
@@ -289,7 +289,7 @@ class EatingView(APIView):
 
 
 class IngredientView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
@@ -316,15 +316,15 @@ class IngredientView(APIView):
 
 
         try:
-            ingredient_id = request.data.get('ingredient_id', 0)
-            eating_id = request.data.get('eating_id', 0)
-            food_id = request.data.get('food_id', 0)
-            formula_id = request.data.get('formula_id', 0)
-            comment = request.data.get('comment')
+            ingredient_id = request.data.get('id', 0)
+            eating_id = int(request.data.get('eating_id', 0))
+            food_id = int(request.data.get('food_id', 0))
+            formula_id = int(request.data.get('formula_id', 0))
+            comment = request.data.get('comment', '')
 
             eating = Eating.objects.get(pk=eating_id)
-            food = Food.objects.get(pk=food_id)
-            formula = Formula.objects.get(pk=formula_id)
+            food = get_food(food_id)
+            formula = get_formula(formula_id)
 
             if ingredient_id > 0:
                 ingredient = Ingredient.objects.get(pk=ingredient_id)
