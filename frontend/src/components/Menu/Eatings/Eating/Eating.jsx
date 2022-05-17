@@ -15,6 +15,7 @@ const Eating = ((props) => {
     const updateEating = (() => {
         menuService.updateDayEating(eating).then(function (result) {
             if (result.error === false) {
+                console.log('Update Eating. Success', result);
             } else {
                 console.log(result);
             }
@@ -29,7 +30,6 @@ const Eating = ((props) => {
                 onBlur={(() => { updateEating() })} />
             <span className="input-group-text bg-light border-0" id="basic-addon2">
                 <div className="btn-group">
-
                     <select className="form-select bg-light btn-sm px-4 border-0"
                         defaultValue={parseInt(eating.eating_category_id)}
                         onChange={((event) => { set_eating({ ...eating, eating_category_id: event.target.value }) })}

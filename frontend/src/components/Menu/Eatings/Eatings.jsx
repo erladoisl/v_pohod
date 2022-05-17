@@ -95,9 +95,7 @@ const Eatings = ((props) => {
                         </div>
                     </div>
 
-                    <ul className="list-group list-group-flush">
-                        <Ingredients eating_id={eating.id} />
-                    </ul>
+                    <Ingredients eating_id={eating.id} />
                 </div>
                 )
             })}
