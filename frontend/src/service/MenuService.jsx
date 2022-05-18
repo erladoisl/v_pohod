@@ -23,21 +23,6 @@ export default class MenuService {
         });
     }
 
-    addEatingCategory(name) {
-        let data = [];
-        const url = `${API_URL}/api/eating-category/`;
-
-        return axios.post(url, data = {
-            "name": name
-        }).then(response => {
-            data = response.data;
-        }).catch(error => {
-            console.log(`ERROR in addEatingCategory: ${error}`);
-        }).then(() => {
-            return data;
-        });
-    }
-
     updateEatingCategory(eating_category) {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
@@ -77,14 +62,11 @@ export default class MenuService {
         });
     }
 
-    addFood(name, amount_per_person) {
+    updateFood(food) {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
-        return axios.post(url, data = {
-            "name": name,
-            "amount_per_person": amount_per_person
-        }, getConfig()).then(response => {
+        return axios.post(url, data = food, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addFood: ${error}`);

@@ -47,7 +47,7 @@ class EatingCategoryView(APIView):
                     eating_category = EatingCategory.objects.get(
                         pk=eating_category_id)
                     if eating_category.name == name:
-                        res = {'error': False, 'message': ''} # Нет изменений'}
+                        res = {'error': False, 'message': ''}
                     else:
                         eating_category.name = name
                         eating_category.save()
@@ -113,13 +113,26 @@ class FoodView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            name = request.data.get('name')
-            if len(Food.objects.filter(name=name)) > 0:
+            food_id = request.data.get('id', -1)
+            name = request.data.get('name', '')
+            amount_per_person = request.data.get('amount_per_person', 0)
+
+            if len(Food.objects.filter(name=name)) > 0 and Food.objects.filter(name=name)[0].pk != food_id:
                 res = {'error': True, "message": "Название не уникальное"}
             else:
-                amount_per_person = request.data.get('amount_per_person')
-                newFood = Food(name=name, amount_per_person=amount_per_person)
-                newFood.save()
+                if food_id > 0:
+                    food = Food.objects.get(pk=food_id)
+                    if food.name == name and food.amount_per_person == amount_per_person:
+                        res = {'error': False, 'message': ''}
+                    else:
+                        food.name = name
+                        food.amount_per_person = amount_per_person
+                        food.save()
+                        res = {'error': False, 'message': 'Изменения сохранены'}
+                else:
+                    food = Food(name=name, amount_per_person=amount_per_person)
+                    food.save()
+                    res = {'error': False, 'message': 'Успешно добавлен продукт'}
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении объекта продукт'}
             logging.error(
