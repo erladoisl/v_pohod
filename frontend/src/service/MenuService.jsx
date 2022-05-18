@@ -38,6 +38,19 @@ export default class MenuService {
         });
     }
 
+    updateEatingCategory(eating_category) {
+        let data = [];
+        const url = `${API_URL}/api/eating-category/`;
+
+        return axios.post(url, data = eating_category).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in addEatingCategory: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    }
+
     deleteEatingCategory(name) {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;

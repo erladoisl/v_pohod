@@ -1,4 +1,4 @@
-import EatingCategory from "./EatingCategory/EatingCategory";
+import EatingCategories from "./EatingCategories/EatingCategories";
 import Food from "./Food/Food";
 import Formula from "./Formula/Formula";
 
@@ -19,7 +19,7 @@ const Dictionary = (() => {
                 </div>
             </section>
             <div className="row">
-                <EatingCategory />
+                <EatingCategories />
                 <Food />
                 <Formula />
             </div>

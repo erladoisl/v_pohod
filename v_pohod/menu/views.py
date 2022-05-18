@@ -37,15 +37,28 @@ class EatingCategoryView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
+            eating_category_id = request.data.get('id', -1)
             name = request.data.get('name')
-            if len(EatingCategory.objects.filter(name=name)) > 0:
+
+            if len(EatingCategory.objects.filter(name=name)) > 0 and EatingCategory.objects.filter(name=name)[0].pk != eating_category_id:
                 res = {'error': True, "message": "Название не уникальное"}
             else:
-                newEC = EatingCategory(name=name)
-                newEC.save()
+                if eating_category_id > 0:
+                    eating_category = EatingCategory.objects.get(
+                        pk=eating_category_id)
+                    if eating_category.name == name:
+                        res = {'error': False, 'message': ''} # Нет изменений'}
+                    else:
+                        eating_category.name = name
+                        eating_category.save()
+                        res = {'error': False, 'message': 'Изменения сохранены'}
+                else:
+                    eating_category = EatingCategory(name=name)
+                    eating_category.save()
+                    res = {'error': False, 'message': 'Успешно добавлен тип'}
         except:
             res = {
-                'error': True, 'message': 'Ошибка при добавлении объекта категория приема пищи'}
+                'error': True, 'message': 'Ошибка при изменении объекта категория приема пищи'}
             logging.error(
                 f'Error while adding EatingCategory\n{traceback.format_exc()}')
         finally:
@@ -71,7 +84,7 @@ class EatingCategoryView(APIView):
                 f'Error while deleting eating category\n{traceback.format_exc()}')
             res = {
                 'error': True,
-                'message': 'Ошибка'
+                'message': 'Ошибка при удалении. Попробуйте чуть позже...'
             }
         finally:
             return Response(res)
@@ -233,7 +246,8 @@ class EatingView(APIView):
             eating_id = request.data.get('id', 0)
             name = request.data.get('name', '')
             description = request.data.get('description', '')
-            eating_category_id = int(request.data.get('eating_category_id', -1))
+            eating_category_id = int(
+                request.data.get('eating_category_id', -1))
             hike_day_id = request.data.get('hikeDay_id')
             number = request.data.get('number', 1)
             eating_category = get_eating_category(eating_category_id)
@@ -310,10 +324,8 @@ class IngredientView(APIView):
         finally:
             return Response(data=context)
 
-
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
-
 
         try:
             ingredient_id = request.data.get('id', 0)
@@ -340,7 +352,7 @@ class IngredientView(APIView):
                         'error': True, 'message': 'Нельзя редактировать чужие походы'}
             else:
                 ingredient = Ingredient(comment=comment, eating=eating, food=food,
-                                formula=formula)
+                                        formula=formula)
                 ingredient.save()
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении ингредиента'}
@@ -348,7 +360,6 @@ class IngredientView(APIView):
                 f'Error while adding Ingredient\n{traceback.format_exc()}')
         finally:
             return Response(res)
-
 
     def delete(self, request, *args, **kwargs):
         res = {
