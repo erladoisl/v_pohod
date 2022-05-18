@@ -1,17 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.paginator import Paginator
 import logging
 import traceback
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
 from menu.models import EatingCategory, Food
 from django.core import serializers
 from menu.models import Formula
 from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
-from .util import get_eating_category, get_formula, get_food
+from .util import add_amount_ingredient, get_eating_category, get_formula, get_food
 
 
 class EatingCategoryView(APIView):
@@ -334,10 +331,11 @@ class IngredientView(APIView):
         try:
             eating_id = request.GET['eating_id']
             eating = Eating.objects.get(pk=eating_id)
-            ingredients = Ingredient.objects.filter(eating=eating).values()
+            ingredients = Ingredient.objects.filter(eating=eating)
+            ingredients_with_amount = add_amount_ingredient(ingredients)
             context = {
                 'error': False,
-                'data': ingredients
+                'data': ingredients_with_amount
             }
         except:
             context = {

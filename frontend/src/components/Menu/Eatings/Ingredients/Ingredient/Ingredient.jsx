@@ -80,6 +80,7 @@ const Ingredient = ((props) => {
                     )
                 })}
             </select>
+            <input type="text" className="btn-sm form-control w-25" value={ingredient.amount} disabled></input>
         </>
     );
 });
