@@ -8,6 +8,8 @@ const menuService = new MenuService();
 
 const Formula = (() => {
     const [state, dispatch] = React.useContext(Context);
+    const [changed, set_changed] = React.useState(false)
+    const [messageHTML, setMessageHTML] = React.useState('');
     const [formData, setFormData] = React.useState({
         name: '',
         value: ''
@@ -16,9 +18,9 @@ const Formula = (() => {
 
     const addFormulaSubmit = ((e) => {
         e.preventDefault();
-        menuService.addFormula(formData.name, formData.value).then(function (result) {
+        menuService.updateFormula({name: formData.name, value: formData.value}).then(function (result) {
             if (result.error === false) {
-                updateFormula();
+                updateFormulaList();
                 setFormData({
                     name: '',
                     value: 0
@@ -33,15 +35,14 @@ const Formula = (() => {
     const deleteFormula = ((name) => {
         menuService.deleteFormula(name).then(function (result) {
             if (result.error === false) {
-                updateFormula();
-            } else {
-                console.log(result);
-            };
+                updateFormulaList();
+            }
+            setMessageHTML(getMessageHTML(result))
         });
     });
 
 
-    const updateFormula = (() => {
+    const updateFormulaList = (() => {
         menuService.getFormula().then(function (result) {
             if (result.error === false) {
                 dispatch({ 'type': 'update_formula', 'formula': JSON.parse(result.data) });
@@ -51,10 +52,32 @@ const Formula = (() => {
         });
     });
 
+    const updateFormula = ((formula) => {
+        menuService.updateFormula(formula).then(function (result) {
+            if (result.error === false) {
+                updateFormulaList()
+            }
+            setMessageHTML(getMessageHTML(result))
+        });
+    });
+
 
     if (!state.menu.hasOwnProperty("formula")) {
-        updateFormula();
+        updateFormulaList();
     };
+
+
+    const getMessageHTML = ((response) => {
+        if (response.error || response.message !== '') {
+            return (
+                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
+                    {response.message}
+                </div>
+            );
+        } else {
+            return '';
+        };
+    });
 
 
     return (
@@ -82,16 +105,51 @@ const Formula = (() => {
                     </div>
                 </div>
             </section>
+            {messageHTML}
             <ul className="list-group mb-3">
 
-                {state.menu.hasOwnProperty("formula") && state.menu.formula.map((food, i) => {
+                {state.menu.hasOwnProperty("formula") && state.menu.formula.map((formula, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
-                            <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code" disabled />
+                            <input type="text" className="form-control" value={formula.fields.name} placeholder="Название формулы" 
+                                onChange={((e) => {
+                                    if (state.menu.formula[i].fields.name !== e.target.value) {
+                                        state.menu.formula[i].fields.name = e.target.value;
+                                        dispatch({ 'type': 'update_formula', 'formula': state.menu.formula });
+                                        set_changed(true)
+                                    }
+                                })}
+                                onBlur={(() => {
+                                    if (changed) {
+                                        updateFormula({
+                                            id: state.menu.formula[i].pk,
+                                            name: state.menu.formula[i].fields.name,
+                                            amount_per_person: state.menu.formula[i].fields.amount_per_person
+                                        })
+                                    }
+                                    set_changed(false)
+                                })}  />
 
-                            <input type="text" className="form-control" value={food.fields.value} placeholder="Promo code" disabled />
+                            <input type="text" className="form-control" value={formula.fields.value} placeholder="0" 
+                                onChange={((e) => {
+                                    if (state.menu.formula[i].fields.value !== e.target.value) {
+                                        state.menu.formula[i].fields.value = e.target.value;
+                                        dispatch({ 'type': 'update_formula', 'formula': state.menu.formula });
+                                        set_changed(true)
+                                    }
+                                })}
+                                onBlur={(() => {
+                                    if (changed) {
+                                        updateFormula({
+                                            id: state.menu.formula[i].pk,
+                                            name: state.menu.formula[i].fields.name,
+                                            value: state.menu.formula[i].fields.value
+                                        })
+                                    }
+                                    set_changed(false)
+                                })}  />
 
-                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFormula(food.fields.name) }}>X</button>
+                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFormula(formula.fields.name) }}>X</button>
                         </div>
                     )
                 })}

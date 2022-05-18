@@ -4,8 +4,12 @@ import getCookie from './util';
 
 
 const getConfig = (() => {
-    return {headers: {"Authorization": `Token ${getCookie('token')}`,
-        "Content-Type": "application/json"}};
+    return {
+        headers: {
+            "Authorization": `Token ${getCookie('token')}`,
+            "Content-Type": "application/json"
+        }
+    };
 });
 
 
@@ -40,7 +44,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
-        return axios.delete(url, {"data": {"name": name}}).then(response => {
+        return axios.delete(url, { "data": { "name": name } }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteEatingCategory: ${error}`);
@@ -79,7 +83,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
-        return axios.delete(url, {"data": {"name": name}}).then(response => {
+        return axios.delete(url, { "data": { "name": name } }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteFood: ${error}`);
@@ -101,14 +105,11 @@ export default class MenuService {
         });
     }
 
-    addFormula(name, value) {
+    updateFormula(formula) {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 
-        return axios.post(url, data = {
-            "name": name,
-            "value": value
-        }, getConfig()).then(response => {
+        return axios.post(url, data = formula, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addFood: ${error}`);
@@ -121,7 +122,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 
-        return axios.delete(url, {"data": {"name": name}}).then(response => {
+        return axios.delete(url, { "data": { "name": name } }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteFormula: ${error}`);
@@ -129,7 +130,7 @@ export default class MenuService {
             return data;
         });
     }
-    
+
     getDayEatings(day_id) {
         let data = [];
         const url = `${API_URL}/api/hike/day/eatings/?day_id=${day_id}`;
@@ -147,7 +148,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eatings/`;
 
-        return axios.post(url, data=eating, getConfig()).then(response => {
+        return axios.post(url, data = eating, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in updateDayEating: ${error}`);
@@ -160,7 +161,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eatings/`;
 
-        return axios.delete(url, {"data": {"id": id}}, getConfig).then(response => {
+        return axios.delete(url, { "data": { "id": id } }, getConfig).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteEating: ${error}`);
@@ -168,7 +169,7 @@ export default class MenuService {
             return data;
         });
     }
-    
+
     getEatingIngredients(eating_id) {
         let data = [];
         const url = `${API_URL}/api/hike/day/eating/ingredient/?eating_id=${eating_id}`;
@@ -186,7 +187,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eating/ingredient/`;
 
-        return axios.post(url, data=ingredient, getConfig()).then(response => {
+        return axios.post(url, data = ingredient, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in updateIngredient: ${error}`);
@@ -199,7 +200,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eating/ingredient/`;
 
-        return axios.delete(url, {"data": {"id": id}}, getConfig()).then(response => {
+        return axios.delete(url, { "data": { "id": id } }, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteIngredient: ${error}`);

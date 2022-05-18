@@ -189,14 +189,26 @@ class FormulaView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            name = request.data.get('name')
+            formula_id = request.data.get('id', -1)
+            name = request.data.get('name', '')
+            value = request.data.get('value', '')
 
-            if len(Formula.objects.filter(name=name)) > 0:
+            if len(Formula.objects.filter(name=name)) > 0 and Formula.objects.filter(name=name)[0].pk != formula_id:
                 res = {'error': True, "message": "Название не уникальное"}
             else:
-                value = request.data.get('value')
-                newFormula = Formula(name=name, value=value)
-                newFormula.save()
+                if formula_id > 0:
+                    formula = Formula.objects.get(pk=formula_id)
+                    if formula.name == name and formula.value == value:
+                        res = {'error': False, 'message': ''}
+                    else:
+                        formula.name = name
+                        formula.value = value
+                        formula.save()
+                        res = {'error': False, 'message': 'Изменения сохранены'}
+                else:
+                    newFormula = Formula(name=name, value=value)
+                    newFormula.save()
+                    res = {'error': False, 'message': 'Успешно добавлена формула'}
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении объекта формула'}
             logging.error(
