@@ -25,9 +25,6 @@ SECRET_KEY = 's)u1=7cv4bq1#w(rrl503#$uvkick55@!cm3vuip+l=e*d_9fo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
-
-
 # Application definition
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 INSTALLED_APPS = [
@@ -48,7 +45,6 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.permissions.IsAuthenticated',
     ]
 }
 
@@ -63,7 +59,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 LOGIN_REDIRECT_URL = '/'
-# FIXTURE_DIRS = ('v_pohod/fixtures')
 LOGIN_URL = '/accounts/login/'
 ROOT_URLCONF = 'v_pohod.urls'
 
@@ -141,17 +136,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000"
-    ]
-
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
