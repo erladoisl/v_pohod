@@ -1,5 +1,4 @@
-[
-    {
+[{
         "model": "menu.eatingcategory",
         "pk": 1,
         "fields": {
@@ -31,7 +30,7 @@
         "model": "menu.food",
         "pk": 1,
         "fields": {
-            "name": "гречка(гр/чел)",
+            "name": "гречка",
             "amount_per_person": 70.0
         }
     },
@@ -39,7 +38,7 @@
         "model": "menu.food",
         "pk": 2,
         "fields": {
-            "name": "рис(гр/чел)",
+            "name": "рис",
             "amount_per_person": 70.0
         }
     },
@@ -47,7 +46,7 @@
         "model": "menu.food",
         "pk": 3,
         "fields": {
-            "name": "макароны(гр/чел)",
+            "name": "макароны",
             "amount_per_person": 90.0
         }
     },
@@ -55,7 +54,7 @@
         "model": "menu.food",
         "pk": 4,
         "fields": {
-            "name": "сгущеное молоко(гр/чел)",
+            "name": "сгущеное молоко",
             "amount_per_person": 30.0
         }
     },
@@ -63,7 +62,7 @@
         "model": "menu.food",
         "pk": 5,
         "fields": {
-            "name": "заправка для борща(гр/чел)",
+            "name": "заправка для борща",
             "amount_per_person": 30.0
         }
     },
@@ -79,7 +78,7 @@
         "model": "menu.food",
         "pk": 7,
         "fields": {
-            "name": "соль(гр. в день/чел)",
+            "name": "соль",
             "amount_per_person": 0
         }
     },
@@ -87,7 +86,7 @@
         "model": "menu.food",
         "pk": 8,
         "fields": {
-            "name": "сахар(гр. в день/чел)",
+            "name": "сахар",
             "amount_per_person": 0
         }
     },
@@ -95,7 +94,7 @@
         "model": "menu.food",
         "pk": 9,
         "fields": {
-            "name": "капуста(гр)",
+            "name": "капуста",
             "amount_per_person": 30
         }
     },
@@ -103,7 +102,7 @@
         "model": "menu.food",
         "pk": 10,
         "fields": {
-            "name": "картофель(гр)",
+            "name": "картофель",
             "amount_per_person": 30
         }
     },
@@ -111,7 +110,7 @@
         "model": "menu.food",
         "pk": 11,
         "fields": {
-            "name": "морковь(гр)",
+            "name": "морковь",
             "amount_per_person": 30
         }
     },
@@ -119,7 +118,7 @@
         "model": "menu.food",
         "pk": 12,
         "fields": {
-            "name": "лук(гр)",
+            "name": "лук",
             "amount_per_person": 5.0
         }
     },
@@ -135,7 +134,7 @@
         "model": "menu.food",
         "pk": 14,
         "fields": {
-            "name": "чай(гр. в день/чел)",
+            "name": "чай",
             "amount_per_person": 5.0
         }
     },
