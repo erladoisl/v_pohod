@@ -12,17 +12,19 @@ const Food = (() => {
     const [messageHTML, setMessageHTML] = React.useState('');
     const [formData, setFormData] = React.useState({
         name: '',
-        amount_per_person: 0
+        amount_per_person: 0,
+        unit: 'гр.'
     });
 
     const addFoodSubmit = ((e) => {
         e.preventDefault();
-        menuService.updateFood({ name: formData.name, amount_per_person: formData.amount_per_person }).then(function (result) {
+        menuService.updateFood(formData).then(function (result) {
             if (result.error === false) {
                 updateFoodList();
                 setFormData({
                     name: '',
-                    amount_per_person: 0
+                    amount_per_person: 0,
+                    unit: 'гр.'
                 });
             }
             setMessageHTML(getMessageHTML(result))
@@ -103,7 +105,7 @@ const Food = (() => {
                                     set_changed(false)
                                 })} />
 
-                            <input type="text" className="form-control" value={food.fields.amount_per_person} placeholder="Promo code"
+                            <input type="text" className="form-control" value={food.fields.amount_per_person} placeholder="0"
                                 onChange={((e) => {
                                     if (state.menu.food[i].fields.amount_per_person !== e.target.value) {
                                         state.menu.food[i].fields.amount_per_person = e.target.value;
@@ -122,6 +124,26 @@ const Food = (() => {
                                     set_changed(false)
                                 })} />
 
+                            <input type="text" className="form-control" value={food.fields.unit} placeholder="гр."
+                                onChange={((e) => {
+                                    if (state.menu.food[i].fields.unit !== e.target.value) {
+                                        state.menu.food[i].fields.unit = e.target.value;
+                                        dispatch({ 'type': 'update_food', 'food': state.menu.food });
+                                        set_changed(true)
+                                    }
+                                })}
+                                onBlur={(() => {
+                                    if (changed) {
+                                        updateFood({
+                                            id: state.menu.food[i].pk,
+                                            name: state.menu.food[i].fields.name,
+                                            amount_per_person: state.menu.food[i].fields.amount_per_person,
+                                            unit: state.menu.food[i].fields.unit
+                                        })
+                                    }
+                                    set_changed(false)
+                                })} />
+
                             <button type="submit" className="btn btn-danger" onClick={() => { deleteFood(food.fields.name) }}>X</button>
                         </div>
                     )
@@ -131,8 +153,8 @@ const Food = (() => {
             <form className="card p-2" onSubmit={addFoodSubmit}>
                 <div className="input-group">
                     <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="form-control" placeholder="Продукт" required />
-
                     <input type="text" value={formData.amount_per_person} onChange={(e) => setFormData({ ...formData, amount_per_person: e.target.value })} className="form-control" required />
+                    <input type="text" className="form-control" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} placeholder="гр." />
 
                     <button type="submit" className="btn btn-secondary">Добавить</button>
                 </div>

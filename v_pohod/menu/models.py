@@ -38,6 +38,7 @@ class Eating(models.Model):
 class Food(models.Model):
     name = models.CharField('food_name', max_length=250)
     amount_per_person = models.FloatField('participant_count')
+    unit = models.CharField('unit', max_length=50, default='гр.') # единица изменения
     
     def __str__(self):
         return self.name

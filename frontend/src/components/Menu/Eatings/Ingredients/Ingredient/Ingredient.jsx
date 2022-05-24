@@ -56,9 +56,23 @@ const Ingredient = ((props) => {
     });
 
 
+    const get_unit = ((food_id) => {
+        let unit = 'гр.'
+
+        for (let i = 0; i < state.menu.food.length; i++) {
+            if (parseInt(state.menu.food[i].pk) == parseInt(ingredient.food_id)) {
+                unit = state.menu.food[i].fields.unit
+                console.log(42)
+            }
+        }
+
+        return unit
+    });
+
+
     return (
         <>
-            <select className="form-select btn-sm text-wrap px-3 border-0 rounded-0" aria-label="Default select example"
+            <select className="form-select btn-sm text-wrap px-3 border-0 rounded-0" aria-label="food_id"
                 defaultValue={parseInt(ingredient.food_id)}
                 onChange={((event) => { set_ingredient({ ...ingredient, food_id: event.target.value }) })}
                 onBlur={(() => { updateIngredient() })} >
@@ -70,7 +84,7 @@ const Ingredient = ((props) => {
                 })}
             </select>
 
-            <select className="form-select  btn-sm text-wrap px-3 border-0 rounded-0" aria-label="Default select example"
+            <select className="form-select  btn-sm px-3 text-wrap border-0 rounded-0" aria-label="Default select example"
                 defaultValue={parseInt(ingredient.formula_id)}
                 onChange={((event) => { set_ingredient({ ...ingredient, formula_id: event.target.value }) })}
                 onBlur={(() => { updateIngredient() })}>
@@ -80,7 +94,7 @@ const Ingredient = ((props) => {
                     )
                 })}
             </select>
-            <input type="text" className="btn-sm form-control w-25" value={ingredient.amount} disabled></input>
+            <input type="text" className="btn-sm text-wrap form-control" value={`${ingredient.amount} ${get_unit(get_unit(ingredient.food_id))}`} disabled style={{width: '40%'}}></input>
         </>
     );
 });
