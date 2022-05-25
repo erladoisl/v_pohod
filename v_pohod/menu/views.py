@@ -8,6 +8,7 @@ from menu.models import Formula
 from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
+from menu.to_xlsx import get_menu_xlsx
 from .util import add_amount_ingredient, get_eating_category, get_formula, get_food
 
 
@@ -113,21 +114,24 @@ class FoodView(APIView):
             food_id = request.data.get('id', -1)
             name = request.data.get('name', '')
             amount_per_person = request.data.get('amount_per_person', 0)
+            unit = request.data.get('unit', 'гр.')
+            print(unit)
 
             if len(Food.objects.filter(name=name)) > 0 and Food.objects.filter(name=name)[0].pk != food_id:
                 res = {'error': True, "message": "Название не уникальное"}
             else:
                 if food_id > 0:
                     food = Food.objects.get(pk=food_id)
-                    if food.name == name and food.amount_per_person == amount_per_person:
+                    if food.name == name and food.amount_per_person == amount_per_person and food.unit == unit:
                         res = {'error': False, 'message': ''}
                     else:
                         food.name = name
                         food.amount_per_person = amount_per_person
+                        food.unit = unit
                         food.save()
                         res = {'error': False, 'message': 'Изменения сохранены'}
                 else:
-                    food = Food(name=name, amount_per_person=amount_per_person)
+                    food = Food(name=name, amount_per_person=amount_per_person, unit=unit)
                     food.save()
                     res = {'error': False, 'message': 'Успешно добавлен продукт'}
         except:
@@ -247,7 +251,7 @@ class EatingView(APIView):
             day_id = request.GET['day_id']
             hike_day = HikeDay.objects.get(pk=day_id)
             eatings = Eating.objects.filter(
-                hikeDay=hike_day).order_by('number').values()
+                hikeDay=hike_day).order_by('eating_category_id').values()
             context = {
                 'error': False,
                 'data': eatings
@@ -408,3 +412,23 @@ class IngredientView(APIView):
             }
         finally:
             return Response(res)
+
+
+class XlsxView(APIView):
+    def get(self, request):
+        try:
+            hike_id = request.GET['hike_id']
+            get_menu_xlsx(hike_id)
+            context = {
+                'error': False,
+                'message': f'Success'
+            }
+        except:
+            context = {
+                'error': True,
+                'message': f'Ошибка при получении xslx файла для похода {hike_id}'
+            }
+            logging.error(
+                f'ERROR while getting Xlsx\n{traceback.format_exc()}')
+        finally:
+            return Response(data=context)

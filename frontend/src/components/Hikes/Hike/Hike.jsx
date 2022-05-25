@@ -28,7 +28,10 @@ const Hike = (() => {
     };
 
     const download_menu = (() => {
-        alert('Еще не рализовано');
+        hikeService.getXlsx(state.id).then(((result) => {
+            console.log(result);
+        }));
+        
     });
 
 

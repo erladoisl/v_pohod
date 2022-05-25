@@ -91,6 +91,16 @@ def get_total_count(hike: Hike, food: Food, formula: Formula) -> int:
     return count
 
 
+def get_amount_ingredient(ingredient):
+    AMOUNT_PER_PERSON = ingredient.food.amount_per_person
+    TOTAL_COUNT = get_total_count(
+        ingredient.eating.hikeDay.hike, ingredient.food, ingredient.formula)
+    DAYS_COUNT = len(HikeDay.objects.filter(
+        hike=ingredient.eating.hikeDay.hike))
+    return calculate_amount_per_eating(
+        ingredient.formula, ingredient.eating.hikeDay.hike.participant_count, AMOUNT_PER_PERSON, TOTAL_COUNT, DAYS_COUNT)
+
+
 def add_amount_ingredient(ingredients: QuerySet) -> Dict[str, str]:
     '''
         Возвращает список игредиентов в виде списка словарей:
@@ -99,21 +109,12 @@ def add_amount_ingredient(ingredients: QuerySet) -> Dict[str, str]:
     res = []
 
     if len(ingredients) > 0:
-        PARTICIPANT_COUNT = ingredients[0].eating.hikeDay.hike.participant_count
-
         for ingredient in ingredients:
-            AMOUNT_PER_PERSON = ingredient.food.amount_per_person
-            TOTAL_COUNT = get_total_count(
-                ingredient.eating.hikeDay.hike, ingredient.food, ingredient.formula)
-            DAYS_COUNT = len(HikeDay.objects.filter(
-                hike=ingredient.eating.hikeDay.hike))
-            amount = calculate_amount_per_eating(
-                ingredient.formula, PARTICIPANT_COUNT, AMOUNT_PER_PERSON, TOTAL_COUNT, DAYS_COUNT)
             res.append({'id': ingredient.pk,
                         'food_id': ingredient.food.pk,
                         'eating_id': ingredient.eating.pk,
                         'formula_id': ingredient.formula.pk,
                         'comment': ingredient.comment,
-                        'amount': amount})
+                        'amount': get_amount_ingredient(ingredient)})
 
     return res

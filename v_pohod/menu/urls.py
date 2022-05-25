@@ -4,6 +4,7 @@ from menu.views import FoodView
 from menu.views import FormulaView
 from menu.views import EatingView
 from menu.views import IngredientView
+from menu.views import XlsxView
 
 urlpatterns = [
     path('api/eating-category/', EatingCategoryView.as_view()),
@@ -11,4 +12,5 @@ urlpatterns = [
     path('api/formula/', FormulaView.as_view()),
     path('api/hike/day/eatings/', EatingView.as_view()), # получение списка приемов пищи за день, добавление, изменение, удаление
     path('api/hike/day/eating/ingredient/', IngredientView.as_view()), # получение списка игредиентов за прием пищи, добавление, изменение, удаление
+    path('api/hike/menu/xlsx/', XlsxView.as_view())
 ]

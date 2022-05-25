@@ -128,4 +128,17 @@ export default class HikeService {
             return data;
         });
     };
+
+    getXlsx(hike_id) {
+        let data = [];
+        const url = `${API_URL}/api/hike/menu/xlsx/?hike_id=${hike_id}`;
+
+        return axios.get(url, getConfig()).then(response => {
+            data = response.data;
+        }).catch(error => {
+            console.log(`ERROR in getXlsx: ${error}`);
+        }).then(() => {
+            return data;
+        });
+    };
 };
