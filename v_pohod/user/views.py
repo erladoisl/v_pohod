@@ -41,7 +41,6 @@ class CustomAuthToken(ObtainAuthToken):
 class CustomRegistrationToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         res = {'error': True, 'message': 'Ошибка ввода данных'}
-        print(request.data)
 
         if request.data['password1'] != request.data['password2']:
             return Response({'error': True, 'message': 'Пароли не совпадают'})
