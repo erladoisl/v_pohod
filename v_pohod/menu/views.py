@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
@@ -131,7 +132,8 @@ class FoodView(APIView):
                         food.save()
                         res = {'error': False, 'message': 'Изменения сохранены'}
                 else:
-                    food = Food(name=name, amount_per_person=amount_per_person, unit=unit)
+                    food = Food(
+                        name=name, amount_per_person=amount_per_person, unit=unit)
                     food.save()
                     res = {'error': False, 'message': 'Успешно добавлен продукт'}
         except:
@@ -417,18 +419,17 @@ class IngredientView(APIView):
 class XlsxView(APIView):
     def get(self, request):
         try:
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             hike_id = request.GET['hike_id']
-            get_menu_xlsx(hike_id)
-            context = {
-                'error': False,
-                'message': f'Success'
-            }
+            file_name = get_menu_xlsx(response, hike_id)
+            response['Content-Disposition'] = f"attachment; filename={file_name}"
+                        
+            return response
         except:
-            context = {
-                'error': True,
-                'message': f'Ошибка при получении xslx файла для похода {hike_id}'
-            }
             logging.error(
                 f'ERROR while getting Xlsx\n{traceback.format_exc()}')
-        finally:
-            return Response(data=context)
+
+            return Response(data={
+                'error': True,
+                'message': f'Ошибка при получении xslx файла для похода {hike_id}'
+            })

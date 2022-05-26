@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { url as API_URL } from './config';
 import getCookie from './util';
+import download from 'downloadjs'
 
 
 const getConfig = (() => {
@@ -134,7 +135,8 @@ export default class HikeService {
         const url = `${API_URL}/api/hike/menu/xlsx/?hike_id=${hike_id}`;
 
         return axios.get(url, getConfig()).then(response => {
-            data = response.data;
+            download(response.data, 'export-directorio.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            console.log(response)
         }).catch(error => {
             console.log(`ERROR in getXlsx: ${error}`);
         }).then(() => {

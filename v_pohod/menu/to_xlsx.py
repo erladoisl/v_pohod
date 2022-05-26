@@ -144,12 +144,15 @@ def add_menu(workbook, days) -> None:
     add_border(worksheet, workbook, len(days) * 5, max_row)
 
 
-def get_menu_xlsx(hike_id):
+def get_menu_xlsx(response, hike_id):
     hike = Hike.objects.get(pk=hike_id)
     days = HikeDay.objects.filter(hike=hike).order_by('date')
-    workbook = xlsxwriter.Workbook(f'{hike.name}.xlsx')
+    workbook = xlsxwriter.Workbook(response, {'in_memory': True})
 
     add_description(workbook, hike, days)
     add_menu(workbook, days)
 
     workbook.close()
+
+    return f'{hike.name}.xlsx'
+    
