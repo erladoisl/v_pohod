@@ -25,7 +25,6 @@ export default class UsersService {
 			"password": password
 		}).then(response => {
 			data = response.data;
-			console.log(42, data)
 			if (data.hasOwnProperty('data')) {
 				document.cookie = `token=${data.data['token']}; path=/;`
 			}

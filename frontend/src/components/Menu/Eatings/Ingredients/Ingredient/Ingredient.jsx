@@ -62,7 +62,6 @@ const Ingredient = ((props) => {
         for (let i = 0; i < state.menu.food.length; i++) {
             if (parseInt(state.menu.food[i].pk) == parseInt(ingredient.food_id)) {
                 unit = state.menu.food[i].fields.unit
-                console.log(42)
             }
         }
 
