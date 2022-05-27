@@ -3,7 +3,6 @@ from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
 from menu.util import get_amount_ingredient
-import xlsxwriter
 
 
 def get_dates(days) -> str:
@@ -144,10 +143,12 @@ def add_menu(workbook, days) -> None:
     add_border(worksheet, workbook, len(days) * 5, max_row)
 
 
-def get_menu_xlsx(response, hike_id):
+def get_hike_in_xlsx(workbook, hike_id):
+    '''
+        В таблицу добавляется информация о походе
+    '''
     hike = Hike.objects.get(pk=hike_id)
     days = HikeDay.objects.filter(hike=hike).order_by('date')
-    workbook = xlsxwriter.Workbook(response, {'in_memory': True})
 
     add_description(workbook, hike, days)
     add_menu(workbook, days)

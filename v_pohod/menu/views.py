@@ -9,8 +9,9 @@ from menu.models import Formula
 from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
-from menu.to_xlsx import get_menu_xlsx
+from menu.to_xlsx import get_hike_in_xlsx
 from .util import add_amount_ingredient, get_eating_category, get_formula, get_food
+import xlsxwriter
 
 
 class EatingCategoryView(APIView):
@@ -420,8 +421,9 @@ class XlsxView(APIView):
     def get(self, request):
         try:
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            workbook = xlsxwriter.Workbook(response, {'in_memory': True})
             hike_id = request.GET['hike_id']
-            file_name = get_menu_xlsx(response, hike_id)
+            file_name = get_hike_in_xlsx(workbook, hike_id)
             response['Content-Disposition'] = f"attachment; filename={file_name}"
                         
             return response

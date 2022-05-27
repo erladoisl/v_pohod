@@ -1,8 +1,6 @@
-from faker import Faker as FakerClass
-from typing import Any, Sequence
 import django
 from django.contrib.auth.models import User
-from factory import django, Faker, post_generation, PostGenerationMethodCall
+from factory import django, Faker, PostGenerationMethodCall
 
 class AdminFactory(django.DjangoModelFactory):
     class Meta:
