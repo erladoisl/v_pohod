@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { url as API_URL } from './config';
 import getCookie from './util';
-import download from 'downloadjs'
-
+import { saveAs } from 'file-saver';
 
 const getConfig = (() => {
-    return {headers: {"Authorization": `Token ${getCookie('token')}`,
-        "Content-Type": "application/json"}};
+    return {
+        headers: {
+            "Authorization": `Token ${getCookie('token')}`,
+            "Content-Type": "application/json"
+        }
+    };
 });
 
 
@@ -28,7 +31,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/update`;
 
-        return axios.post(url, data=hike, getConfig()).then(response => {
+        return axios.post(url, data = hike, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in updateHike: ${error}`);
@@ -41,7 +44,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/new/`;
 
-        return axios.post(url, data=hike, getConfig()).then(response => {
+        return axios.post(url, data = hike, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in newHike: ${error}`);
@@ -54,7 +57,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/delete/`;
 
-        return axios.post(url, data={id}, getConfig()).then(response => {
+        return axios.post(url, data = { id }, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in newHike: ${error}`);
@@ -95,7 +98,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/day/update/`;
 
-        return axios.post(url, data=hike_day, getConfig()).then(response => {
+        return axios.post(url, data = hike_day, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in updateHike: ${error}`);
@@ -108,7 +111,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/day/new/`;
 
-        return axios.post(url, data=hike_day, getConfig()).then(response => {
+        return axios.post(url, data = hike_day, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in newHike: ${error}`);
@@ -121,7 +124,7 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/day/delete/`;
 
-        return axios.post(url, data={id}, getConfig()).then(response => {
+        return axios.post(url, data = { id }, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in newHike: ${error}`);
@@ -134,9 +137,9 @@ export default class HikeService {
         let data = [];
         const url = `${API_URL}/api/hike/menu/xlsx/?hike_id=${hike_id}`;
 
-        return axios.get(url, getConfig()).then(response => {
-            download(response.data, 'export-directorio.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            console.log(response)
+        return axios.get(url, { responseType: 'blob' }).then(response => {
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            saveAs(blob, "excel.xlsx");
         }).catch(error => {
             console.log(`ERROR in getXlsx: ${error}`);
         }).then(() => {
