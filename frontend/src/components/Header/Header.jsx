@@ -33,6 +33,11 @@ const Header = (() => {
                   Словарики
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink to='/help' className="nav-link ">
+                  Помощь
+                </NavLink>
+              </li>
             </ul>
             <div className="ms-auto link-light" >
               <span className="d-sm-inline-block my-2 my-md-0 ms-md-3 text-white" >

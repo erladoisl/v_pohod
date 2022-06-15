@@ -11,6 +11,7 @@ import Hike from './Hikes/Hike/Hike';
 import UsersService from '../service/UsersService';
 import getCookie from '../service/util';
 import UpdateHike from './Hikes/UpdateHike/UpdateHike';
+import Help from './Help/Help';
 
 
 const usersService = new UsersService();
@@ -55,6 +56,10 @@ const Context = (() => {
     {
       'link': 'dictionary',
       node: <Dictionary />,
+    },
+    {
+      'link': 'help',
+      node: <Help />,
     }];
 
   if (state.user) {
