@@ -1,5 +1,6 @@
 import newHike from '../../media/help/new_hike.gif'
 import newDay from '../../media/help/new_day.gif'
+import downloadExcel from '../../media/help/download_excel.gif'
 import newEating from '../../media/help/new_eating.png'
 import eatingFields from '../../media/help/eating_fields.png'
 import ingredFields from '../../media/help/ingred_fields.png'
@@ -126,6 +127,19 @@ const Help = (() => {
                         <li>Если ингредиента нужно в количестве 1 единицы на один прием пищи, например, банки сгущенки, выбирай "1шт. на прием пищи.</li>
                         <li>и т.д...</li>
                     </ul>
+                </div>
+            </div>
+
+            <br />
+
+            <div className='col-lg-10 mx-auto' >
+                <div className="fs-4 text-start">6. Получение результата в виде таблицы</div>
+                <div className="fs-5 m-3 text-start text-muted">
+                    Для загрузки файла, нужно нажать на кнопку "Загрузить раскладку"
+                </div>
+                <div className='mx-3'>
+                    <img src={downloadExcel} alt='new hike creating' className='col-12' />
+                    <div className='text-center col-12 fs-6'>(Видео-инструкция 3 - Загрузка данных в виде excel)</div>
                 </div>
             </div>
         </div>
