@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import UsersService from '../../../service/UsersService';
 import c from './Login.module.css';
 import { Context } from "../../../contexts/index";
+import Contact from '../Contact/Contact';
 
 
 const usersService = new UsersService();
@@ -15,7 +16,7 @@ const Login = (() => {
     const login = createRef();
     const password = createRef();
     let errorMessageHTML = '';
-    
+
 
     const handleSubmit = ((e) => {
         e.preventDefault()
@@ -48,13 +49,13 @@ const Login = (() => {
 
                     <div className="form-floating py-1">
                         <input ref={login} type="name" className="form-control" required />
-                        
+
                         <label htmlFor="floatingInput">Имя</label>
                     </div>
 
                     <div className="form-floating py-1">
                         <input ref={password} type="password" className="form-control" required />
-                        
+
                         <label htmlFor="floatingPassword">Пароль</label>
                     </div>
 
@@ -64,7 +65,7 @@ const Login = (() => {
                         Зарегистрироваться
                     </NavLink>
 
-                    <p className="mt-5 mb-3 text-muted">© Rakhi 2022</p>
+                    <Contact />
                 </form>
             </div>
         </div>

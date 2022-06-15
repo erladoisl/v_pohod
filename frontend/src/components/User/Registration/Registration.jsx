@@ -3,6 +3,9 @@ import { NavLink } from "react-router-dom";
 import c from './Registration.module.css';
 import { Context } from "../../../contexts/index";
 import UsersService from '../../../service/UsersService';
+import Contact from '../Contact/Contact';
+
+
 const usersService = new UsersService();
 
 const Registration = (() => {
@@ -45,7 +48,7 @@ const Registration = (() => {
             </div>);
     };
 
-    
+
     return (
         <div className={c.text_center}>
             <div className={c.form_signin}>
@@ -55,49 +58,50 @@ const Registration = (() => {
                     {errorMessageHTML}
 
                     <div className="form-floating p-1">
-                        <input ref={username} type="login" className="form-control" required/>
-                        
+                        <input ref={username} type="login" className="form-control" required />
+
                         <label htmlFor="floatingInput">Login</label>
                     </div>
 
                     <div className="form-floating p-1">
-                        <input ref={first_name} type="first_name" className="form-control" required/>
-                        
+                        <input ref={first_name} type="first_name" className="form-control" required />
+
                         <label htmlFor="floatingInput">Имя</label>
                     </div>
 
                     <div className="form-floating p-1">
-                        <input ref={last_name} type="last_name" className="form-control" required/>
-                        
+                        <input ref={last_name} type="last_name" className="form-control" required />
+
                         <label htmlFor="floatingInput">Фамилия</label>
                     </div>
 
                     <div className="form-floating p-1">
-                        <input ref={email} type="name" className="form-control" required/>
-                        
+                        <input ref={email} type="name" className="form-control" required />
+
                         <label htmlFor="floatingInput">email</label>
                     </div>
 
                     <div className="form-floating p-1">
-                        <input ref={password1} type="password" className="form-control" required/>
-                        
+                        <input ref={password1} type="password" className="form-control" required />
+
                         <label htmlFor="floatingPassword">Пароль</label>
                     </div>
 
                     <div className="form-floating p-1">
-                        <input ref={password2} type="password" className="form-control" required/>
-                        
+                        <input ref={password2} type="password" className="form-control" required />
+
                         <label htmlFor="floatingPassword">Повторите пароль</label>
                     </div>
 
                     <button className="w-100 btn btn-lg btn-dark" type="submit" >Зарегистрироваться</button>
-                    
+
                     <NavLink to='/' className="nav-link text-white">
                         Войти
                     </NavLink>
                 </form>
 
-                <p className="mt-5 mb-3 text-muted">© Rakhi 2022</p>
+
+                <Contact />
             </div>
         </div>
     );
