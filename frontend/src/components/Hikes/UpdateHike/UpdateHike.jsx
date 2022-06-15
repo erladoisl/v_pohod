@@ -98,12 +98,12 @@ const UpdateHike = (() => {
 
                         </div>
                     </div>
-                    {form_data.id === -1 &&
+                    {/* {form_data.id === -1 &&
                         <div className="form-check">
                             <input type="checkbox" checked={use_example} onChange={(() => { setUseExample(!use_example) })} className="form-check-input" id="same-address" />
                             <label className="form-check-label" htmlFor="same-address">Использовать существующий поход как основу</label>
                         </div>
-                    }
+                    } */}
 
                     {form_data.id === -1 && example_HTML}
 
