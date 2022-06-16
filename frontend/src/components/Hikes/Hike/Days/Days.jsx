@@ -1,9 +1,9 @@
 import HikeService from '../../../../service/HikeService';
 import DatePicker from "react-datepicker";
 import { useEffect, useState } from "react";
-import Menu from '../../../Menu/Menu';
 import { parseISO, format } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
+import Eatings from '../../../Eatings/Eatings';
 
 
 const hikeService = new HikeService();
@@ -102,7 +102,7 @@ const Days = ((props) => {
                                 </div>
                                 <div className="card-body h-100">
 
-                                    <Menu day_id={item.id} />
+                                    <Eatings day_id={item.id} />
                                 </div>
                             </div>
                         </div>

@@ -10,7 +10,7 @@ from hike.models import HikeDay
 from menu.models import Eating
 from menu.models import Ingredient
 from menu.to_xlsx import get_hike_in_xlsx
-from .util import add_amount_ingredient, get_eating_category, get_formula, get_food
+from .util import add_amount_ingredient, get_eating_category, get_food_json, get_formula, get_food
 import xlsxwriter
 
 
@@ -98,7 +98,7 @@ class FoodView(APIView):
             food = Food.objects.all()
             context = {
                 'error': False,
-                'data': serializers.serialize('json', food)
+                'data': get_food_json(food)
             }
         except:
             context = {

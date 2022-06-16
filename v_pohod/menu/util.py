@@ -1,6 +1,7 @@
+import json
 import logging
 import traceback
-from typing import Dict
+from typing import Dict, List
 from math import ceil
 from hike.models import Hike, HikeDay
 from .models import Eating, EatingCategory, Food, Formula, Ingredient
@@ -111,10 +112,20 @@ def add_amount_ingredient(ingredients: QuerySet) -> Dict[str, str]:
     if len(ingredients) > 0:
         for ingredient in ingredients:
             res.append({'id': ingredient.pk,
+                        'food_name': ingredient.food.name,
                         'food_id': ingredient.food.pk,
                         'eating_id': ingredient.eating.pk,
                         'formula_id': ingredient.formula.pk,
                         'comment': ingredient.comment,
-                        'amount': get_amount_ingredient(ingredient)})
+                        'amount': get_amount_ingredient(ingredient),
+                        'unit': ingredient.food.unit})
 
     return res
+
+
+def get_food_json(foodList: List[Food]):
+    return json.dumps([{'value': food.pk,
+             'label': food.name,
+             'name': food.name,
+             'amount_per_person': food.amount_per_person,
+             'unit': food.unit} for food in foodList])

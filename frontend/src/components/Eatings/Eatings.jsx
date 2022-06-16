@@ -1,5 +1,5 @@
-import { Context } from "../../../contexts/index";
-import MenuService from '../../../service/MenuService';
+import { Context } from "../../contexts/index";
+import MenuService from '../../service/MenuService';
 import React from 'react';
 import { useEffect, useState } from "react";
 import Ingredients from "./Ingredients/Ingredients";
@@ -11,6 +11,7 @@ const menuService = new MenuService();
 
 const Eatings = ((props) => {
     const [state, dispatch] = React.useContext(Context);
+    const [loading, set_loading] = useState(true);
     const [eatings, set_eatings] = useState([]);
 
     useEffect(() => {
@@ -41,6 +42,7 @@ const Eatings = ((props) => {
             } else {
                 console.log(result);
             }
+            set_loading(false)
         });
     });
 
@@ -68,8 +70,8 @@ const Eatings = ((props) => {
 
 
     const empty_result_html = eatings.length === 0 ? (
-        <div className="alert alert-info w-100" role="alert" style={{'maxHeight': "60px"}}>
-            Нет приемов пищи
+        <div className="alert alert-info w-100" role="alert" style={{ 'maxHeight': "60px" }}>
+            {loading ? 'Загрузка...' : 'Нет приемов пищи'}
         </div>
     ) : '';
 

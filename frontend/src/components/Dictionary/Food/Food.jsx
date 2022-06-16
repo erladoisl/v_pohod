@@ -86,10 +86,10 @@ const Food = (() => {
                 {state.menu.hasOwnProperty("food") && state.menu.food.map((food, i) => {
                     return (
                         <div className="input-group p-1" key={i}>
-                            <input type="text" className="form-control" value={food.fields.name} placeholder="Promo code"
+                            <input type="text" className="form-control" value={food.name} placeholder="Promo code"
                                 onChange={((e) => {
-                                    if (state.menu.food[i].fields.name !== e.target.value) {
-                                        state.menu.food[i].fields.name = e.target.value;
+                                    if (state.menu.food[i].name !== e.target.value) {
+                                        state.menu.food[i].name = e.target.value;
                                         dispatch({ 'type': 'update_food', 'food': state.menu.food });
                                         set_changed(true)
                                     }
@@ -97,18 +97,18 @@ const Food = (() => {
                                 onBlur={(() => {
                                     if (changed) {
                                         updateFood({
-                                            id: state.menu.food[i].pk,
-                                            name: state.menu.food[i].fields.name,
-                                            amount_per_person: state.menu.food[i].fields.amount_per_person
+                                            id: state.menu.food[i].value,
+                                            name: state.menu.food[i].name,
+                                            amount_per_person: state.menu.food[i].amount_per_person
                                         })
                                     }
                                     set_changed(false)
                                 })} />
 
-                            <input type="text" className="form-control" value={food.fields.amount_per_person} placeholder="0"
+                            <input type="text" className="form-control" value={food.amount_per_person} placeholder="0"
                                 onChange={((e) => {
-                                    if (state.menu.food[i].fields.amount_per_person !== e.target.value) {
-                                        state.menu.food[i].fields.amount_per_person = e.target.value;
+                                    if (state.menu.food[i].amount_per_person !== e.target.value) {
+                                        state.menu.food[i].amount_per_person = e.target.value;
                                         dispatch({ 'type': 'update_food', 'food': state.menu.food });
                                         set_changed(true)
                                     }
@@ -116,18 +116,18 @@ const Food = (() => {
                                 onBlur={(() => {
                                     if (changed) {
                                         updateFood({
-                                            id: state.menu.food[i].pk,
-                                            name: state.menu.food[i].fields.name,
-                                            amount_per_person: state.menu.food[i].fields.amount_per_person
+                                            id: state.menu.food[i].value,
+                                            name: state.menu.food[i].name,
+                                            amount_per_person: state.menu.food[i].amount_per_person
                                         })
                                     }
                                     set_changed(false)
                                 })} />
 
-                            <input type="text" className="form-control" value={food.fields.unit} placeholder="гр."
+                            <input type="text" className="form-control" value={food.unit} placeholder="гр."
                                 onChange={((e) => {
-                                    if (state.menu.food[i].fields.unit !== e.target.value) {
-                                        state.menu.food[i].fields.unit = e.target.value;
+                                    if (state.menu.food[i].unit !== e.target.value) {
+                                        state.menu.food[i].unit = e.target.value;
                                         dispatch({ 'type': 'update_food', 'food': state.menu.food });
                                         set_changed(true)
                                     }
@@ -135,16 +135,16 @@ const Food = (() => {
                                 onBlur={(() => {
                                     if (changed) {
                                         updateFood({
-                                            id: state.menu.food[i].pk,
-                                            name: state.menu.food[i].fields.name,
-                                            amount_per_person: state.menu.food[i].fields.amount_per_person,
-                                            unit: state.menu.food[i].fields.unit
+                                            id: state.menu.food[i].value,
+                                            name: state.menu.food[i].name,
+                                            amount_per_person: state.menu.food[i].amount_per_person,
+                                            unit: state.menu.food[i].unit
                                         })
                                     }
                                     set_changed(false)
                                 })} />
 
-                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFood(food.fields.name) }}>X</button>
+                            <button type="submit" className="btn btn-danger" onClick={() => { deleteFood(food.name) }}>X</button>
                         </div>
                     )
                 })}

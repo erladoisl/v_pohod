@@ -1,5 +1,5 @@
-import { Context } from "../../../../contexts/index";
-import MenuService from '../../../../service/MenuService';
+import { Context } from "../../../contexts/index";
+import MenuService from '../../../service/MenuService';
 import React from 'react';
 import { useState } from "react";
 

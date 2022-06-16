@@ -1,6 +1,6 @@
 
-import { Context } from "../../../../contexts/index";
-import MenuService from '../../../../service/MenuService';
+import { Context } from "../../../contexts/index";
+import MenuService from '../../../service/MenuService';
 import React from 'react';
 import { useEffect, useState } from "react";
 import Ingredient from "./Ingredient/Ingredient";
@@ -12,6 +12,8 @@ const menuService = new MenuService();
 const Ingredients = ((props) => {
     const [state, dispatch] = React.useContext(Context);
     const [ingredients, set_ingredients] = useState([]);
+    const [loading, set_loading] = useState(true);
+
 
     useEffect(() => {
         updateIngredients();
@@ -57,6 +59,7 @@ const Ingredients = ((props) => {
             } else {
                 console.log(result);
             }
+            set_loading(false)
         });
     });
 
@@ -85,7 +88,7 @@ const Ingredients = ((props) => {
 
     const empty_result_html = ingredients.length === 0 ? (
         <div className="alert alert-info w-100" role="alert">
-            Нет ингредиентов
+            {loading ? 'загрузка...' : 'Нет ингредиентов'}
         </div>
     ) : '';
 
