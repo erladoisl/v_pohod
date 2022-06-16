@@ -21,7 +21,6 @@ const Context = (() => {
   const [state, dispatch] = React.useContext(MainContext);
   window.state = state;
 
-
   const updateUserInfo = (() => {
     usersService.getAuthUser().then(function (result) {
       if (result.error === false) {
