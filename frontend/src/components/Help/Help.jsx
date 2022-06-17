@@ -31,7 +31,7 @@ const Help = (() => {
                 <div className="fs-4 text-start">1. Создание похода (Видео-инструкция 1)</div>
                 <div className="fs-5 my-3 text-start text-muted">
                     Перейди на страницу "Походы", нажми на кнопку "Создать новый поход".
-                    <div>В открывшейся странице заполни все поля и нажмите на "Сохранить".</div>
+                    <div>В открывшейся странице заполни все поля и нажми на "Сохранить".</div>
                 </div>
                 <img src={newHike} alt='new hike creating' className='col-12' />
                 <div className='text-center col-12 fs-6'>(Видео-инструкция 1 - Создание похода)</div>
