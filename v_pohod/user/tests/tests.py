@@ -17,6 +17,8 @@ class UserLoginTestCase(APITestCase):
         cls.client = APIClient()
         cls.sign_up_url = reverse('login')
         cls.registration = reverse('registration')
+        cls.edit_user = reverse('edit_user')
+        cls.edit_pass = reverse('edit_pass')
         cls.faker_obj = Faker()
 
     def test_login_correct_pass_and_login(self):
@@ -102,7 +104,6 @@ class UserLoginTestCase(APITestCase):
 
 
     def test_registration_username_already_exists(self):
-        # Prepare data with already saved user
         signup_dict = {
             'username': self.user_saved.username,
             'password1': 'test_Pass',
@@ -119,3 +120,84 @@ class UserLoginTestCase(APITestCase):
             response.data['message'],
             'login должен быть уникальным',
         )
+
+
+    def test_registration_incorrect_pass(self):
+        signup_dict = {
+            'username': self.user_saved.username,
+            'password1': 'test_Pass',
+            'password2': 'test_Pass1',
+            'email': self.user_object.email,
+            'first_name': self.user_object.first_name,
+            'last_name': self.user_object.last_name,
+        }
+
+        response = self.client.post(self.registration, signup_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data['message'],
+            'Пароли не совпадают',
+        )
+        
+
+    def test_edit_user_success(self):
+        new_user_info_dict = {
+            'name': self.user_saved.username,
+            'email': 'new email',
+            'first_name': 'new first_name',
+            'last_name': 'new last_name',
+        }
+
+        response = self.client.post(self.edit_user, new_user_info_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Данные успешно обновлены')
+
+        new_user = User.objects.get(username=self.user_saved.username)
+
+        self.assertEqual(new_user.email, 'new email')
+        self.assertEqual(new_user.first_name, 'new first_name')
+        self.assertEqual(new_user.last_name, 'new last_name')
+        
+
+    def test_edit_user_pass_error(self):
+        new_user_info_dict = {
+            'name': self.user_saved.username,
+            'oldPassword': 'pass',
+            'password1': 'password1',
+            'password2': 'password2',
+        }
+
+        response = self.client.post(self.edit_pass, new_user_info_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Пароли не совпадают')
+        
+
+    def test_edit_user_pass_success(self):
+        new_user_info_dict = {
+            'name': self.user_saved.username,
+            'oldPassword': 'pass',
+            'password1': 'password1',
+            'password2': 'password1',
+        }
+
+        response = self.client.post(self.edit_pass, new_user_info_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Данные изменены')
+        
+
+    def test_edit_user_pass_incorrect_curpassword(self):
+        new_user_info_dict = {
+            'name': self.user_saved.username,
+            'oldPassword': 'incorrect pass',
+            'password1': 'password1',
+            'password2': 'password1',
+        }
+
+        response = self.client.post(self.edit_pass, new_user_info_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['message'], 'Текущий пароль не верный')
