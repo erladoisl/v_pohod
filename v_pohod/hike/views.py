@@ -50,7 +50,7 @@ class UpdateHikeView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно сохранено'}
         try:
-            hike_id = request.data.get('id', -1)
+            hike_id = int(request.data.get('id', -1))
             name = request.data.get('name')
             description = request.data.get('description')
             participant_count = request.data.get('participant_count')
@@ -69,6 +69,7 @@ class UpdateHikeView(APIView):
                 hike = Hike(name=name, description=description,
                             participant_count=participant_count, user=request.user)
                 hike.save()
+                res = {'error': False, 'message': 'Успешно сохранено', 'id': hike.pk}
         except:
             res = {
                 'error': True, 'message': 'Ошибка при добавлении похода'}
