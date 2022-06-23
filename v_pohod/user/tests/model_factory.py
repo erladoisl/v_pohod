@@ -19,6 +19,7 @@ class UserFactory(django.DjangoModelFactory):
 
     class Meta:
         model = User
+        # inline_args = ('username', 'password')
     
     username = Faker('user_name')
     email = Faker('email')
