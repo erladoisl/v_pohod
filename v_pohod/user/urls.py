@@ -23,7 +23,7 @@ from user.views import getAuthUser
 urlpatterns = [
     path('api-token-auth/', CustomAuthToken.as_view(), name='login'),
     path('api/registration/', CustomRegistrationToken.as_view(), name='registration'),
-    path('api/change-password/', EditUserPass.as_view()),
-    path('api/edit-user/', EditUser.as_view()),
+    path('api/change-password/', EditUserPass.as_view(), name='edit_pass'),
+    path('api/edit-user/', EditUser.as_view(), name='edit_user'),
     path('api/get-auth-user/', getAuthUser.as_view()),
 ]
