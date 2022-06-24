@@ -10,3 +10,8 @@ frontend/.gitignore
 .gitignore
 v_pohod/user/migrations/__pycache__/
 v_pohod/hike/__pycache__/
+v_pohod/user/tests/__pycache__/
+v_pohod/hike/no_work_tests/__pycache__/
+frontend/src/service/config.jsx
+v_pohod/hike/hike_tests/__pycache__/
+v_pohod/menu/menu_tests/__pycache__/
