@@ -14,6 +14,6 @@ urlpatterns = [
     path('api/get-hike/', GetHikeView.as_view()), # получение инфы о походе по id
     path('api/hike/days/', HikeDayView.as_view(), name='hike_days'), # получение дней похода
     path('api/hike/day/new/', UpdateHikeDayView.as_view()), # создание нового дня похода
-    path('api/hike/day/update/', UpdateHikeDayView.as_view()), # создание нового дня похода
-    path('api/hike/day/delete/', DeleteHikeDayView.as_view()), # удаление дня похода
+    path('api/hike/day/update/', UpdateHikeDayView.as_view(), name='hike_day_update'), # изменение дня похода
+    path('api/hike/day/delete/', DeleteHikeDayView.as_view(), name='delete_hike_day'), # удаление дня похода
 ]
