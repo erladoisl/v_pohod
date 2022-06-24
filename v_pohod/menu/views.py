@@ -12,10 +12,11 @@ from menu.models import Ingredient
 from menu.to_xlsx import get_hike_in_xlsx
 from .util import add_amount_ingredient, get_eating_category, get_food_json, get_formula, get_food
 import xlsxwriter
+from rest_framework.permissions import IsAuthenticated
 
 
 class EatingCategoryView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
         try:
@@ -37,7 +38,7 @@ class EatingCategoryView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            eating_category_id = request.data.get('id', -1)
+            eating_category_id = int(request.data.get('id', -1))
             name = request.data.get('name')
 
             if len(EatingCategory.objects.filter(name=name)) > 0 and EatingCategory.objects.filter(name=name)[0].pk != eating_category_id:
