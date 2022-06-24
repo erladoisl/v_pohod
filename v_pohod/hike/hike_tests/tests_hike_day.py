@@ -128,7 +128,7 @@ class HikeTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['message'], 'Успешно')
         self.assertEqual(len(HikeDay.objects.filter(pk=deleted_hike_id)), 0)
-    
+
     def test_delete_hike_day_by_admin(self):
         self.client.force_authenticate(user=self.admin)
         deleted_hike_id = self.auth_user_hike_days[0].pk
@@ -148,7 +148,8 @@ class HikeTestCase(APITestCase):
                                     'id': deleted_hike_id})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['message'], 'Удалять дни похода может только создатель похода')
+        self.assertEqual(
+            response.data['message'], 'Удалять дни похода может только создатель похода')
         self.assertEqual(len(HikeDay.objects.filter(pk=deleted_hike_id)), 1)
 
     def test_delete_hike_day_unauthorized(self):
@@ -171,7 +172,8 @@ class HikeTestCase(APITestCase):
         response = self.client.post(self.hike_day_update, hike_day_fields)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {'error': False, 'message': 'Успешно сохранено', 'id': 5})
+        self.assertEqual(
+            response.data, {'error': False, 'message': 'Успешно сохранено', 'id': 5})
 
         hikeDay = HikeDay.objects.get(pk=response.data['id'])
 
@@ -180,7 +182,7 @@ class HikeTestCase(APITestCase):
         self.assertEqual(hikeDay.description, hike_day_fields['description'])
         self.assertEqual(hikeDay.date, datetime.date(datetime.strptime(
             '1994-06-18T21:00:00.000Z', '%Y-%m-%dT%H:%M:%S.%fZ')))
-    
+
     def test_add_hike_hike_day_by_admin(self):
         self.client.force_authenticate(user=self.admin)
         hike_day_fields = {
@@ -192,7 +194,8 @@ class HikeTestCase(APITestCase):
         response = self.client.post(self.hike_day_update, hike_day_fields)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {'error': False, 'message': 'Успешно сохранено', 'id': 5})
+        self.assertEqual(
+            response.data, {'error': False, 'message': 'Успешно сохранено', 'id': 5})
 
         hikeDay = HikeDay.objects.get(pk=response.data['id'])
 
@@ -213,7 +216,8 @@ class HikeTestCase(APITestCase):
         response = self.client.post(self.hike_day_update, hike_day_fields)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data,  {'error': True, 'message': 'Нельзя редактировать чужие походы'})
+        self.assertEqual(response.data,  {
+                         'error': True, 'message': 'Нельзя редактировать чужие походы'})
 
         hikeDays = HikeDay.objects.filter(name=hike_day_fields['name'])
 
