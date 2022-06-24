@@ -181,7 +181,7 @@ class UpdateHikeDayView(APIView):
         res = {'error': False, 'message': 'Успешно сохранено'}
 
         try:
-            hike_day_id = request.data.get('id', -1)
+            hike_day_id = int(request.data.get('id', -1))
             hike = Hike.objects.get(pk=request.data.get('hike_id'))
             day_date = request.data.get('date', get_default_date(hike))
             name = request.data.get('name', 'без имени')
@@ -190,22 +190,22 @@ class UpdateHikeDayView(APIView):
             if type(day_date) == str:
                 day_date = datetime.strptime(day_date, '%Y-%m-%dT%H:%M:%S.%fZ') + relativedelta(days=1)
 
-            if hike_day_id > 0:
-                hike_day = HikeDay.objects.get(pk=hike_day_id)
-
-                if hike.user.pk == request.user.pk or request.user.is_superuser:
+            if hike.user.pk == request.user.pk or request.user.is_superuser:
+                if hike_day_id > 0:
+                    hike_day = HikeDay.objects.get(pk=hike_day_id)
                     hike_day.name = name
                     hike_day.description = description
                     hike_day.date = day_date
                     hike_day.hike = hike
                     hike_day.save()
                 else:
-                    res = {
-                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+                    hike_day = HikeDay(name=name, description=description,
+                                date=day_date, hike=hike)
+                    hike_day.save()
+                    res = {'error': False, 'message': 'Успешно сохранено', 'id': hike_day.pk}
             else:
-                hike_day = HikeDay(name=name, description=description,
-                            date=day_date, hike=hike)
-                hike_day.save()
+                res = {
+                    'error': True, 'message': 'Нельзя редактировать чужие походы'}
         except:
             res = {
                 'error': True, 'message': 'Ошибка при добавлении похода'}
