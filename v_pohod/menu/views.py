@@ -92,7 +92,7 @@ class EatingCategoryView(APIView):
 
 
 class FoodView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
@@ -114,11 +114,10 @@ class FoodView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            food_id = request.data.get('id', -1)
+            food_id = int(request.data.get('id', -1))
             name = request.data.get('name', '')
             amount_per_person = request.data.get('amount_per_person', 0)
             unit = request.data.get('unit', 'гр.')
-            print(unit)
 
             if len(Food.objects.filter(name=name)) > 0 and Food.objects.filter(name=name)[0].pk != food_id:
                 res = {'error': True, "message": "Название не уникальное"}
@@ -172,7 +171,7 @@ class FoodView(APIView):
 
 
 class FormulaView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
@@ -194,7 +193,7 @@ class FormulaView(APIView):
     def post(self, request, *args, **kwargs):
         res = {'error': False, 'message': 'Успешно'}
         try:
-            formula_id = request.data.get('id', -1)
+            formula_id = int(request.data.get('id', -1))
             name = request.data.get('name', '')
             value = request.data.get('value', '')
 
@@ -248,7 +247,7 @@ class FormulaView(APIView):
 
 
 class EatingView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
