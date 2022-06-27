@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
@@ -19,12 +18,13 @@ class EatingCategoryTestCase(APITestCase):
         cls.admin = AdminFactory.create()
         cls.auth_user_hike = HikeFactory(user=cls.authorized_user)
         cls.auth_user_hike_day = HikeDayFactory(hike=cls.auth_user_hike)
-        cls.eating_categories = [EatingCategoryFactory(name='Завтрак'), EatingCategoryFactory(
-            name='Обед'), EatingCategoryFactory(name='Ужин')]
+        cls.eating_categories = [EatingCategoryFactory(name='Завтрак'), 
+                                 EatingCategoryFactory(name='Обед'), 
+                                 EatingCategoryFactory(name='Ужин')]
         cls.user_hike = HikeFactory(user=cls.user)
         cls.user_hike_day = HikeDayFactory(hike=cls.user_hike)
         cls.client = APIClient()
-        cls.url_eating_categories = reverse('get_eating_categories')
+        cls.url_eating_categories = reverse('eating_categories')
 
     def test_getting_all_eating_categories_success(self):
         self.client.force_authenticate(user=self.authorized_user)
