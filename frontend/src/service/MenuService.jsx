@@ -31,7 +31,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
-        return axios.post(url, data = eating_category).then(response => {
+        return axios.post(url, data = eating_category, getConfig()).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in addEatingCategory: ${error}`);
@@ -44,7 +44,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/eating-category/`;
 
-        return axios.delete(url, { "data": { "name": name } }).then(response => {
+        return axios.delete(url, { "data": { "name": name }, headers: getConfig()['headers'] }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteEatingCategory: ${error}`);
@@ -83,7 +83,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/food/`;
 
-        return axios.delete(url, { "data": { "name": name } }).then(response => {
+        return axios.delete(url, { "data": { "name": name }, headers: getConfig()['headers'] }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteFood: ${error}`);
@@ -122,7 +122,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/formula/`;
 
-        return axios.delete(url, { "data": { "name": name } }).then(response => {
+        return axios.delete(url, { "data": { "name": name }, headers: getConfig()['headers'] }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteFormula: ${error}`);
@@ -161,7 +161,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eatings/`;
 
-        return axios.delete(url, { "data": { "id": id } }, getConfig).then(response => {
+        return axios.delete(url, { "data": { "id": id }, headers: getConfig()['headers'] }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteEating: ${error}`);
@@ -200,7 +200,7 @@ export default class MenuService {
         let data = [];
         const url = `${API_URL}/api/hike/day/eating/ingredient/`;
 
-        return axios.delete(url, { "data": { "id": id } }, getConfig()).then(response => {
+        return axios.delete(url, { "data": { "id": id }, headers: getConfig()['headers'] }).then(response => {
             data = response.data;
         }).catch(error => {
             console.log(`ERROR in deleteIngredient: ${error}`);
