@@ -282,22 +282,22 @@ class EatingView(APIView):
             eating_category = get_eating_category(eating_category_id)
             hike_day = HikeDay.objects.get(pk=hike_day_id)
 
-            if eating_id > 0:
-                eating = Eating.objects.get(pk=eating_id)
+            if hike_day.hike.user.pk == request.user.pk or request.user.is_superuser:
 
-                if eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                if eating_id > 0:
+                    eating = Eating.objects.get(pk=eating_id)
                     eating.name = name
                     eating.description = description
                     eating.number = number
                     eating.eating_category = eating_category
                     eating.save()
                 else:
-                    res = {
-                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+                    eating = Eating(name=name, description=description, hikeDay=hike_day,
+                                    number=number, eating_category=eating_category)
+                    eating.save()
             else:
-                eating = Eating(name=name, description=description, hikeDay=hike_day,
-                                number=number, eating_category=eating_category)
-                eating.save()
+                res = {
+                    'error': True, 'message': 'Нельзя редактировать чужие походы'}
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении приема пищи'}
             logging.error(
