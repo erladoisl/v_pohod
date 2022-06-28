@@ -7,7 +7,7 @@ from menu.menu_tests.model_factory import FormulaFactory
 from menu.models import Formula
 
 
-class FoodTestCase(APITestCase):
+class FormulaTestCase(APITestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
