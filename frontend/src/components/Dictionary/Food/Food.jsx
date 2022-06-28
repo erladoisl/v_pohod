@@ -9,12 +9,15 @@ const menuService = new MenuService();
 const Food = (() => {
     const [state, dispatch] = React.useContext(Context);
     const [changed, set_changed] = React.useState(false)
-    const [messageHTML, setMessageHTML] = React.useState('');
     const [formData, setFormData] = React.useState({
         name: '',
         amount_per_person: 0,
         unit: 'гр.'
     });
+
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
 
     const addFoodSubmit = ((e) => {
         e.preventDefault();
@@ -27,7 +30,7 @@ const Food = (() => {
                     unit: 'гр.'
                 });
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
 
@@ -37,7 +40,7 @@ const Food = (() => {
             if (result.error === false) {
                 updateFoodList();
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
 
@@ -55,33 +58,18 @@ const Food = (() => {
             if (result.error === false) {
                 updateFoodList()
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
-
 
     if (!state.menu.hasOwnProperty("food")) {
         updateFoodList();
     }
 
-
-    const getMessageHTML = ((response) => {
-        if (response.error || response.message !== '') {
-            return (
-                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
-                    {response.message}
-                </div>
-            );
-        } else {
-            return '';
-        };
-    });
-
-
     return (
         <div className="card col-12 py-5 my-3">
             <h2 className="fw-light">Граммовка продуктов на человека(гр/чел или шт/чел)</h2>
-            {messageHTML}
+
             <ul className="list-group mb-3">
                 {state.menu.hasOwnProperty("food") && state.menu.food.map((food, i) => {
                     return (

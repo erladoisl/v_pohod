@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { NavLink } from 'react-router-dom';
+import { Context } from "../../contexts/index";
 import HikeService from '../../service/HikeService';
 
 
@@ -9,8 +10,11 @@ const hikeService = new HikeService();
 
 const Hikes = (() => {
     const [only_my_hikes, set_only_my_hikes] = useState(false);
+    const [state, dispatch] = React.useContext(Context);
     const [hikes, set_hikes] = useState([]);
-
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
 
     useEffect(() => {
         updateHikeList();
@@ -21,7 +25,7 @@ const Hikes = (() => {
             if (result.error === false) {
                 set_hikes(result.hikes);
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -32,7 +36,7 @@ const Hikes = (() => {
             if (result.error === false) {
                 updateHikeList();
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });

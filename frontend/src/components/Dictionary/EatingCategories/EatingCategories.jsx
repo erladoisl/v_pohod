@@ -10,16 +10,18 @@ const menuService = new MenuService();
 const EatingCategories = (() => {
     const [state, dispatch] = React.useContext(Context);
     const [changed, set_changed] = React.useState(false)
-    const [messageHTML, setMessageHTML] = React.useState('');
     const newCategory = useRef();
 
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
 
     const deleteCategory = ((name) => {
         menuService.deleteEatingCategory(name).then(function (result) {
             if (result.error === false) {
                 updateCategoryList();
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
 
@@ -40,7 +42,7 @@ const EatingCategories = (() => {
             if (result.error === false) {
                 updateCategoryList()
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
 
@@ -48,24 +50,9 @@ const EatingCategories = (() => {
         updateCategoryList();
     }
 
-    const getMessageHTML = ((response) => {
-        if (response.error || response.message !== '') {
-            return (
-                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
-                    {response.message}
-                </div>
-            );
-        } else {
-            return '';
-        };
-    });
-
-
     return (
         <div className="col-12 py-5 card mb-3">
             <h2 className="fw-light">Типы приемов пищи(Порядок важен)</h2>
-
-            {messageHTML}
 
             <ul className="list-group mb-3">
                 {state.menu.hasOwnProperty("eatingCategories") && state.menu.eatingCategories.map((category, i) => {

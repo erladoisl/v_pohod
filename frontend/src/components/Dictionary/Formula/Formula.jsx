@@ -9,12 +9,14 @@ const menuService = new MenuService();
 const Formula = (() => {
     const [state, dispatch] = React.useContext(Context);
     const [changed, set_changed] = React.useState(false)
-    const [messageHTML, setMessageHTML] = React.useState('');
     const [formData, setFormData] = React.useState({
         name: '',
         value: ''
     });
 
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
 
     const addFormulaSubmit = ((e) => {
         e.preventDefault();
@@ -28,19 +30,18 @@ const Formula = (() => {
             } else {
                 console.log(result);
             }
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
-
 
     const deleteFormula = ((name) => {
         menuService.deleteFormula(name).then(function (result) {
             if (result.error === false) {
                 updateFormulaList();
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
-
 
     const updateFormulaList = (() => {
         menuService.getFormula().then(function (result) {
@@ -57,28 +58,13 @@ const Formula = (() => {
             if (result.error === false) {
                 updateFormulaList()
             }
-            setMessageHTML(getMessageHTML(result))
+            addNotification(result.error ? 'error': 'success', result.message)
         });
     });
-
 
     if (!state.menu.hasOwnProperty("formula")) {
         updateFormulaList();
     };
-
-
-    const getMessageHTML = ((response) => {
-        if (response.error || response.message !== '') {
-            return (
-                <div className={`alert alert-${response.error ? 'danger' : 'success'}`} role="alert">
-                    {response.message}
-                </div>
-            );
-        } else {
-            return '';
-        };
-    });
-
 
     return (
         <div className="card col-12 py-5 my-3">
@@ -105,7 +91,6 @@ const Formula = (() => {
                     </div>
                 </div>
             </section>
-            {messageHTML}
             <ul className="list-group mb-3">
 
                 {state.menu.hasOwnProperty("formula") && state.menu.formula.map((formula, i) => {
