@@ -1,7 +1,7 @@
 
 import { Context } from "../../../../contexts/index";
 import MenuService from '../../../../service/MenuService';
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import Select from 'react-select'
 
 const menuService = new MenuService();
@@ -11,12 +11,16 @@ const Ingredient = ((props) => {
     const [state, dispatch] = useContext(Context);
     const [ingredient, set_ingredient] = useState(props.ingredient)
 
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': { type, text } })
+    })
+
     const updateIngredient = (() => {
         menuService.updateIngredient(ingredient).then(function (result) {
             if (result.error === false) {
                 console.log('Update Ingredient. Success', result);
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             }
         });
     });

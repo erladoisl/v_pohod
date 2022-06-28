@@ -10,14 +10,16 @@ const menuService = new MenuService();
 const Eating = ((props) => {
     const [state, dispatch] = React.useContext(Context);
     const [eating, set_eating] = useState(props.eating)
-
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': { type, text } })
+    })
 
     const updateEating = (() => {
         menuService.updateDayEating(eating).then(function (result) {
             if (result.error === false) {
                 console.log('Update Eating. Success', result);
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -27,8 +29,8 @@ const Eating = ((props) => {
         <>
             <input type="text" className="form-control bg-light border-0" value={eating.name}
                 onChange={((e) => { set_eating({ ...eating, name: e.target.value }) })}
-                onBlur={(() => { updateEating() })} 
-                placeholder='Название...'/>
+                onBlur={(() => { updateEating() })}
+                placeholder='Название...' />
             <span className="input-group-text bg-light border-0" id="basic-addon2">
                 <div className="btn-group">
                     <select className="form-select bg-light btn-sm px-4 border-0"

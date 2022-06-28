@@ -4,7 +4,7 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 user: action.user
-            }
+            };
         case 'edit_user':
             return {
                 ...state,
@@ -12,7 +12,7 @@ export const reducer = (state, action) => {
                     ...state.user,
                     ...action.user
                 }
-            }
+            };
         case 'update_eating_category':
             return {
                 ...state,
@@ -20,7 +20,7 @@ export const reducer = (state, action) => {
                     ...state.menu,
                     eatingCategories: action.eatingCategories
                 }
-            }
+            };
         case 'update_food':
             return {
                 ...state,
@@ -28,7 +28,7 @@ export const reducer = (state, action) => {
                     ...state.menu,
                     food: action.food
                 }
-            }
+            };
         case 'update_formula':
             return {
                 ...state,
@@ -36,13 +36,24 @@ export const reducer = (state, action) => {
                     ...state.menu,
                     formula: action.formula
                 }
-            }
+            };
+        case 'add_notification':
+            return {
+                ...state,
+                notifications: (state.hasOwnProperty('notifications') ? state.notifications: []).concat(action.notification)
+            };
+        case 'delete_notification':
+            state.notifications.splice(action.index, 1)
+            return {
+                ...state
+            };
         default:
-            return state
+            break
     }
 }
 
 
 export const initialState = {
-    menu: {}
+    menu: {},
+    notifications: []
 }

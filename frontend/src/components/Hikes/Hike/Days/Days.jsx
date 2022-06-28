@@ -4,12 +4,19 @@ import { useEffect, useState } from "react";
 import { parseISO, format } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
 import Eatings from '../../../Eatings/Eatings';
+import { Context } from "../../../../contexts/index";
+import React from 'react';
 
 
 const hikeService = new HikeService();
 
 const Days = ((props) => {
+    const [state, dispatch] = React.useContext(Context);
     const [days, set_days] = useState([]);
+
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
 
     useEffect(() => {
         if (days.length === 0) {
@@ -22,7 +29,7 @@ const Days = ((props) => {
             if (result.error === false) {
                 set_days(result.days);
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -33,7 +40,7 @@ const Days = ((props) => {
             if (result.error === false) {
                 updateDaysList();
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -44,7 +51,7 @@ const Days = ((props) => {
             if (result.error === false) {
                 updateDaysList();
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });

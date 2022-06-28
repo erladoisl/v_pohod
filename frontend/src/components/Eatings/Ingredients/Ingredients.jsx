@@ -14,18 +14,20 @@ const Ingredients = ((props) => {
     const [ingredients, set_ingredients] = useState([]);
     const [loading, set_loading] = useState(true);
 
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': { type, text } })
+    })
 
     useEffect(() => {
         updateIngredients();
     }, []);
-
 
     const updateFood = (() => {
         menuService.getFood().then(function (result) {
             if (result.error === false) {
                 dispatch({ 'type': 'update_food', 'food': JSON.parse(result.data) });
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             }
         });
     });
@@ -41,7 +43,7 @@ const Ingredients = ((props) => {
             if (result.error === false) {
                 dispatch({ 'type': 'update_formula', 'formula': JSON.parse(result.data) });
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             };
         });
     });
@@ -57,7 +59,7 @@ const Ingredients = ((props) => {
             if (result.error === false) {
                 set_ingredients(result.data);
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             }
             set_loading(false)
         });
@@ -69,7 +71,7 @@ const Ingredients = ((props) => {
             if (result.error === false) {
                 updateIngredients();
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             }
         });
     });
@@ -80,7 +82,7 @@ const Ingredients = ((props) => {
             if (result.error === false) {
                 updateIngredients();
             } else {
-                console.log(result);
+                addNotification('error', result.message);
             }
         });
     });

@@ -14,6 +14,10 @@ const Eatings = ((props) => {
     const [loading, set_loading] = useState(true);
     const [eatings, set_eatings] = useState([]);
 
+    const addNotification = ((type, text) => {
+        dispatch({ 'type': 'add_notification', 'notification': {type, text} })
+    })
+
     useEffect(() => {
         updateEatingList();
     }, [props.day_id]);
@@ -24,7 +28,7 @@ const Eatings = ((props) => {
             if (result.error === false) {
                 dispatch({ 'type': 'update_eating_category', 'eatingCategories': JSON.parse(result.data) });
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -40,7 +44,7 @@ const Eatings = ((props) => {
             if (result.error === false) {
                 set_eatings(result.data);
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
             set_loading(false)
         });
@@ -52,7 +56,7 @@ const Eatings = ((props) => {
             if (result.error === false) {
                 updateEatingList();
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
@@ -63,7 +67,7 @@ const Eatings = ((props) => {
             if (result.error === false) {
                 updateEatingList();
             } else {
-                console.log(result);
+                addNotification('error', result.message)
             }
         });
     });
