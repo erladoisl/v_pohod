@@ -44,11 +44,9 @@ const EatingCategories = (() => {
         });
     });
 
-
     if (!state.menu.hasOwnProperty("eatingCategories")) {
         updateCategoryList();
     }
-
 
     const getMessageHTML = ((response) => {
         if (response.error || response.message !== '') {
@@ -65,7 +63,7 @@ const EatingCategories = (() => {
 
     return (
         <div className="col-12 py-5 card mb-3">
-            <h2 className="fw-light">Типы приемов пищи</h2>
+            <h2 className="fw-light">Типы приемов пищи(Порядок важен)</h2>
 
             {messageHTML}
 
@@ -96,7 +94,7 @@ const EatingCategories = (() => {
                 })}
             </ul>
 
-            <form className="card p-2" onSubmit={((e)=>{e.preventDefault(); updateCategory({name: newCategory.current.value}); newCategory.current.value = ''})}>
+            <form className="card p-2" onSubmit={((e) => { e.preventDefault(); updateCategory({ name: newCategory.current.value }); newCategory.current.value = '' })}>
                 <div className="input-group">
                     <input type="text" ref={newCategory} className="form-control" placeholder="Новый тип" required />
 
