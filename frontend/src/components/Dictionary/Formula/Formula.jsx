@@ -109,7 +109,7 @@ const Formula = (() => {
                                         updateFormula({
                                             id: state.menu.formula[i].pk,
                                             name: state.menu.formula[i].fields.name,
-                                            amount_per_person: state.menu.formula[i].fields.amount_per_person
+                                            value: state.menu.formula[i].fields.value
                                         })
                                     }
                                     set_changed(false)
