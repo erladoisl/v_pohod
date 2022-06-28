@@ -43,8 +43,8 @@ class EatingTestCase(APITestCase):
         cls.client = APIClient()
         cls.url_eating = reverse('eating')
 
-    def test_getting_all_eating_success_by_hike_day(self):
-        self.client.force_authenticate(user=self.authorized_user)
+    def test_getting_all_day_eating_success(self):
+        self.client.force_authenticate(user=self.user)
 
         response = self.client.get(
             self.url_eating, {'day_id': self.auth_user_hike_days[0].pk})
@@ -58,7 +58,7 @@ class EatingTestCase(APITestCase):
             self.assertEqual(
                 response_eating['description'], eating.description)
 
-    def test_getting_all_eating_error_by_hike_day_unauthorised(self):
+    def test_getting_all_eating_error_unauthorised(self):
         response = self.client.get(self.url_eating)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

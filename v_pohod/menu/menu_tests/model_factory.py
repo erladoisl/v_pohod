@@ -6,8 +6,7 @@ from menu.models import Food
 from numpy import random
 from menu.models import Formula
 from menu.models import Eating
-from hike.hike_tests.model_factory import HikeDayFactory
-from hike.hike_tests.model_factory import HikeFactory
+from menu.models import Ingredient
 
 
 class EatingCategoryFactory(django.DjangoModelFactory):
@@ -42,3 +41,13 @@ class EatingFactory(django.DjangoModelFactory):
     eating_category = None
     number = random.uniform(1, 5)
     description = Faker().name()
+
+
+class IngredientFactory(django.DjangoModelFactory):
+    class Meta:
+        model = Ingredient
+
+    food = None
+    eating = None
+    formula = None
+    comment = Faker().name()
