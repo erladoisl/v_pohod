@@ -3,12 +3,12 @@
 }
 
 .react-datepicker-wrapper input {
-  background-color: rgba(0,0,0,.005)!important;
-  border: none!important;
+  background-color: rgba(0, 0, 0, .005) !important;
+  border: none !important;
 }
 
 .border-0 div {
-  border: 0!important;
+  border: 0 !important;
 }
 
 .border-0 span {
@@ -49,7 +49,50 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.KIPARISS_UI_notification {
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  transition: height 0.45s ease-in-out;
+  z-index: 999;
+  border-radius: 5px;
+}
+
+.KIPARISS_UI_noteItem {
+  display: flex;
+  align-items: center;
+  max-width: 50vw;
+  padding: 0.75em 1em;
+  border-radius: 5px;
+  color: #d91d1d;
+  font-weight: bold;
+  font-size: 15px;
+  z-index: 99;
+}
+
+.KIPARISS_UI_noteItem.error {
+  background: rgba(255, 209, 209, 0.8);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  animation: shake 0.54s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.KIPARISS_UI_noteItem.success {
+  background: rgba(0, 158, 56, 0.13);
+  border: 1px solid rgba(0, 158, 56, 0.47);
+}
+
+.KIPARISS_UI_noteItem:not(:last-child) {
+  margin: 0 auto 1em auto;
+}
+
+.KIPARISS_UI_noteItemText {
+  flex: auto;
+  margin: 0px 20px;
+  max-width: calc(100% - 6em);
 }
