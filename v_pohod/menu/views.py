@@ -316,7 +316,7 @@ class EatingView(APIView):
         try:
             id = request.data.get('id', '')
             eating = Eating.objects.get(pk=id)
-            
+
             if eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
                 eating.delete()
             else:
@@ -340,7 +340,7 @@ class EatingView(APIView):
 
 
 class IngredientView(APIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         try:
@@ -366,7 +366,7 @@ class IngredientView(APIView):
         res = {'error': False, 'message': 'Успешно'}
 
         try:
-            ingredient_id = request.data.get('id', 0)
+            ingredient_id = int(request.data.get('id', 0))
             eating_id = int(request.data.get('eating_id', 0))
             food_id = int(request.data.get('food_id', 0))
             formula_id = int(request.data.get('formula_id', 0))
@@ -376,22 +376,23 @@ class IngredientView(APIView):
             food = get_food(food_id)
             formula = get_formula(formula_id)
 
-            if ingredient_id > 0:
-                ingredient = Ingredient.objects.get(pk=ingredient_id)
-
-                if ingredient.eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+            if eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                if ingredient_id > 0:
+                    ingredient = Ingredient.objects.get(pk=ingredient_id)
                     ingredient.food = food
                     ingredient.formula = formula
                     ingredient.eating = eating
                     ingredient.comment = comment
                     ingredient.save()
                 else:
+                    ingredient = Ingredient(comment=comment, eating=eating, food=food,
+                                            formula=formula)
+                    ingredient.save()
                     res = {
-                        'error': True, 'message': 'Нельзя редактировать чужие походы'}
+                        'error': False, 'message': 'Ингредиент создан успешно', 'id': ingredient.pk}
             else:
-                ingredient = Ingredient(comment=comment, eating=eating, food=food,
-                                        formula=formula)
-                ingredient.save()
+                res = {
+                    'error': True, 'message': 'Нельзя редактировать чужие походы'}
         except:
             res = {'error': True, 'message': 'Ошибка при добавлении ингредиента'}
             logging.error(
@@ -408,7 +409,12 @@ class IngredientView(APIView):
         try:
             id = request.data.get('id', '')
             ingredient = Ingredient.objects.get(pk=id)
-            ingredient.delete()
+
+            if ingredient.eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                ingredient.delete()
+            else:
+                res = {
+                    'error': True, 'message': 'Нельзя редактировать чужие походы'}
         except Ingredient.DoesNotExist:
             res = {
                 'error': True,
@@ -428,12 +434,13 @@ class IngredientView(APIView):
 class XlsxView(APIView):
     def get(self, request):
         try:
-            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response = HttpResponse(
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             workbook = xlsxwriter.Workbook(response, {'in_memory': True})
             hike_id = request.GET['hike_id']
             file_name = get_hike_in_xlsx(workbook, hike_id)
             response['Content-Disposition'] = f"attachment; filename={file_name}"
-                        
+
             return response
         except:
             logging.error(
