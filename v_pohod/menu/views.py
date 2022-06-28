@@ -270,9 +270,9 @@ class EatingView(APIView):
             return Response(data=context)
 
     def post(self, request, *args, **kwargs):
-        res = {'error': False, 'message': 'Успешно'}
+        res = {'error': False, 'message': 'Успешно сохранено'}
         try:
-            eating_id = request.data.get('id', 0)
+            eating_id = int(request.data.get('id', 0))
             name = request.data.get('name', '')
             description = request.data.get('description', '')
             eating_category_id = int(
@@ -295,6 +295,8 @@ class EatingView(APIView):
                     eating = Eating(name=name, description=description, hikeDay=hike_day,
                                     number=number, eating_category=eating_category)
                     eating.save()
+                    res = {
+                        'error': False, 'message': 'Прием пищи создан успешно', 'id': eating.pk}
             else:
                 res = {
                     'error': True, 'message': 'Нельзя редактировать чужие походы'}
@@ -314,7 +316,13 @@ class EatingView(APIView):
         try:
             id = request.data.get('id', '')
             eating = Eating.objects.get(pk=id)
-            eating.delete()
+            
+            if eating.hikeDay.hike.user.pk == request.user.pk or request.user.is_superuser:
+                eating.delete()
+            else:
+                res = {
+                    'error': True, 'message': 'Нельзя редактировать чужие походы'}
+
         except Eating.DoesNotExist:
             res = {
                 'error': True,
