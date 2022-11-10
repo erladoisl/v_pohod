@@ -36,7 +36,6 @@ const Header = (() => {
               </li>
             </ul>
             <div className="ms-auto link-light" >
-              <span className="text-danger" >!firebase!</span>
               <span className="d-sm-inline-block my-2 my-md-0 ms-md-3 text-white" >
 
                 <NavLink to='/edit-user' className="nav-link text-white">
