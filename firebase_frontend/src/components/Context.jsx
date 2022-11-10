@@ -8,14 +8,10 @@ import User from './User/User';
 import Dictionary from './Dictionary/Dictionary';
 import Hikes from './Hikes/Hikes';
 import Hike from './Hikes/Hike/Hike';
-import UsersService from '../service/UsersService';
 import UpdateHike from './Hikes/UpdateHike/UpdateHike';
 import Help from './Help/Help';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../service/FBUsersService";
-
-
-const usersService = new UsersService();
 
 
 const Context = (() => {

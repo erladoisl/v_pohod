@@ -1,18 +1,4 @@
-import axios from 'axios';
-import { url as API_URL } from './config';
 import { delete_object, edit_object, get_objects, get_objects_by_field } from './FirebaseService';
-
-import getCookie from './util';
-
-const getConfig = (() => {
-    return {
-        headers: {
-            "Authorization": `Token ${getCookie('token')}`,
-            "Content-Type": "application/json"
-        }
-    };
-});
-
 
 export default class MenuService {
     getEatingCategories() {
