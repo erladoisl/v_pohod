@@ -15,3 +15,9 @@ v_pohod/hike/no_work_tests/__pycache__/
 frontend/src/service/config.jsx
 v_pohod/hike/hike_tests/__pycache__/
 v_pohod/menu/menu_tests/__pycache__/
+firebase_frontend/node_modules
+firebase_frontend/.firebase
+firebase_frontend/build/
+frontend/node_modules/
+.github/
+firebase_frontend/public/robots.txt

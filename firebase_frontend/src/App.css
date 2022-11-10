@@ -1,0 +1,99 @@
+.App {
+  text-align: center;
+}
+
+.react-datepicker-wrapper input {
+  background-color: rgba(0, 0, 0, .005) !important;
+  border: none !important;
+}
+
+.border-0 div {
+  border: 0 !important;
+}
+
+.border-0 span {
+  display: none;
+}
+
+.card {
+  background-color: rgba(1, 1, 1, 0.1)
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.KIPARISS_UI_notification {
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  transition: height 0.45s ease-in-out;
+  z-index: 999;
+  border-radius: 5px;
+}
+
+.KIPARISS_UI_noteItem {
+  display: flex;
+  align-items: center;
+  max-width: 50vw;
+  padding: 0.75em 1em;
+  border-radius: 5px;
+  color: #d91d1d;
+  font-weight: bold;
+  font-size: 15px;
+  z-index: 99;
+}
+
+.KIPARISS_UI_noteItem.error {
+  background: rgba(255, 209, 209, 0.8);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  animation: shake 0.54s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.KIPARISS_UI_noteItem.success {
+  background: rgb(170 255 159 / 80%);
+  border: 1px solid rgba(0, 158, 56, 0.3);
+  color: #189933;
+}
+
+.KIPARISS_UI_noteItem:not(:last-child) {
+  margin: 0 auto 1em auto;
+}
+
+.KIPARISS_UI_noteItemText {
+  flex: auto;
+  margin: 0px 20px;
+  max-width: calc(100% - 6em);
+}
