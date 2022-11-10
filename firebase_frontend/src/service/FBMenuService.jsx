@@ -1,4 +1,9 @@
-import { delete_object, edit_object, get_objects, get_objects_by_field } from './FirebaseService';
+import {
+    delete_object,
+    edit_object,
+    get_objects,
+    get_objects_by_field
+} from './FirebaseService';
 
 export default class MenuService {
     getEatingCategories() {

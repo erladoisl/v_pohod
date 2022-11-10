@@ -2,7 +2,12 @@ import { initializeApp } from "firebase/app";
 import axios from 'axios';
 import { url as API_URL } from './config';
 import { saveAs } from 'file-saver';
-import { delete_object, edit_object, get_objects, get_objects_by_field } from './FirebaseService';
+import {
+    delete_object,
+    edit_object,
+    get_objects,
+    get_objects_by_field
+} from './FirebaseService';
 import { firebaseConfig } from "./config";
 import {
     getAuth,
