@@ -3,10 +3,13 @@ import HikeService from '../../../service/FBHikeService';
 import { useLocation } from 'react-router-dom'
 import Days from './Days/Days';
 import { NavLink } from 'react-router-dom';
+import { Context } from "../../../contexts/index";
+import { useEffect } from "react";
 
 const hikeService = new HikeService();
 
 const Hike = (() => {
+    const [state_old, dispatch] = React.useContext(Context);
     const { state } = useLocation();
 
     const download_menu = (() => {
@@ -16,6 +19,12 @@ const Hike = (() => {
 
     });
 
+    useEffect(() => {
+        select_hike();
+    }, []);
+    const select_hike = ((type, text) => {
+        dispatch({ 'type': 'select_hike', 'hike': state.hike })
+    })
 
     return (
         <div className="container pt-5">

@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import axios from 'axios';
-import { url as API_URL } from './config';
 import { saveAs } from 'file-saver';
 import {
     delete_object,
@@ -50,7 +49,7 @@ export default class HikeService {
     getXlsx(hike_id) {
         alert('функция в процессе разработки')
         let data = [];
-        const url = `${API_URL}/api/hike/menu/xlsx/?hike_id=${hike_id}`;
+        const url = `ХХХ/api/hike/menu/xlsx/?hike_id=${hike_id}`;
 
         return axios.get(url, { responseType: 'blob' }).then(response => {
             const blob = new Blob([response.data], { type: response.headers['content-type'] });

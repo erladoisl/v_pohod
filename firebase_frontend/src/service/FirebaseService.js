@@ -219,10 +219,16 @@ const get_objects_by_field = async(
     }
 };
 
+const get_object = async(collection_name, id) => {
+    const hike = await getDoc(doc(db, collection_name, id))
+    return hike.data()
+
+}
 export {
     edit_object,
     delete_object,
     delete_objects_by_field_deprecated as delete_objects_by_field,
     get_objects_by_field,
     get_objects,
+    get_object,
 };

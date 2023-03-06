@@ -106,11 +106,7 @@ const Formula = (() => {
                                 })}
                                 onBlur={(() => {
                                     if (changed) {
-                                        updateFormula({
-                                            id: state.menu.formula[i].pk,
-                                            name: state.menu.formula[i].name,
-                                            value: state.menu.formula[i].value
-                                        })
+                                        updateFormula(state.menu.formula[i])
                                     }
                                     set_changed(false)
                                 })}  />
@@ -125,11 +121,7 @@ const Formula = (() => {
                                 })}
                                 onBlur={(() => {
                                     if (changed) {
-                                        updateFormula({
-                                            id: state.menu.formula[i].pk,
-                                            name: state.menu.formula[i].name,
-                                            value: state.menu.formula[i].value
-                                        })
+                                        updateFormula(state.menu.formula[i])
                                     }
                                     set_changed(false)
                                 })}  />

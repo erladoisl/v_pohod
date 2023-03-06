@@ -11,7 +11,6 @@ const Ingredient = ((props) => {
     const [state, dispatch] = useContext(Context);
     const [ingredient, set_ingredient] = useState(props.ingredient)
     const [options, set_options] = useState([])
-
     const update_options = () => {
         let options = []
 
@@ -27,9 +26,12 @@ const Ingredient = ((props) => {
     const addNotification = ((type, text) => {
         dispatch({ 'type': 'add_notification', 'notification': { type, text } })
     })
-
+    console.log(state)
     const updateIngredient = (() => {
-        console.log(ingredient)
+        if (ingredient.formula_id || ingredient.food_id) {
+            console.log('Вычисление кол-ва ингредиентов')
+            console.log(ingredient, state.hike.participant_count, state.hike.id)
+        }
         menuService.updateIngredient(ingredient).then(function (result) {
             if (result.error === false) {
                 console.log('Update Ingredient. Success', result);
@@ -38,12 +40,12 @@ const Ingredient = ((props) => {
             }
         });
     });
-    console.log(state)
+
     return (
         <>
             <Select className="form-select btn-sm text-wrap border-0 rounded-0"
                 options={options}
-                defaultValue={{label: ingredient.name, value: ingredient.food_id}}
+                defaultValue={{ label: ingredient.name, value: ingredient.food_id }}
                 onChange={((event) => { set_ingredient({ ...ingredient, food_id: event.value, name: event.label }) })}
                 onBlur={(() => { updateIngredient() })} />
 
@@ -57,7 +59,7 @@ const Ingredient = ((props) => {
                     )
                 })}
             </select>
-            <input type="text" className="btn-sm text-wrap form-control" value={`${ingredient.amount || 0 } ${ingredient.unit || 'гр.' }`} disabled style={{ width: '40%' }}></input>
+            <input type="text" className="btn-sm text-wrap form-control" value={`${ingredient.amount || 0} ${ingredient.unit || 'гр.'}`} disabled style={{ width: '40%' }}></input>
         </>
     );
 });

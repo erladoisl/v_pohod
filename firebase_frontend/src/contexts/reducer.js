@@ -40,13 +40,19 @@ export const reducer = (state, action) => {
         case 'add_notification':
             return {
                 ...state,
-                notifications: (state.hasOwnProperty('notifications') ? state.notifications: []).concat(action.notification)
+                notifications: (state.hasOwnProperty('notifications') ? state.notifications : []).concat(action.notification)
             };
         case 'delete_notification':
             state.notifications.splice(action.index, 1)
             return {
                 ...state
             };
+        case 'select_hike':
+            return {
+                ...state,
+                hike: action.hike
+            };
+
         default:
             break
     }
@@ -55,5 +61,6 @@ export const reducer = (state, action) => {
 
 export const initialState = {
     menu: {},
-    notifications: []
+    notifications: [],
+    hike: {}
 }

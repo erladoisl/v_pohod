@@ -1,6 +1,7 @@
 import {
     delete_object,
     edit_object,
+    get_object,
     get_objects,
     get_objects_by_field
 } from './FirebaseService';
@@ -62,6 +63,15 @@ export default class MenuService {
         return edit_object(object, 'ingredients')
     }
 
+    updateAmount(object, PARTICIPANT_COUNT, DAYS_COUNT) {
+        get_object('food', object.food_id).then(function (food) {
+            get_object('formula', object.formula_id).then(function (formula) {
+                const AMOUNT_PER_PERSON  = food.amount_per_person
+                object = {...object, amount: 42 + food.unit}
+                return edit_object(object, 'ingredients')
+            })
+        })
+    }
     deleteIngredient(object) {
         return delete_object(object, 'ingredients')
     }

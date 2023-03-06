@@ -30,6 +30,10 @@ const Days = ((props) => {
             hikeService.getHikeDays(props.hike_id).then(function (result) {
             if (result.error === false) {
                 set_days(result.objects);
+                console.log(state.hike)
+                let {...selected_hike} = {...state.hike}
+                console.log({selected_hike, days_count: result.objects.length})
+                dispatch({ 'type': 'select_hike', 'hike': {...selected_hike, days_count: result.objects.length} })
             } else {
                 addNotification('error', result.message)
             }
@@ -116,7 +120,7 @@ const Days = ((props) => {
                                 </div>
                                 <div className="card-body h-100">
 
-                                    <Eatings day_id={item.id} />
+                                    <Eatings day_id={item.id}/>
                                 </div>
                             </div>
                         </div>
