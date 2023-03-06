@@ -26,15 +26,23 @@ const Ingredient = ((props) => {
     const addNotification = ((type, text) => {
         dispatch({ 'type': 'add_notification', 'notification': { type, text } })
     })
-    console.log(state)
+
     const updateIngredient = (() => {
-        if (ingredient.formula_id || ingredient.food_id) {
-            console.log('Вычисление кол-ва ингредиентов')
-            console.log(ingredient, state.hike.participant_count, state.hike.id)
+        if (ingredient.formula_id && ingredient.food_id) {
+            console.log(`Вычисление кол-ва ингредиентов...`)
+            menuService.updateIngredientAmount(ingredient).then(function (result) {
+                if (!result.error) {
+                    set_ingredient(result.ingredient)
+                    addNotification('success', 'Количество ингредиента вычислено');
+                } else {
+                    addNotification('error', result.message);
+                }
+            })
         }
         menuService.updateIngredient(ingredient).then(function (result) {
             if (result.error === false) {
                 console.log('Update Ingredient. Success', result);
+                addNotification('success', 'Сохранено');
             } else {
                 addNotification('error', result.message);
             }
@@ -56,15 +64,11 @@ const Ingredient = ((props) => {
         return result
     })
 
-    if (state.menu.hasOwnProperty('food')) {
-        console.log(state.menu.food)
-    }
-
     return (
         <>
             <Select className="form-select btn-sm text-wrap border-0 rounded-0"
                 options={options}
-                defaultValue={{ label: ingredient.name, value: ingredient.food_id }}
+                defaultValue={{ label: ingredient.name || 'Выбрать...', value: ingredient.food_id }}
                 onChange={((event) => { set_ingredient({ ...ingredient, food_id: event.value, name: event.label }) })}
                 onBlur={(() => { updateIngredient() })} />
 
@@ -72,6 +76,7 @@ const Ingredient = ((props) => {
                 defaultValue={ingredient.formula_id}
                 onChange={((event) => { set_ingredient({ ...ingredient, formula_id: event.target.value }) })}
                 onBlur={(() => { updateIngredient() })}>
+                <option value={undefined}>Выбрать...</option>
                 {state.menu.hasOwnProperty("formula") && state.menu.formula.map((formula) => {
                     return (
                         <option value={formula.id} key={formula.id}>{formula.name}</option>

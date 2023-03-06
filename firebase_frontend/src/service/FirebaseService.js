@@ -81,6 +81,39 @@ const has_permissions = async(object, collection_name) => {
     return hike_owner_uid === auth.currentUser.uid
 }
 
+const updateIngredientAmount = async(ingredient) => {
+    let amount = -1
+
+    if (ingredient.formula_id && ingredient.food_id) {
+        try {
+            const formula = await getDoc(doc(db, 'formula', ingredient.formula_id))
+
+            const eating = await getDoc(doc(db, 'eatings', ingredient.eating_id))
+            const hike_day = await getDoc(doc(db, 'hike_days', eating.data().hike_day_id))
+            const hike = await getDoc(doc(db, 'hikes', hike_day.data().hike_id))
+            const hike_days = (await get_objects_by_field('hike_id', hike_day.data().hike_id, 'hike_days'))
+            const food = await getDoc(doc(db, 'food', ingredient.food_id))
+
+            const DAYS_COUNT = hike_days.error ? 0 : hike_days.length
+            const AMOUNT_PER_PERSON = food.data().amount_per_person
+            const PARTICIPANT_COUNT = hike.data().participant_count
+            let TOTAL_COUNT = 0;
+
+            amount = eval(formula.data().value)
+        } catch (e) {
+            console.error(`Error while updating amount ${ingredient}: `, e);
+        }
+        let updatedIngredient = {...ingredient, amount: amount }
+
+        const result = await edit_object(updatedIngredient, 'ingredients')
+
+        return {...result, ingredient: updatedIngredient }
+    } else if (ingredient.food_id) {
+        return { error: false, message: 'Для вычисления количества необходимо выбрать формулу рассчета' }
+    } else if (ingredient.formula_id) {
+        return { error: false, message: 'Для вычисления количества необходимо выбрать продукт' }
+    }
+}
 
 const edit_object = async(object, collection_name) => {
     try {
@@ -220,8 +253,8 @@ const get_objects_by_field = async(
 };
 
 const get_object = async(collection_name, id) => {
-    const hike = await getDoc(doc(db, collection_name, id))
-    return hike.data()
+    const object = await getDoc(doc(db, collection_name, id))
+    return object.data()
 
 }
 export {
@@ -231,4 +264,5 @@ export {
     get_objects_by_field,
     get_objects,
     get_object,
+    updateIngredientAmount,
 };
