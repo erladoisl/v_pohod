@@ -1,7 +1,6 @@
 import {
     delete_object,
     edit_object,
-    get_object,
     get_objects,
     get_objects_by_field,
     updateIngredientAmount

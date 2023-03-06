@@ -41,7 +41,6 @@ const Eatings = ((props) => {
 
     const updateEatingList = (() => {
         menuService.getDayEatings(props.day_id).then(function (result) {
-            console.log(result.objects)
             if (result.error === false) {
                 set_eatings(result.objects);
             } else {

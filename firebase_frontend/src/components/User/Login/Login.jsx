@@ -30,7 +30,6 @@ const Login = (() => {
     const handleSubmit = ((e) => {
         e.preventDefault()
         logInWithEmailAndPassword(login.current.value, password.current.value).then(function (result) {
-            console.log('login:', result)
             if (result.error === false) {
                 // dispatch({ 'type': 'update_user', 'user': result.data })
             } else {
