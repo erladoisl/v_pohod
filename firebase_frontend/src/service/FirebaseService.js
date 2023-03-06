@@ -42,15 +42,15 @@ const get_hike_owner_uid = async(object, collection_name) => {
     }
     if (collection_name === 'eatings') {
         const hike_day = await getDoc(doc(db, 'hike_days', object.hike_day_id))
-        const hike = await getDoc(doc(db, 'hikes', hike_day.hike_id))
+        const hike = await getDoc(doc(db, 'hikes', hike_day.data().hike_id))
 
         return hike.data().user_id
     }
 
-    if (collection_name === 'ingredient') {
-        const eating = await getDoc(doc(db, 'eatings', hike_day.eating_id))
-        const hike_day = await getDoc(doc(db, 'hike_days', eating.hike_day_id))
-        const hike = await getDoc(doc(db, 'hikes', hike_day.hike_id))
+    if (collection_name === 'ingredients') {
+        const eating = await getDoc(doc(db, 'eatings', object.eating_id))
+        const hike_day = await getDoc(doc(db, 'hike_days', eating.data().hike_day_id))
+        const hike = await getDoc(doc(db, 'hikes', hike_day.data().hike_id))
 
         return hike.data().user_id
     }
