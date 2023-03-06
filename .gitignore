@@ -21,3 +21,4 @@ firebase_frontend/build/
 frontend/node_modules/
 .github/
 firebase_frontend/public/robots.txt
+firebase_frontend/src/service/config.jsx
