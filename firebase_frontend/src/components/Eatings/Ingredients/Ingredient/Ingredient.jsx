@@ -41,6 +41,25 @@ const Ingredient = ((props) => {
         });
     });
 
+    const get_ingredient_unit = ((ingredient) => {
+        let result = 'гр.'
+
+        if (state.menu.hasOwnProperty('food')) {
+            const food = state.menu.food.filter(obj => {
+                return obj.id === ingredient.food_id
+            })
+            if (food.length) {
+                result = food[0].unit
+            }
+        }
+
+        return result
+    })
+
+    if (state.menu.hasOwnProperty('food')) {
+        console.log(state.menu.food)
+    }
+
     return (
         <>
             <Select className="form-select btn-sm text-wrap border-0 rounded-0"
@@ -59,7 +78,7 @@ const Ingredient = ((props) => {
                     )
                 })}
             </select>
-            <input type="text" className="btn-sm text-wrap form-control" value={`${ingredient.amount || 0} ${ingredient.unit || 'гр.'}`} disabled style={{ width: '40%' }}></input>
+            <input type="text" className="btn-sm text-wrap form-control" value={`${ingredient.amount || 0} ${get_ingredient_unit(ingredient)}`} disabled style={{ width: '40%' }}></input>
         </>
     );
 });
