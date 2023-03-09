@@ -94,7 +94,7 @@ const updateIngredientAmount = async(ingredient) => {
             const hike_days = (await get_objects_by_field('hike_id', hike_day.data().hike_id, 'hike_days'))
             const food = await getDoc(doc(db, 'food', ingredient.food_id))
 
-            const DAYS_COUNT = hike_days.error ? 0 : hike_days.length
+            const DAYS_COUNT = hike_days.error ? 0 : hike_days.objects.length
             const AMOUNT_PER_PERSON = food.data().amount_per_person
             const PARTICIPANT_COUNT = hike.data().participant_count
             let TOTAL_COUNT = 0;
