@@ -13,10 +13,7 @@ const Hike = (() => {
     const { state } = useLocation();
 
     const download_menu = (() => {
-        hikeService.getXlsx(state.hike.id).then(((result) => {
-            console.log(result);
-        }));
-
+        hikeService.getXlsx(state.hike.id, state.hike.name)
     });
 
     useEffect(() => {
