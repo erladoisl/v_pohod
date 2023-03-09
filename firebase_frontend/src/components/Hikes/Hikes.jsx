@@ -23,12 +23,14 @@ const Hikes = (() => {
     }, [only_my_hikes]);
 
     const updateHikeList = (() => {
+        setLoading(true)
         hikeService.getHikes(only_my_hikes).then(function (result) {
             if (result.error === false) {
                 set_hikes(result.objects);
             } else {
                 addNotification('error', result.message)
             }
+            setLoading(false)
         });
     });
 
@@ -81,7 +83,7 @@ const Hikes = (() => {
             <hr className="my-4"></hr>
 
             <div className="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {empty_result_html}
+                {!loading && empty_result_html}
                 {hikes.map((item) => {
                     return (
                         <div className="col" key={item.id} >
