@@ -20,12 +20,28 @@ import {
 } from "firebase/firestore";
 
 import { firebaseConfig } from "./config";
-import { get_objects_by_field } from "./FirebaseService";
+import { get_objects, get_objects_by_field } from "./FirebaseService";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+const is_admin = async() => {
+    const admins = await (await get_objects('admins')).objects
+
+    let result = false
+
+    admins.forEach(el => {
+        if (el.user_id === auth.currentUser.uid) {
+            result = true
+        }
+    })
+
+    return result
+}
+
+
 const get_telegram_chat_id = async(user_uid) => {
     let telegram_chat_id = '-1'
     try {
@@ -182,6 +198,7 @@ const logout = () => {
 export {
     auth,
     db,
+    is_admin,
     signInWithGoogle,
     logInWithEmailAndPassword,
     registerWithEmailAndPassword,

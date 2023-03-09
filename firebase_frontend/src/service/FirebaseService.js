@@ -13,23 +13,11 @@ import {
     getDoc,
 } from "firebase/firestore";
 import { firebaseConfig } from "./config";
-import { auth } from "./FBUsersService";
+import { is_admin, auth } from "./FBUsersService";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const is_admin = async() => {
-    const admins = await (await get_objects('admins')).objects
-    let result = false
-
-    admins.forEach(el => {
-        if (el.user_id === auth.currentUser.uid) {
-            result = true
-        }
-    })
-
-    return result
-}
 
 const get_hike_owner_uid = async(object, collection_name) => {
     if (collection_name === 'hikes') {
@@ -97,7 +85,6 @@ const updateIngredientAmount = async(ingredient) => {
             const DAYS_COUNT = hike_days.error ? 0 : hike_days.objects.length
             const AMOUNT_PER_PERSON = food.data().amount_per_person
             const PARTICIPANT_COUNT = hike.data().participant_count
-            let TOTAL_COUNT = 0;
 
             amount = eval(formula.data().value)
         } catch (e) {
