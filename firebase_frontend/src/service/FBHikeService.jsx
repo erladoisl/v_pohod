@@ -11,6 +11,7 @@ import { firebaseConfig } from "./config";
 import {
     getAuth,
 } from "firebase/auth";
+import { createExcel } from "./excel_creator";
 
 
 const app = initializeApp(firebaseConfig);
@@ -46,18 +47,9 @@ export default class HikeService {
         return delete_object(object, 'hike_days')
     };
 
-    getXlsx(hike_id) {
-        alert('функция в процессе разработки')
-        let data = [];
-        const url = `ХХХ/api/hike/menu/xlsx/?hike_id=${hike_id}`;
-
-        return axios.get(url, { responseType: 'blob' }).then(response => {
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            saveAs(blob, "excel.xlsx");
-        }).catch(error => {
-            console.log(`ERROR in getXlsx: ${error}`);
-        }).then(() => {
-            return data;
-        });
+    getXlsx(hike_id, hike_name) {
+        createExcel(hike_id, hike_name).then((response => {
+            saveAs(response, `${hike_name}.xlsx`)
+        }));
     };
 };
